@@ -1,6 +1,9 @@
 # default
 /build
 
+# user defined
+.classpath
+
 *.pydevproject
 .metadata
 .gradle
