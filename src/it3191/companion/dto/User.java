@@ -32,13 +32,22 @@ public class User {
 	
 	@Column(name = "PASSWORD_MD5")
 	private String passwordMD5;
+	
+	@Column(name = "PASSWORD_HASH")
+	private String passwordHash;
 
 	@Column(name = "EMAIL")
 	private String email;
 
 	@Column(name = "LOCATION")
 	private String location;
-
+	
+	@Column(name = "DOB")
+	private String dob;
+	
+	@Column(name = "HANDPHONENO")
+	private String handphoneNo;
+	
 	public int getId() {
 		return id;
 	}
@@ -94,6 +103,14 @@ public class User {
 	public void setPasswordMD5(String passwordMD5) {
 		this.passwordMD5 = passwordMD5;
 	}
+	
+	public void setPasswordHash(String passwordHash){
+		this.passwordHash= passwordHash;
+	}
+	
+	public String getPasswordHash(){
+		return passwordHash;
+	}
 
 	public String getEmail() {
 		return email;
@@ -111,5 +128,20 @@ public class User {
 		this.location = location;
 	}
 	
+	public String getDob(){
+		return dob;
+	}
+	
+	public void setDob(String dob){
+		this.dob=dob;
+	}
+	
+	public String getHandphoneNo(){
+		return handphoneNo;
+	}
+	
+	public void setHandphoneNo(String handphoneNo){
+		this.handphoneNo=handphoneNo;
+	}
 	
 }
