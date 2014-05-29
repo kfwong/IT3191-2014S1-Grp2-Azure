@@ -1,5 +1,7 @@
 package it3191.companion.dto;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,9 +26,6 @@ public class User {
 	@Column(name = "GENDER")
 	private String gender;
 
-	@Column(name = "USERNAME")
-	private String userName;
-
 	@Column(name = "PASSWORD_SHA1")
 	private String passwordSHA1;
 	
@@ -42,11 +41,14 @@ public class User {
 	@Column(name = "LOCATION")
 	private String location;
 	
-	@Column(name = "DOB")
-	private String dob;
+	@Column(name = "BIRTHDAY")
+	private Date birthday;
 	
 	@Column(name = "HANDPHONENO")
 	private String handphoneNo;
+	
+	@Column(name = "FACEBOOK_ID")
+	private String facebookId;
 	
 	public int getId() {
 		return id;
@@ -78,14 +80,6 @@ public class User {
 
 	public void setGender(String gender) {
 		this.gender = gender;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
 	}
 
 	public String getPasswordSHA1() {
@@ -128,14 +122,22 @@ public class User {
 		this.location = location;
 	}
 	
-	public String getDob(){
-		return dob;
+	public Date getBirthday() {
+		return birthday;
 	}
-	
-	public void setDob(String dob){
-		this.dob=dob;
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
 	}
-	
+
+	public String getFacebookId() {
+		return facebookId;
+	}
+
+	public void setFacebookId(String facebookId) {
+		this.facebookId = facebookId;
+	}
+
 	public String getHandphoneNo(){
 		return handphoneNo;
 	}
