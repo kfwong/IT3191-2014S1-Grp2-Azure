@@ -50,6 +50,9 @@ public class User {
 	@Column(name = "FACEBOOK_ID")
 	private String facebookId;
 	
+	@Column(name = "SALT")
+	private String salt;
+	
 	public int getId() {
 		return id;
 	}
@@ -144,6 +147,12 @@ public class User {
 	
 	public void setHandphoneNo(String handphoneNo){
 		this.handphoneNo=handphoneNo;
+	}
+	public String getSalt(){
+		return salt;
+	}
+	public void setSalt(String salt){
+		this.salt=salt;
 	}
 	
 	

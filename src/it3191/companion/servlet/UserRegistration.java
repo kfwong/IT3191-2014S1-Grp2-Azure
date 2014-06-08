@@ -121,8 +121,9 @@ public class UserRegistration extends HttpServlet {
 				user.setHandphoneNo(request.getParameter("handphone"));
 				// Hash.hash(rq.getpr("ps").tochray, Hash.getnextsalt)
 				user.setPasswordMD5(Base64.encode(Hash.hash(request.getParameter("password").toCharArray(), Hash.getNextSalt())));
-				user.setPasswordSHA1(Base64.encode(Hash.hash(request.getParameter("password").toCharArray(), Hash.getNextSalt())));
-				user.setPasswordHash(Base64.encode(Hash.hash(request.getParameter("password").toCharArray(), Hash.getNextSalt())));
+				user.setPasswordSHA1(user.getPasswordMD5());
+				user.setPasswordHash(user.getPasswordMD5());
+				user.setSalt(Base64.encode(Hash.getNextSalt()));
 
 				if (userDao.isExist(user)) {
 					response.sendRedirect("register?info=registration_failed");
