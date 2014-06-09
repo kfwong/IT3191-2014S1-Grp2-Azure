@@ -194,11 +194,39 @@
                         center: 'title',
                         right: 'month,agendaWeek,agendaDay'
                     },
+                    
+                    events: "StudyGroupServlet?action=getCalendar",
+
+                    dayClick: function(date, jsEvent, view) {
+        				
+        		        $(".create-modal").modal();
+        		        $(".start-date").val(date.format("YYYY-MM-DD"));
+        		        $(".start").val(date.format("YYYY-MM-DD HH:mm:ss"));
+        		        $(".end").val(date.add('days', 1).format("YYYY-MM-DD HH:mm:ss"));
+        		    },
+        		    
 				});
 				
 				//change the button icons to match theme
 				$(".fc-icon.fc-icon-left-single-arrow").removeClass().addClass("fa fa-caret-left");
 				$(".fc-icon.fc-icon-right-single-arrow").removeClass().addClass("fa fa-caret-right");
+				
+				$(".confirm-create-button, .confirm-edit-button").on("click", function(event){
+				  	var button = event.target;
+				  	var form = $(button).parents("form");
+				  	var allDay = $(form).find(".allDay");
+				  	var startDate = $(form).find(".start-date");
+				  	var start = $(form).find(".start");
+				  	var end  = $(form).find(".end");
+				  	
+				  	if(allDay.prop("checked")){
+				  		var date = moment($(startDate).val());
+				  		start.val(date.format("YYYY-MM-DD HH:mm:ss"));
+				  		end.val(date.add('days', 1).format("YYYY-MM-DD HH:mm:ss"));
+				  	}
+				  	
+				 	$(this).trigger("click");
+				});
 			});     
         </script>
     </body>
