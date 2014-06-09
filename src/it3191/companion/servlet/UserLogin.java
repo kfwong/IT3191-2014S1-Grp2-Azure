@@ -63,12 +63,9 @@ public class UserLogin extends HttpServlet {
 				com.restfb.types.User fbUser = facebookClient.fetchObject("me", com.restfb.types.User.class);
 				
 				user.setFacebookId(fbUser.getId());
-				user.setFirstName(fbUser.getFirstName());
-				user.setLastName(fbUser.getLastName());
-				user.setEmail(fbUser.getEmail());
-				user.setGender(fbUser.getGender());
 				
 				if(userDao.isExist(user)){
+					user = userDao.authenticate(fbUser.getId());
 					request.getSession().setAttribute("user", user);
 					response.sendRedirect("index.jsp");
 				}else{					
