@@ -118,12 +118,13 @@
 					  <label for="title">Title</label>
 					  <input type="text" class="form-control title" id="title" name = "title" required autofocus>
 					</div>
+					<!-- 
 					<div class="form-group">
 					  <label for="contact">Contact</label>
 					  	<select class="form-control contact" id="contact" name="contact">
-	
 						</select>
 					</div>
+					 -->
 					<div class="checkbox">
 					    <label>
 					      <input class="allDay" type="checkbox" name="allDay" value="true" checked> All day event
@@ -226,6 +227,11 @@
 				  	}
 				  	
 				 	$(this).trigger("click");
+				});
+				
+				$(".allDay").on("click", function(){
+				  	$(".date, .date-time").toggleClass("hide");
+				  	alert("test");
 				});
 			});     
         </script>
