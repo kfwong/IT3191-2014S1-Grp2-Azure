@@ -85,7 +85,72 @@ public class StudyGroupServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+String action = request.getParameter("action");
+		
+		if(action != null){
+		
+			if(action.equals("create")){
+				String title = request.getParameter("title");
+				String start = request.getParameter("start");
+				String end = request.getParameter("end");
+				String allDay = request.getParameter("allDay");
+				//int contactId = Integer.parseInt(request.getParameter("contact"));
+				
+				//Contact contact = new Contact();
+				
+				//ContactDao cd = new ContactDao();
+				//contact = cd.get(contactId);
+				
+				if(allDay != null && allDay.equals(true)){
+					
+				}
+				
+				StudyGroup sd = new StudyGroup();
+				sd.setTitle(title);
+				sd.setStart(start);
+				sd.setEnd(end);
+				sd.setAllDay(allDay);
+				//sd.setContact(contact);
+				
+				StudyGroupDao dao = new StudyGroupDao();
+				dao.saveOrUpdate(sd);
+			}
+			if(action.equals("edit")){
+				int id = Integer.parseInt(request.getParameter("id"));
+				
+				String title = request.getParameter("title");
+				String start = request.getParameter("start");
+				String end = request.getParameter("end");
+				String allDay = request.getParameter("allDay");
+				//int contactId = Integer.parseInt(request.getParameter("contact"));
+				
+				//Contact contact = new Contact();
+				
+				//ContactDao cd = new ContactDao();
+				//contact = cd.get(contactId);
+				
+				StudyGroup sd = new StudyGroup();
+				sd.setId(id);
+				sd.setTitle(title);
+				sd.setStart(start);
+				sd.setEnd(end);
+				sd.setAllDay(allDay);
+				//sd.setContact(contact);
+				
+				StudyGroupDao dao = new StudyGroupDao();
+				dao.saveOrUpdate(sd);
+			}
+			if(action.equals("delete")){
+				int id  = Integer.parseInt(request.getParameter("id"));
+				StudyGroup sd = new StudyGroup();
+				sd.setId(id);
+				
+				StudyGroupDao dao = new StudyGroupDao();
+				dao.delete(sd);
+			}
+		}
+		
+		response.sendRedirect("study-group.jsp");
 	}
 
 }

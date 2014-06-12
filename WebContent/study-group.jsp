@@ -51,7 +51,7 @@
 		<div class="modal view-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
-				<form role="form" method="post" action="CalendarFoodDriveServlet">
+				<form role="form" method="post" action="StudyGroupServlet">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			        <h4 class="modal-title" id="myModalLabel">Event details</h4>
@@ -61,14 +61,15 @@
 					  <label for="title">Title</label>
 					  <input type="text" class="form-control title" id="title" name = "title" required autofocus>
 					</div>
-					<div class="form-group">
+					<!-- <div class="form-group">
 					  <label for="contact">Contact</label>
 					  	<select class="form-control contact" id="contact" name="contact">
 	
 						</select>
 					</div>
+					-->
 					<div class="checkbox">
-					    <label>
+					    <label class="allDay">
 					      <input class="allDay" type="checkbox" name="allDay" value="true" checked> All day event
 					    </label>
 					</div>
@@ -108,7 +109,7 @@
 		<div class="modal create-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
-				<form role="form" method="post" action="CalendarFoodDriveServlet">
+				<form role="form" method="post" action="StudyGroupServlet">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			        <h4 class="modal-title" id="myModalLabel">Create event</h4>
@@ -126,7 +127,7 @@
 					</div>
 					 -->
 					<div class="checkbox">
-					    <label>
+					    <label class="allDay">
 					      <input class="allDay" type="checkbox" name="allDay" value="true" checked> All day event
 					    </label>
 					</div>
@@ -190,6 +191,7 @@
         <script type="text/javascript">
 			$(document).ready(function(){
 				$("#calendar").fullCalendar({
+					editable: true,
 					header: {
                         left: 'prev,next today',
                         center: 'title',
@@ -206,6 +208,49 @@
         		        $(".end").val(date.add('days', 1).format("YYYY-MM-DD HH:mm:ss"));
         		    },
         		    
+        		    eventClick: function(calEvent, jsEvent, view) {
+        		    	$.ajax({
+        		    		type: "GET",
+        		    		url: "StudyGroupServlet?action=view&id=" + calEvent.id,
+        		    		success: function(json){
+        						$(".view-modal").modal();
+        						$(".id").val(json.id);
+        						$(".title").val(json.title);
+        						$(".start-date").val(moment(json.start).format("YYYY-MM-DD"));
+        						$(".start").val(json.start);
+        						$(".end").val(json.end);
+        						
+        						$('.contact option[value="' + json.volunteer.id + '"]').attr("selected", true);
+        						$('.contact').trigger("chosen:updated");
+        						
+        						if(json.allDay == true){
+        							$(".allDay").prop("checked", true);
+        							$(".date").removeClass("hide");
+        							$(".date-time").addClass("hide");
+        						}
+        						else{
+        							$(".allDay").prop("checked", false);
+        							$(".date-time").removeClass("hide");
+        							$(".date").addClass("hide");
+        						}	
+        		    		}
+        		    	});
+        		    }, 
+        		    eventDrop: function(event, revertFunc) {
+        		    	$.ajax({
+        		    		type: "POST",
+        		    		url: "StudyGroupServlet",
+        		    		data: {
+        		    			action:"edit",
+        		    	        id: event.id,
+        		    	        title: event.title,
+        		    	        start: event.start.format("YYYY-MM-DD HH:mm:ss"),
+        		    	        end: event.end.format("YYYY-MM-DD HH:mm:ss"),
+        		    	        allDay:event.allDay,
+        		    	    }
+        		    	});
+
+        		    },
 				});
 				
 				//change the button icons to match theme
@@ -231,7 +276,6 @@
 				
 				$(".allDay").on("click", function(){
 				  	$(".date, .date-time").toggleClass("hide");
-				  	alert("test");
 				});
 			});     
         </script>
