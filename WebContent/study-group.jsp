@@ -274,6 +274,16 @@
 				 	$(this).trigger("click");
 				});
 				
+				$('.start-date').daterangepicker({
+					singleDatePicker: 1,
+					timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A',            
+		        }); 
+				
+				$('.start, .end').daterangepicker({
+					singleDatePicker: 1,
+					timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A',
+		        });  
+				
 				$(".allDay").on("click", function(){
 				  	$(".date, .date-time").toggleClass("hide");
 				});
