@@ -3,15 +3,15 @@
 <html>
     <head>
     	<!-- header fragment -->
-    	<jsp:include page="WEB-INF/header.jspf" />
+    	<jsp:include page="../WEB-INF/header.jspf" />
     </head>
     <body class="skin-blue">
         <!-- navigation top fragment -->
-        <jsp:include page="WEB-INF/navigation-top.jspf" />
+        <jsp:include page="../WEB-INF/navigation-top.jspf" />
         
         <div class="wrapper row-offcanvas row-offcanvas-left">
         	<!-- navigation left fragment -->
-        	<jsp:include page="WEB-INF/navigation-left.jspf" />	
+        	<jsp:include page="../WEB-INF/navigation-left.jspf" />	
         	
             <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">
@@ -525,7 +525,7 @@
 
                         </section><!-- right col -->
                     </div><!-- /.row (main row) -->
-					<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@END MODIFICATION FROM HERE@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+				<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@END MODIFICATION FROM HERE@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
                 </section><!-- /.content -->
             </aside><!-- /.right-side -->
         </div><!-- ./wrapper -->
@@ -533,6 +533,6 @@
         <!-- add new calendar event modal -->
         
 		<!-- javscript fragment -->
-    	<jsp:include page="WEB-INF/javascript.jspf" />
+    	<jsp:include page="../WEB-INF/javascript.jspf" />
     </body>
 </html>
