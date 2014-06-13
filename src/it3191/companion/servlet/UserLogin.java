@@ -2,6 +2,7 @@ package it3191.companion.servlet;
 
 import it3191.companion.dao.UserDao;
 import it3191.companion.dto.User;
+import it3191.companion.util.Hash;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -95,8 +96,13 @@ public class UserLogin extends HttpServlet {
 				UserDao userDao = new UserDao();
 				user.setEmail(request.getParameter("email"));
 				
-				if(userDao.isExist(user)){
+				
+				
+				
+				if(userDao.isExist(user) && (Hash.isExpectedPassword(request.getParameter("password").toCharArray(), user.getSalt().getBytes(), user.getPasswordMD5().getBytes()))){
+					
 					user = userDao.authenticate(request.getParameter("email"), Base64.encode(request.getParameter("password").getBytes()));
+					
 					
 					if(user == null){
 						response.sendRedirect("login?info=login_failed");

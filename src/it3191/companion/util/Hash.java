@@ -51,7 +51,10 @@ public class Hash {
     public static boolean isExpectedPassword(char[] password, byte[] salt, byte[] expectedHash) {
         char[] pwd = cloneArrayAndEraseOriginal(password);
         byte[] pwdHash = hash(pwd, salt);
-        if (pwdHash.length != expectedHash.length) return false;
+        
+        if (pwdHash.length != expectedHash.length) 
+        	return false;
+        
         for (int i = 0; i < pwdHash.length; i++) {
             if (pwdHash[i] != expectedHash[i]) return false;
         }
