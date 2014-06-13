@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.servlet.ServletException;
@@ -48,6 +49,7 @@ public class UserRegistration extends HttpServlet {
     private static final int ITERATIONS = 10000;
     private static final int KEY_LENGTH = 256;
 
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -55,7 +57,6 @@ public class UserRegistration extends HttpServlet {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
@@ -145,8 +146,4 @@ public class UserRegistration extends HttpServlet {
 				break;
 		}
 	}
-
-	
-	
-
 }

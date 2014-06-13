@@ -14,5 +14,6 @@
 		<property name="hibernate.hbm2ddl.auto">update</property>
 		
 		<mapping class="it3191.companion.dto.User" />
+		<mapping class="it3191.companion.dto.Activity" />
 	</session-factory>
 </hibernate-configuration>

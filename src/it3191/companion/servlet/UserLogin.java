@@ -4,6 +4,7 @@ import it3191.companion.dao.UserDao;
 import it3191.companion.dto.User;
 import it3191.companion.util.Hash;
 
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -64,14 +65,11 @@ public class UserLogin extends HttpServlet {
 				com.restfb.types.User fbUser = facebookClient.fetchObject("me", com.restfb.types.User.class);
 				
 				user.setFacebookId(fbUser.getId());
-				user.setFirstName(fbUser.getFirstName());
-				user.setLastName(fbUser.getLastName());
-				user.setEmail(fbUser.getEmail());
-				user.setGender(fbUser.getGender());
 				
 				if(userDao.isExist(user)){
+					user = userDao.authenticate(fbUser.getId());
 					request.getSession().setAttribute("user", user);
-					response.sendRedirect("index.jsp");
+					response.sendRedirect(this.getServletContext().getContextPath() + "/dashboard");
 				}else{					
 					response.sendRedirect("login?info=login_failed");
 				}				
@@ -96,15 +94,11 @@ public class UserLogin extends HttpServlet {
 				UserDao userDao = new UserDao();
 				user.setEmail(request.getParameter("email"));
 				
-				
-				
-				
 				if(userDao.isExist(user)){
 					user = userDao.getByEmail(request.getParameter("email"));
 					if(Hash.isExpectedPassword(request.getParameter("password").toCharArray(), user.getSalt().getBytes(), user.getPasswordMD5().getBytes())){
 						user = userDao.authenticate(request.getParameter("email"), Base64.encode(request.getParameter("password").getBytes()));
 					}
-					
 					
 					if(user == null){
 						response.sendRedirect("login?info=login_failed");

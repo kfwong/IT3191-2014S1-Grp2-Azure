@@ -46,18 +46,13 @@ public class AuthenticationFilter implements Filter {
 		HttpSession ses = req.getSession();
 		
 		if(ses.isNew()){
-			res.sendRedirect("login?info=new_session");
+			res.sendRedirect(req.getContextPath() + "/login?info=new_session");
 		}else{
-			System.out.println(ses.getId());
 			// pass the request along the filter chain
-			if(req.getRequestURI().endsWith("/login") || req.getRequestURI().endsWith("/register") || req.getRequestURI().endsWith("UserLogin") || req.getRequestURL().toString().contains("/css/") || req.getRequestURL().toString().contains("/js/")){
-				chain.doFilter(request, response);
+			if(ses.getAttribute("user") == null){
+				res.sendRedirect(req.getContextPath() + "/login?info=new_session");
 			}else{
-				if(ses.getAttribute("user") == null){
-					res.sendRedirect("login?info=new_session");
-				}else{
-					chain.doFilter(request, response);
-				}
+				chain.doFilter(request, response);
 			}
 		}
 	}

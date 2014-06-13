@@ -148,6 +148,7 @@ public class User {
 	public void setHandphoneNo(String handphoneNo){
 		this.handphoneNo=handphoneNo;
 	}
+
 	public String getSalt(){
 		return salt;
 	}

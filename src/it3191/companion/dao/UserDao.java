@@ -97,6 +97,22 @@ public class UserDao implements Dao<User> {
 		return user;
 	}
 	
+
+	public User authenticate(String facebookId){
+		User user = null;
+		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		
+		Query query = session.createQuery("FROM User WHERE FACEBOOK_ID = :facebookId");
+		query.setParameter("facebookId", facebookId);
+		
+		user = (User) query.uniqueResult();
+		
+		session.close();
+
+		return user;
+	}
+
 	public User authenticate(String email, String passwordsha1){
 		User user = null;
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
@@ -109,7 +125,7 @@ public class UserDao implements Dao<User> {
 		user = (User) query.uniqueResult();
 		
 		session.close();
-
+	
 		return user;
 	}
 
