@@ -82,6 +82,21 @@ public class UserDao implements Dao<User> {
 		return isExist;
 	}
 	
+	public User getByEmail(String email){
+		User user = null;
+		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		
+		Query query = session.createQuery("FROM User WHERE EMAIL = :email");
+		query.setParameter("email", email);
+		
+		user = (User) query.uniqueResult();
+		
+		session.close();
+
+		return user;
+	}
+	
 	public User authenticate(String email, String passwordsha1){
 		User user = null;
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();

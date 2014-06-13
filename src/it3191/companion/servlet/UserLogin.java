@@ -99,9 +99,11 @@ public class UserLogin extends HttpServlet {
 				
 				
 				
-				if(userDao.isExist(user) && (Hash.isExpectedPassword(request.getParameter("password").toCharArray(), user.getSalt().getBytes(), user.getPasswordMD5().getBytes()))){
-					
-					user = userDao.authenticate(request.getParameter("email"), Base64.encode(request.getParameter("password").getBytes()));
+				if(userDao.isExist(user)){
+					user = userDao.getByEmail(request.getParameter("email"));
+					if(Hash.isExpectedPassword(request.getParameter("password").toCharArray(), user.getSalt().getBytes(), user.getPasswordMD5().getBytes())){
+						user = userDao.authenticate(request.getParameter("email"), Base64.encode(request.getParameter("password").getBytes()));
+					}
 					
 					
 					if(user == null){
