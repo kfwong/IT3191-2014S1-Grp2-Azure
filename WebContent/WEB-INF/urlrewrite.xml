@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+        "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+
+<urlrewrite>
+	
+	<rule>
+        <from>^/dashboard$</from>
+        <to>/pages/dashboard.jsp</to>
+    </rule>
+	
+	<rule>
+        <from>^/login$</from>
+        <to>/login.jsp</to>
+    </rule>
+    
+    <rule>
+        <from>^/logout$</from>
+        <to>/UserLogout</to>
+    </rule>
+    
+    <rule>
+        <from>^/register$</from>
+        <to>/register.jsp</to>
+    </rule>
+    
+    <rule>
+        <from>^/404$</from>
+        <to>/404.html</to>
+    </rule>
+    
+    <rule>
+        <from>^/500$</from>
+        <to>/500.html</to>
+    </rule>
+    
+    <rule>
+        <from>^/activity-demo$</from>
+        <to>/pages/activity-demo.jsp</to>
+    </rule>
+    
+    <rule>
+        <from>^/activity$</from>
+        <to>/pages/activity.jsp</to>
+    </rule>
+    
+</urlrewrite>
+

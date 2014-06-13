@@ -31,17 +31,17 @@ public class ActivityDemo extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Activity activity = new Activity();
+		ActivityDao activityDao = new ActivityDao();
+		System.out.println(request.getParameter("type"));
 		switch(Integer.parseInt(request.getParameter("type"))){
 			case Activity.LOOKING_FOR_TUTOR:
-				Activity activity = new Activity();
 				activity.setType(Activity.LOOKING_FOR_TUTOR);
 				activity.setContent("I'm looking for someone to teach me Mathematics!");
 				activity.setUser((User)request.getSession().getAttribute("user"));
 				
-				ActivityDao activityDao = new ActivityDao();
-				activityDao.saveOrUpdate(activity);
 				
-				response.sendRedirect("index.jsp");
+				activityDao.saveOrUpdate(activity);
 				break;
 			case Activity.FORMED_A_STUDY_GROUP:
 				break;
@@ -50,8 +50,15 @@ public class ActivityDemo extends HttpServlet {
 			case Activity.SHARED_A_WRITTEN_ASSIGNENT:
 				break;
 			case Activity.SHARED_A_STUDY_NOTE:
+				activity.setType(Activity.SHARED_A_STUDY_NOTE);
+				activity.setContent("Sharing my exam study note to all of you!");
+				activity.setUser((User)request.getSession().getAttribute("user"));
+				activity.setDropboxPublicUrl(request.getParameter("dropboxPublicUrl"));
+				
+				activityDao.saveOrUpdate(activity);
 				break;
 		}
+		response.sendRedirect("ActivityDisplay");
 	}
 
 	/**

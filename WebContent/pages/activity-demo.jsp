@@ -3,15 +3,15 @@
 <html>
     <head>
     	<!-- header fragment -->
-    	<jsp:include page="WEB-INF/header.jspf" />
+    	<jsp:include page="../WEB-INF/header.jspf" />
     </head>
     <body class="skin-blue">
         <!-- navigation top fragment -->
-        <jsp:include page="WEB-INF/navigation-top.jspf" />
+        <jsp:include page="../WEB-INF/navigation-top.jspf" />
         
         <div class="wrapper row-offcanvas row-offcanvas-left">
         	<!-- navigation left fragment -->
-        	<jsp:include page="WEB-INF/navigation-left.jspf" />	
+        	<jsp:include page="../WEB-INF/navigation-left.jspf" />	
         	
             <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">
@@ -27,11 +27,7 @@
                 <!-- Main content -->
                 <section class="content">
                 <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@START MODIFICATION FROM HERE@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
-                	<a class="btn btn-default btn-block" href="ActivityDemo?type=1">Create "Looking for tutor" Activity</a>
-                	<button class="btn btn-default btn-block">Create "Formed a study group" Activity</button>
-                	<button class="btn btn-default btn-block">Create "Shared a project" Activity</button>
-                	<button class="btn btn-default btn-block">Create "Shared a written assignment" Activity</button>
-                	<button class="btn btn-default btn-block">Create "Shared a study note" Activity</button>    
+                	
 				<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@END MODIFICATION FROM HERE@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
                 </section><!-- /.content -->
             </aside><!-- /.right-side -->
@@ -40,6 +36,6 @@
         <!-- add new calendar event modal -->
         
 		<!-- javscript fragment -->
-    	<jsp:include page="WEB-INF/javascript.jspf" />
+    	<jsp:include page="../WEB-INF/javascript.jspf" />
     </body>
 </html>

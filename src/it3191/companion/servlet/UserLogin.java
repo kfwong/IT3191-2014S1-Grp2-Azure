@@ -67,7 +67,7 @@ public class UserLogin extends HttpServlet {
 				if(userDao.isExist(user)){
 					user = userDao.authenticate(fbUser.getId());
 					request.getSession().setAttribute("user", user);
-					response.sendRedirect("index.jsp");
+					response.sendRedirect(this.getServletContext().getContextPath() + "/dashboard");
 				}else{					
 					response.sendRedirect("login?info=login_failed");
 				}				

@@ -32,6 +32,9 @@ public class Activity {
 	@Column(name = "TYPE")
 	private int type;
 	
+	@Column(name = "DROPBOX_PUBLIC_URL")
+	private String dropboxPublicUrl;
+	
 	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="USER_ID")
 	private User user;
@@ -58,6 +61,14 @@ public class Activity {
 
 	public void setType(int type) {
 		this.type = type;
+	}
+
+	public String getDropboxPublicUrl() {
+		return dropboxPublicUrl;
+	}
+
+	public void setDropboxPublicUrl(String dropboxPublicUrl) {
+		this.dropboxPublicUrl = dropboxPublicUrl;
 	}
 
 	public User getUser() {
