@@ -1,43 +1,42 @@
 package it3191.companion.dto;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.InheritanceType;
 
 @Entity
 @Table(name = "ACTIVITY")
+@Inheritance(strategy=InheritanceType.JOINED)
 public class Activity {
-	
-	public static final int LOOKING_FOR_TUTOR = 1;
-	public static final int FORMED_A_STUDY_GROUP = 2;
-	public static final int SHARED_A_PROJECT = 3;
-	public static final int SHARED_A_WRITTEN_ASSIGNENT = 4;
-	public static final int SHARED_A_STUDY_NOTE = 5;
 
 	@Id
 	@GeneratedValue
 	@Column(name = "ID")
 	private int id;
 	
-	@Column(name = "CONTENT")
-	private String content;
-	
-	@Column(name = "TYPE")
-	private int type;
-	
-	@Column(name = "DROPBOX_PUBLIC_URL")
-	private String dropboxPublicUrl;
+	@ElementCollection(fetch=FetchType.EAGER)
+	@CollectionTable(name="ACTIVITY_TAG", joinColumns=@JoinColumn(name="ACTIVITY_ID"))
+	@Column(name="TAG")
+	private List<String> tags;
 	
 	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="USER_ID")
-	private User user;
+	private User createdBy;
+	
+	@Column(name="DATE_CREATED")
+	private Date createdOn;
 
 	public int getId() {
 		return id;
@@ -47,36 +46,29 @@ public class Activity {
 		this.id = id;
 	}
 
-	public String getContent() {
-		return content;
+	public List<String> getTags() {
+		return tags;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setTags(List<String> tags) {
+		this.tags = tags;
 	}
 
-	public int getType() {
-		return type;
+	public User getCreatedBy() {
+		return createdBy;
 	}
 
-	public void setType(int type) {
-		this.type = type;
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
 	}
 
-	public String getDropboxPublicUrl() {
-		return dropboxPublicUrl;
+	public Date getCreatedOn() {
+		return createdOn;
 	}
 
-	public void setDropboxPublicUrl(String dropboxPublicUrl) {
-		this.dropboxPublicUrl = dropboxPublicUrl;
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
 	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
+	
 	
 }

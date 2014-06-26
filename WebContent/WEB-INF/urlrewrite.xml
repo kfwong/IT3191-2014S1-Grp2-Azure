@@ -35,13 +35,28 @@
     </rule>
     
     <rule>
-        <from>^/activity-demo$</from>
-        <to>/pages/activity-demo.jsp</to>
+        <from>^/resource$</from>
+        <to>/pages/resource.jsp</to>
+    </rule>
+    
+    <rule>
+        <from>^/resource/view$</from>
+        <to>/ResourceView</to>
+    </rule>
+    
+    <rule>
+        <from>^/resource/publish$</from>
+        <to>/ResourcePublish</to>
     </rule>
     
     <rule>
         <from>^/activity$</from>
         <to>/pages/activity.jsp</to>
+    </rule>
+    
+    <rule>
+        <from>^/project/publish$</from>
+        <to>/ProjectPublish</to>
     </rule>
     
 </urlrewrite>

@@ -1,7 +1,7 @@
 package it3191.companion.servlet;
 
-import it3191.companion.dao.ActivityDao;
-import it3191.companion.dto.Activity;
+import it3191.companion.dao.ResourceDao;
+import it3191.companion.dto.Resource;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,16 +13,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class ActivityDisplay
+ * Servlet implementation class ResourceBrowse
  */
-@WebServlet("/ActivityDisplay")
-public class ActivityDisplay extends HttpServlet {
+@WebServlet("/ResourceView")
+public class ResourceView extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ActivityDisplay() {
+    public ResourceView() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,12 +31,12 @@ public class ActivityDisplay extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ActivityDao activityDao = new ActivityDao();
-		List<Activity> activities = activityDao.getAll();
+		ResourceDao resourceDao = new ResourceDao();
+		List<Resource> resources = resourceDao.getAll();
 		
-		request.setAttribute("activities", activities);
+		request.setAttribute("resources", resources);
 		
-		request.getRequestDispatcher("activity").forward(request, response);
+		request.getRequestDispatcher("resource").forward(request, response);		
 	}
 
 }

@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="box-body">
 									<p><span id="dropbox-chooser-btn-container"></span>&nbsp;<i id="dropbox-chooser-chosen-file"></i></p>
-				                	<a id="dropbox-chooser-public-url" class="btn btn-default btn-block" href="#">Create "Shared a study note" Activity</a>
+				                	<a id="dropbox-chooser-chosen-file-link" class="btn btn-default btn-block" href="#">Create "Shared a study note" Activity</a>
                                 </div>
                             </div>
                 		</div>
@@ -96,8 +96,8 @@
 					                                <div class="timeline-body">${activity.content}</div>
 					                                <div class='timeline-footer'>
 					                                    <a class="btn btn-default btn-xs" href="#">Read more</a>
-					                                    <a class="btn btn-default btn-xs" href="${activity.dropboxPublicUrl}">Direct Download</a>
-					                                    <a class="btn btn-xs dropbox-saver" href="${activity.dropboxPublicUrl}"><i class="fa fa-dropbox"></i> Save to Dropbox</a>
+					                                    <a class="btn btn-default btn-xs" href="${activity.links[0] }">Direct Download</a>
+					                                    <a class="btn btn-xs dropbox-saver" href="${activity.links[0]}"><i class="fa fa-dropbox"></i> Save to Dropbox</a>
 					                                </div>
 					                            </div>
 					                        </li>
@@ -127,7 +127,7 @@
    		    // Required. Called when a user selects an item in the Chooser.
    		    success: function(files) {
    		    	$('#dropbox-chooser-chosen-file').text(files[0].link);
-   		    	$('#dropbox-chooser-public-url').attr('href','ActivityDemo?type=5&dropboxPublicUrl='+files[0].link);
+   		    	$('#dropbox-chooser-chosen-file-link').attr('href','ActivityDemo?type=5&dropboxLink='+files[0].link);
    		    },
 
    		    // Optional. Called when the user closes the dialog without selecting a file
