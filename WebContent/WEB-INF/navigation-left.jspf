@@ -8,7 +8,7 @@
             <img src="img/avatar3.png" class="img-circle" alt="User Image" />
         </div>
         <div class="pull-left info">
-            <p>Hello, Jane</p>
+            <p>Hello, ${sessionScope.user.firstName}</p>
 
             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
@@ -45,7 +45,7 @@
                 <i class="fa fa-angle-left pull-right"></i>
             </a>
             <ul class="treeview-menu">
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> Activity</a></li>
+                <li><a href="ActivityDisplay"><i class="fa fa-angle-double-right"></i> Activity</a></li>
                 <li><a href="#"><i class="fa fa-angle-double-right"></i> Find a Tutor</a></li>
                 <li><a href="study-group.jsp"><i class="fa fa-angle-double-right"></i> Study Group</a></li>
             </ul>

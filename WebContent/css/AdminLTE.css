@@ -1051,6 +1051,7 @@ body > .header .logo .icon {
 .radio {
   padding-left: 0;
 }
+
 /* 
     Compenent: Progress bars
 --------------------------------
@@ -2719,6 +2720,7 @@ Component: timeline
  */
 /* iCheck plugin Minimal skin, black
 ----------------------------------- */
+/*
 .icheckbox_minimal,
 .iradio_minimal {
   display: inline-block;
@@ -2764,6 +2766,8 @@ Component: timeline
 .iradio_minimal.checked.disabled {
   background-position: -180px 0;
 }
+*/
+
 /* Retina support */
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (min-device-pixel-ratio: 1.5) {
   .icheckbox_minimal,
@@ -3401,4 +3405,17 @@ fieldset[disabled] .btn-vk.active {
 .btn-vk .badge {
   color: #587ea3;
   background-color: #ffffff;
+}
+
+
+/*
+    Core: Overwrite by kfwong
+----------------------------
+*/
+.radio label, .checkbox label{
+	padding-left: 5px;
+}
+
+.radio input[type="radio"], .radio-inline input[type="radio"], .checkbox input[type="checkbox"], .checkbox-inline input[type="checkbox"] {
+	margin-left: 0px;
 }

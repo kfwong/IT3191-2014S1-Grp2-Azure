@@ -7,13 +7,13 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 
 import it3191.companion.dto.StudyGroup;
-import it3191.companion.util.HibernateUtil;
+import it3191.companion.util.HibernateUtils;
 
 public class StudyGroupDao implements Dao<StudyGroup> {
 
 	@Override
 	public StudyGroup get(Integer id) {
-		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		StudyGroup studyGroup = (StudyGroup) session.get(StudyGroup.class, id);
 		session.close();
@@ -23,7 +23,7 @@ public class StudyGroupDao implements Dao<StudyGroup> {
 
 	@Override
 	public void saveOrUpdate(StudyGroup t) {
-		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		session.saveOrUpdate(t);
@@ -34,7 +34,7 @@ public class StudyGroupDao implements Dao<StudyGroup> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<StudyGroup> getAll() {
-		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		List<StudyGroup> studyGroup = session.createQuery("FROM StudyGroup").list();
 		session.close();
@@ -44,7 +44,7 @@ public class StudyGroupDao implements Dao<StudyGroup> {
 
 	@Override
 	public Integer countAll() {
-		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		Integer count = ((Long) session.createCriteria(StudyGroup.class).setProjection(Projections.rowCount()).uniqueResult()).intValue();
 		session.close();
@@ -54,7 +54,7 @@ public class StudyGroupDao implements Dao<StudyGroup> {
 
 	@Override
 	public void delete(StudyGroup t) {
-		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.delete(t);
 		session.close();

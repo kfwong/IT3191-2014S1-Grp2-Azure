@@ -1,5 +1,7 @@
 package it3191.companion.dto;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,21 +26,33 @@ public class User {
 	@Column(name = "GENDER")
 	private String gender;
 
-	@Column(name = "USERNAME")
-	private String userName;
-
 	@Column(name = "PASSWORD_SHA1")
 	private String passwordSHA1;
 	
 	@Column(name = "PASSWORD_MD5")
 	private String passwordMD5;
+	
+	@Column(name = "PASSWORD_HASH")
+	private String passwordHash;
 
 	@Column(name = "EMAIL")
 	private String email;
 
 	@Column(name = "LOCATION")
 	private String location;
-
+	
+	@Column(name = "BIRTHDAY")
+	private Date birthday;
+	
+	@Column(name = "HANDPHONENO")
+	private String handphoneNo;
+	
+	@Column(name = "FACEBOOK_ID")
+	private String facebookId;
+	
+	@Column(name = "SALT")
+	private String salt;
+	
 	public int getId() {
 		return id;
 	}
@@ -71,14 +85,6 @@ public class User {
 		this.gender = gender;
 	}
 
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
 	public String getPasswordSHA1() {
 		return passwordSHA1;
 	}
@@ -93,6 +99,14 @@ public class User {
 
 	public void setPasswordMD5(String passwordMD5) {
 		this.passwordMD5 = passwordMD5;
+	}
+	
+	public void setPasswordHash(String passwordHash){
+		this.passwordHash= passwordHash;
+	}
+	
+	public String getPasswordHash(){
+		return passwordHash;
 	}
 
 	public String getEmail() {
@@ -109,6 +123,37 @@ public class User {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+	
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getFacebookId() {
+		return facebookId;
+	}
+
+	public void setFacebookId(String facebookId) {
+		this.facebookId = facebookId;
+	}
+
+	public String getHandphoneNo(){
+		return handphoneNo;
+	}
+	
+	public void setHandphoneNo(String handphoneNo){
+		this.handphoneNo=handphoneNo;
+	}
+
+	public String getSalt(){
+		return salt;
+	}
+	public void setSalt(String salt){
+		this.salt=salt;
 	}
 	
 	
