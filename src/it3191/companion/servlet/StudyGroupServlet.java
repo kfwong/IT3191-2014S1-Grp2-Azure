@@ -150,7 +150,7 @@ String action = request.getParameter("action");
 			}
 		}
 		
-		response.sendRedirect("study-group.jsp");
+		response.sendRedirect("study-group");
 	}
 
 }

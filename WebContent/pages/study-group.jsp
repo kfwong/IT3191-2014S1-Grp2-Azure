@@ -198,8 +198,16 @@
                         right: 'month,agendaWeek,agendaDay'
                     },
                     
-                    events: "StudyGroupServlet?action=getCalendar",
-
+                    eventSources: [
+						{
+							url: "StudyGroupServlet?action=getCalendar",
+						},
+						{
+							url: "https://www.google.com/calendar/feeds/amuletxheart%40gmail.com/public/basic",
+							color: "#f56954"
+						}
+                    ],
+                    
                     dayClick: function(date, jsEvent, view) {
         				
         		        $(".create-modal").modal();
