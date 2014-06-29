@@ -3,15 +3,15 @@
 <html>
     <head>
     	<!-- header fragment -->
-    	<jsp:include page="WEB-INF/header.jspf" />
+    	<jsp:include page="../WEB-INF/header.jspf" />
     </head>
     <body class="skin-blue">
         <!-- navigation top fragment -->
-        <jsp:include page="WEB-INF/navigation-top.jspf" />
+        <jsp:include page="../WEB-INF/navigation-top.jspf" />
         
         <div class="wrapper row-offcanvas row-offcanvas-left">
         	<!-- navigation left fragment -->
-        	<jsp:include page="WEB-INF/navigation-left.jspf" />	
+        	<jsp:include page="../WEB-INF/navigation-left.jspf" />	
         	
             <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">
@@ -185,7 +185,7 @@
 		</div><!-- /.modal -->
         
 		<!-- javscript fragment -->
-    	<jsp:include page="WEB-INF/javascript.jspf" />
+    	<jsp:include page="../WEB-INF/javascript.jspf" />
     	
     	<!-- Page specific script -->
         <script type="text/javascript">
