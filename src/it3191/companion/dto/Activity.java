@@ -12,24 +12,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.InheritanceType;
 
-@Entity
-@Table(name = "ACTIVITY")
-@Inheritance(strategy=InheritanceType.JOINED)
-public class Activity {
+import org.hibernate.annotations.Any;
+import org.hibernate.annotations.AnyMetaDef;
+import org.hibernate.annotations.MetaValue;
 
-	@Id
-	@GeneratedValue
-	@Column(name = "ID")
-	private int id;
-	
-	@ElementCollection(fetch=FetchType.EAGER)
-	@CollectionTable(name="ACTIVITY_TAG", joinColumns=@JoinColumn(name="ACTIVITY_ID"))
-	@Column(name="TAG")
-	private List<String> tags;
+@MappedSuperclass
+public class Activity {
 	
 	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="USER_ID")
@@ -37,22 +30,6 @@ public class Activity {
 	
 	@Column(name="DATE_CREATED")
 	private Date createdOn;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public List<String> getTags() {
-		return tags;
-	}
-
-	public void setTags(List<String> tags) {
-		this.tags = tags;
-	}
 
 	public User getCreatedBy() {
 		return createdBy;

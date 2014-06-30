@@ -37,7 +37,7 @@ public class ActivityDao implements Dao<Activity> {
 	public List<Activity> getAll() {
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		List<Activity> activities = session.createQuery("FROM Activity").list();
+		List<Activity> activities = session.createCriteria(Activity.class).list();
 		session.close();
 		
 		return activities;

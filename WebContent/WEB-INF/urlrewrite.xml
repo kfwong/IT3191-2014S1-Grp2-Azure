@@ -55,6 +55,11 @@
     </rule>
     
     <rule>
+        <from>^/activity/view$</from>
+        <to>/ActivityView</to>
+    </rule>
+    
+    <rule>
         <from>^/project/publish$</from>
         <to>/ProjectPublish</to>
     </rule>

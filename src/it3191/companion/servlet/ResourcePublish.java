@@ -1,6 +1,8 @@
 package it3191.companion.servlet;
 
+import it3191.companion.dao.ActivityDao;
 import it3191.companion.dao.ResourceDao;
+import it3191.companion.dto.Activity;
 import it3191.companion.dto.Resource;
 import it3191.companion.dto.User;
 
@@ -35,12 +37,12 @@ public class ResourcePublish extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Resource resource = new Resource();
-		resource.setCreatedBy((User) request.getSession().getAttribute("user"));
-		resource.setCreatedOn(new Date());
 		resource.setDescription(request.getParameter("description"));
 		resource.setDropboxLink(request.getParameter("dropboxLink"));
-		resource.setTags(Arrays.asList(request.getParameter("tags").split(",")));
 		resource.setTitle(request.getParameter("title"));
+		resource.setTags(Arrays.asList(request.getParameter("tags").split(",")));
+		resource.setCreatedBy((User) request.getSession().getAttribute("user"));
+		resource.setCreatedOn(new Date());
 
 		ResourceDao resourceDao = new ResourceDao();
 		resourceDao.saveOrUpdate(resource);
