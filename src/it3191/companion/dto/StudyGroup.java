@@ -2,6 +2,7 @@ package it3191.companion.dto;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -30,6 +31,9 @@ public class StudyGroup {
 	
 	@Column(name="ALL_DAY")
 	private boolean allDay;
+	
+	@Column(name="PARTICIPANTS")
+	private ArrayList<User> participants;
 
 	public int getId() {
 		return id;
@@ -96,6 +100,12 @@ public class StudyGroup {
 		this.allDay = allDay;
 	}
 
-	
-	
+	public ArrayList<User> getParticipants() {
+		return participants;
+	}
+
+	public void setParticipants(ArrayList<User> participants) {
+		this.participants = participants;
+	}
+
 }
