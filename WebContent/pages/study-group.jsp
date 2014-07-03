@@ -68,6 +68,10 @@
 						</select>
 					</div>
 					-->
+					<div class="form-group">
+						<button class="btn btn-default">Join</button>					  
+					</div>
+					
 					<div class="checkbox">
 					    <label class="allDay">
 					      <input class="allDay" type="checkbox" name="allDay" value="true" checked> All day event

@@ -45,7 +45,7 @@ public class StudyGroup {
 		inverseJoinColumns = @JoinColumn(name="PARTICIPANT_ID")
 	)
 	@Column(name="PARTICIPANT")
-	private List<User> participants;
+	private List<User> participant;
 
 	public int getId() {
 		return id;
@@ -112,12 +112,12 @@ public class StudyGroup {
 		this.allDay = allDay;
 	}
 
-	public List<User> getParticipants() {
-		return participants;
+	public List<User> getParticipant() {
+		return participant;
 	}
 
-	public void setParticipants(List<User> participants) {
-		this.participants = participants;
+	public void setParticipant(List<User> participant) {
+		this.participant = participant;
 	}
 
 	
