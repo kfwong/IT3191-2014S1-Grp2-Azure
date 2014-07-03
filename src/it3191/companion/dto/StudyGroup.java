@@ -4,12 +4,18 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.JoinColumn;
 
 @Entity
 @Table(name = "STUDY_GROUP")
@@ -32,8 +38,14 @@ public class StudyGroup {
 	@Column(name="ALL_DAY")
 	private boolean allDay;
 	
-	@Column(name="PARTICIPANTS")
-	private ArrayList<User> participants;
+	@OneToMany
+	@JoinTable(
+		name="STUDY_GROUP_PARTICIPANT",
+		joinColumns = @JoinColumn(name="STUDY_GROUP_ID"),
+		inverseJoinColumns = @JoinColumn(name="PARTICIPANT_ID")
+	)
+	@Column(name="PARTICIPANT")
+	private List<User> participants;
 
 	public int getId() {
 		return id;
@@ -100,12 +112,14 @@ public class StudyGroup {
 		this.allDay = allDay;
 	}
 
-	public ArrayList<User> getParticipants() {
+	public List<User> getParticipants() {
 		return participants;
 	}
 
-	public void setParticipants(ArrayList<User> participants) {
+	public void setParticipants(List<User> participants) {
 		this.participants = participants;
 	}
+
+	
 
 }
