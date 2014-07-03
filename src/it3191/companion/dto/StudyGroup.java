@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -38,12 +39,7 @@ public class StudyGroup {
 	@Column(name="ALL_DAY")
 	private boolean allDay;
 	
-	@OneToMany
-	@JoinTable(
-		name="STUDY_GROUP_PARTICIPANT",
-		joinColumns = @JoinColumn(name="STUDY_GROUP_ID"),
-		inverseJoinColumns = @JoinColumn(name="PARTICIPANT_ID")
-	)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "id", cascade = CascadeType.ALL)
 	@Column(name="PARTICIPANT")
 	private List<User> participant;
 

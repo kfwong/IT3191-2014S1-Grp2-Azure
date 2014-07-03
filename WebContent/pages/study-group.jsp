@@ -67,11 +67,7 @@
 	
 						</select>
 					</div>
-					-->
-					<div class="form-group">
-						<button class="btn btn-default">Join</button>					  
-					</div>
-					
+					-->		
 					<div class="checkbox">
 					    <label class="allDay">
 					      <input class="allDay" type="checkbox" name="allDay" value="true" checked> All day event
@@ -100,6 +96,7 @@
 			      <div class="modal-footer">
 			     	<button type="button" class="btn btn-default pull-left delete-button">Delete</button>
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-default join-button">Join</button>					  
 			        <button type="submit" class="btn btn-primary confirm-edit-button">Save</button>
 			      </div>
 			      <input type="hidden" name="action" value="edit"/>
@@ -284,6 +281,10 @@
 				  	}
 				  	
 				 	$(this).trigger("click");
+				});
+				
+				$(".join-button").on("click", function(event){
+				  	$(this).val("participant");
 				});
 				
 				$('.start-date').daterangepicker({
