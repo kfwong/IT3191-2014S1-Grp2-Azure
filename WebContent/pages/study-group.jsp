@@ -287,14 +287,15 @@
 				  	$(this).val("participant");
 				});
 				
-				$('.start-date').daterangepicker({
-					singleDatePicker: 1,
-					timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A',            
+				$('.start-date').datetimepicker({
+		        	
+		            format:'Y-m-d',
+		            timepicker: false,
 		        }); 
-				
-				$('.start, .end').daterangepicker({
-					singleDatePicker: 1,
-					timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A',
+		        
+		        $('.start, .end').datetimepicker({
+		        	
+		            format:'Y-m-d H:i:s'
 		        });  
 				
 				$(".allDay").on("click", function(){
