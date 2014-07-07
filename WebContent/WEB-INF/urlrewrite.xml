@@ -44,5 +44,10 @@
         <to>/pages/activity.jsp</to>
     </rule>
     
+    <rule>
+        <from>^/study-group$</from>
+        <to>/pages/study-group.jsp</to>
+    </rule>
+    
 </urlrewrite>
 

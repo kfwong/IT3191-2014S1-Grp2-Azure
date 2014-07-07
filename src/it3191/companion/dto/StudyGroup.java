@@ -2,13 +2,21 @@ package it3191.companion.dto;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.JoinColumn;
 
 @Entity
 @Table(name = "STUDY_GROUP")
@@ -30,6 +38,10 @@ public class StudyGroup {
 	
 	@Column(name="ALL_DAY")
 	private boolean allDay;
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "id", cascade = CascadeType.ALL)
+	@Column(name="PARTICIPANT")
+	private List<User> participant;
 
 	public int getId() {
 		return id;
@@ -96,6 +108,14 @@ public class StudyGroup {
 		this.allDay = allDay;
 	}
 
+	public List<User> getParticipant() {
+		return participant;
+	}
+
+	public void setParticipant(List<User> participant) {
+		this.participant = participant;
+	}
+
 	
-	
+
 }
