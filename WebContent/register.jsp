@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=US-ASCII" pageEncoding="US-ASCII"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ page import="net.tanesha.recaptcha.ReCaptcha" %>
+    <%@ page import="net.tanesha.recaptcha.ReCaptchaFactory" %>
 <!DOCTYPE html>
+
 <html class="bg-black">
     <head>
         <meta charset="UTF-8">
@@ -51,7 +54,24 @@
                     <div class="form-group">
                         <input type="password" id="password2" name="password2" class="form-control" placeholder="Retype password"/>
                     </div>
-	               
+                    <div class="form-group">
+                    <select name="securityquestion" id="securityquestion" name="securityquestion" class="form-control">
+                    <option value="" disabled selected>Please Choose A Security Question--</option>
+    				<option value="1">What is the name of your childhood friend? </option>
+    				<option value="2">What is the name of your primary school?</option>
+    				<option value="3">What is your preferred musical genre? </option>
+    				<option value="4">What are the last 5 digits of your NRIC?</option>
+    				<option value="5">What was your dream job as a child?</option>
+  					</select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="answer" name="answer" class="form-control" placeholder="Answer"/>
+                    </div>
+                    <%
+         			 ReCaptcha c = ReCaptchaFactory.newReCaptcha("6LduAvYSAAAAAKA9nbwujKUPIwrrmrf1tFVG5wb4", "6LduAvYSAAAAAGto0ISKfxATI9iATrIrbCX1jQlz", false);
+          			out.print(c.createRecaptchaHtml(null, null));
+       				 %>
+	                 
                 </div>
                 <div class="footer">                    
 
@@ -85,6 +105,7 @@
        		rules: {
        			firstname: "required",
        			lastname: "required",
+       			answer: "required",
        			email: {
        				required: true,
        				email: true
