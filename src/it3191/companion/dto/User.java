@@ -53,6 +53,15 @@ public class User {
 	@Column(name = "SALT")
 	private String salt;
 	
+	@Column(name = "SECURITY_QUESTION")
+	private int securityQuestion;
+	
+	@Column(name = "ANSWER")
+	private String answer;
+	
+	@Column(name = "FORGET_PASSWORD_SESSION_KEY")
+	private String forgetPasswordSessionKey;
+	
 	public int getId() {
 		return id;
 	}
@@ -152,8 +161,34 @@ public class User {
 	public String getSalt(){
 		return salt;
 	}
+	
 	public void setSalt(String salt){
 		this.salt=salt;
+	}
+	
+	
+	
+	public int getSecurityQuestion() {
+		return securityQuestion;
+	}
+
+	public void setSecurityQuestion(int securityQuestion) {
+		this.securityQuestion = securityQuestion;
+	}
+
+	public String getAnswer(){
+		return answer;
+	}
+	public void setAnswer(String answer){
+		this.answer=answer;
+	}
+
+	public String getForgetPasswordSessionKey() {
+		return forgetPasswordSessionKey;
+	}
+
+	public void setForgetPasswordSessionKey(String forgetPasswordSessionKey) {
+		this.forgetPasswordSessionKey = forgetPasswordSessionKey;
 	}
 	
 	

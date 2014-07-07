@@ -96,7 +96,17 @@ public class UserDao implements Dao<User> {
 
 		return user;
 	}
-	
+	public User getByForgetPasswordSessionKey(String sessionKey){
+		User user=null;
+		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Query query = session.createQuery("FROM User WHERE FORGET_PASSWORD_SESSION_KEY = :forgetPasswordSessionKey");
+		query.setParameter("forgetPasswordSessionKey", sessionKey);
+		
+		user = (User) query.uniqueResult();
+		session.close();
+		return user;
+	}	
 
 	public User authenticate(String facebookId){
 		User user = null;
@@ -128,5 +138,16 @@ public class UserDao implements Dao<User> {
 	
 		return user;
 	}
-
+	public User authorizePasswordReset(String answer){
+		User user = null;
+		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		
+		Query query = session.createQuery("FROM User WHERE ANSWER = :answer");
+		query.setParameter("answer", answer);
+		user=(User) query.uniqueResult();
+		session.close();
+		return user;
+	
+}
 }

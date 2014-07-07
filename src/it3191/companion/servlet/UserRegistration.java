@@ -1,6 +1,7 @@
 package it3191.companion.servlet;
 
 import it3191.companion.dao.UserDao;
+
 import it3191.companion.dto.User;
 import it3191.companion.util.Hash;
 
@@ -38,7 +39,8 @@ import org.apache.http.message.BasicNameValuePair;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
-
+import net.tanesha.recaptcha.ReCaptchaImpl;
+import net.tanesha.recaptcha.ReCaptchaResponse;
 /**
  * Servlet implementation class UserRegistration
  */
@@ -110,40 +112,57 @@ public class UserRegistration extends HttpServlet {
 	
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		switch (request.getParameter("type")) {
-			case "normal":
-				User user = new User();
-				UserDao userDao = new UserDao();
+	    
+        String remoteAddr = request.getRemoteAddr();
+        ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
+        reCaptcha.setPrivateKey("6LduAvYSAAAAAGto0ISKfxATI9iATrIrbCX1jQlz");
 
-				user.setFirstName(request.getParameter("firstname"));
-				user.setLastName(request.getParameter("lastname"));
-				user.setEmail(request.getParameter("email"));
-				user.setGender(request.getParameter("gender"));
-				user.setHandphoneNo(request.getParameter("handphone"));
-				// Hash.hash(rq.getpr("ps").tochray, Hash.getnextsalt)
-				user.setPasswordMD5(Base64.encode(Hash.hash(request.getParameter("password").toCharArray(), Hash.getNextSalt())));
-				user.setPasswordSHA1(user.getPasswordMD5());
-				user.setPasswordHash(user.getPasswordMD5());
-				user.setSalt(Base64.encode(Hash.getNextSalt()));
+        String challenge = request.getParameter("recaptcha_challenge_field");
+        String uresponse = request.getParameter("recaptcha_response_field");
+        ReCaptchaResponse reCaptchaResponse = reCaptcha.checkAnswer(remoteAddr, challenge, uresponse);
 
-				if (userDao.isExist(user)) {
-					response.sendRedirect("register?info=registration_failed");
-				} else {
-					userDao.saveOrUpdate(user);
-					response.sendRedirect("login?info=registration_successful");
-				}
+        if (reCaptchaResponse.isValid()) {
+          
+          
+          switch (request.getParameter("type")) {
+                case "normal":
+                    User user = new User();
+                    UserDao userDao = new UserDao();
+    
+                    user.setFirstName(request.getParameter("firstname"));
+                    user.setLastName(request.getParameter("lastname"));
+                    user.setEmail(request.getParameter("email"));
+                    user.setGender(request.getParameter("gender"));
+                    user.setHandphoneNo(request.getParameter("handphone"));
+                    user.setPasswordMD5(Base64.encode(Hash.hash(request.getParameter("password").toCharArray(), Hash.getNextSalt())));
+                    user.setPasswordSHA1(user.getPasswordMD5());
+                    user.setPasswordHash(user.getPasswordMD5());
+                    user.setSalt(Base64.encode(Hash.getNextSalt()));
+                    user.setSecurityQuestion(Integer.parseInt(request.getParameter("securityquestion")));
+                    user.setAnswer(request.getParameter("answer"));
+    
+                    if (userDao.isExist(user)) {
+                        response.sendRedirect("register?info=registration_failed");
 
-				break;
-			case "facebook":
-				if (request.getParameter("error") != null) {
-					response.sendRedirect("register?info=registration_failed");
-				} else if (request.getParameter("code") == null) {
-					response.sendRedirect("https://www.facebook.com/dialog/oauth?client_id=390095387796223&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FIT3191-2014S1-Grp2-Azure%2FUserRegistration%3Ftype%3Dfacebook&scope=email,user_about_me,user_birthday,user_friends,user_hometown,user_location,user_relationship_details,user_relationships,user_religion_politics,user_website");
-				}
-				break;
-			default:
-				response.sendRedirect("register?info=registration_failed");
-				break;
-		}
-	}
+                    } else {
+                        userDao.saveOrUpdate(user);
+                        response.sendRedirect("login?info=registration_successful");
+                    }
+    
+                    break;
+                case "facebook":
+                    if (request.getParameter("error") != null) {
+                        response.sendRedirect("register?info=registration_failed");
+                    } else if (request.getParameter("code") == null) {
+                        response.sendRedirect("https://www.facebook.com/dialog/oauth?client_id=390095387796223&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FIT3191-2014S1-Grp2-Azure%2FUserRegistration%3Ftype%3Dfacebook&scope=email,user_about_me,user_birthday,user_friends,user_hometown,user_location,user_relationship_details,user_relationships,user_religion_politics,user_website");
+                    }
+                    break;
+                default:
+                    response.sendRedirect("register?info=registration_failed");
+                    break;
+            }
+        } else {
+          response.sendRedirect("register.jsp");
+        }
+    }
 }
