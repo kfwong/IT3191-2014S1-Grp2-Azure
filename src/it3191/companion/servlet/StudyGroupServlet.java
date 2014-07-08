@@ -2,10 +2,12 @@ package it3191.companion.servlet;
 
 import it3191.companion.dao.StudyGroupDao;
 import it3191.companion.dto.StudyGroup;
+import it3191.companion.dto.User;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -122,6 +124,7 @@ String action = request.getParameter("action");
 				String start = request.getParameter("start");
 				String end = request.getParameter("end");
 				String allDay = request.getParameter("allDay");
+				String participant = request.getParameter("participant");
 				//int contactId = Integer.parseInt(request.getParameter("contact"));
 				
 				//Contact contact = new Contact();
@@ -135,7 +138,13 @@ String action = request.getParameter("action");
 				sd.setStart(start);
 				sd.setEnd(end);
 				sd.setAllDay(allDay);
+				List<User> participantList = new ArrayList<User>(); 
+				User user = (User) request.getSession().getAttribute("user");
+				participantList.add(user);
+				sd.setParticipant(participantList);
 				//sd.setContact(contact);
+				
+				System.out.println("List of participants: " + participantList.get(0).getFirstName());
 				
 				StudyGroupDao dao = new StudyGroupDao();
 				dao.saveOrUpdate(sd);
@@ -150,7 +159,7 @@ String action = request.getParameter("action");
 			}
 		}
 		
-		response.sendRedirect("study-group.jsp");
+		response.sendRedirect("study-group");
 	}
 
 }

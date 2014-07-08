@@ -3,15 +3,15 @@
 <html>
     <head>
     	<!-- header fragment -->
-    	<jsp:include page="WEB-INF/header.jspf" />
+    	<jsp:include page="../WEB-INF/header.jspf" />
     </head>
     <body class="skin-blue">
         <!-- navigation top fragment -->
-        <jsp:include page="WEB-INF/navigation-top.jspf" />
+        <jsp:include page="../WEB-INF/navigation-top.jspf" />
         
         <div class="wrapper row-offcanvas row-offcanvas-left">
         	<!-- navigation left fragment -->
-        	<jsp:include page="WEB-INF/navigation-left.jspf" />	
+        	<jsp:include page="../WEB-INF/navigation-left.jspf" />	
         	
             <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">
@@ -67,7 +67,7 @@
 	
 						</select>
 					</div>
-					-->
+					-->		
 					<div class="checkbox">
 					    <label class="allDay">
 					      <input class="allDay" type="checkbox" name="allDay" value="true" checked> All day event
@@ -96,6 +96,7 @@
 			      <div class="modal-footer">
 			     	<button type="button" class="btn btn-default pull-left delete-button">Delete</button>
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-default join-button" name="participant">Join</button>					  
 			        <button type="submit" class="btn btn-primary confirm-edit-button">Save</button>
 			      </div>
 			      <input type="hidden" name="action" value="edit"/>
@@ -185,7 +186,7 @@
 		</div><!-- /.modal -->
         
 		<!-- javscript fragment -->
-    	<jsp:include page="WEB-INF/javascript.jspf" />
+    	<jsp:include page="../WEB-INF/javascript.jspf" />
     	
     	<!-- Page specific script -->
         <script type="text/javascript">
@@ -198,8 +199,16 @@
                         right: 'month,agendaWeek,agendaDay'
                     },
                     
-                    events: "StudyGroupServlet?action=getCalendar",
-
+                    eventSources: [
+						{
+							url: "StudyGroupServlet?action=getCalendar",
+						},
+						{
+							url: "https://www.google.com/calendar/feeds/amuletxheart%40gmail.com/public/basic",
+							color: "#f56954"
+						}
+                    ],
+                    
                     dayClick: function(date, jsEvent, view) {
         				
         		        $(".create-modal").modal();
@@ -274,14 +283,19 @@
 				 	$(this).trigger("click");
 				});
 				
-				$('.start-date').daterangepicker({
-					singleDatePicker: 1,
-					timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A',            
-		        }); 
+				$(".join-button").on("click", function(event){
+				  	$(this).val("participant");
+				});
 				
-				$('.start, .end').daterangepicker({
-					singleDatePicker: 1,
-					timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A',
+				$('.start-date').datetimepicker({
+		        	
+		            format:'Y-m-d',
+		            timepicker: false,
+		        }); 
+		        
+		        $('.start, .end').datetimepicker({
+		        	
+		            format:'Y-m-d H:i:s'
 		        });  
 				
 				$(".allDay").on("click", function(){
