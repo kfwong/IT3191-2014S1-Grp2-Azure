@@ -20,12 +20,12 @@
                 <section class="content-header">
 				<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@TITLE & BREADCRUMB@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
                     <h1>
-                        Dashboard
-                        <small>Control panel</small>
+                        Activity
+                        <small>Timeline</small>
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                        <li class="active">Dashboard</li>
+                        <li class="active">Activity</li>
                     </ol>
                 </section>
 
@@ -47,12 +47,24 @@
 			                        <li>
 			                            <i class="fa fa-envelope bg-blue"></i>
 			                            <div class="timeline-item">
-			                                <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
-			                                <h3 class="timeline-header">${activity.createdBy.firstName} is looking for a tutor!</h3>
-			                                <div class="timeline-body">content</div>
+			                                <span class="time"><i class="fa fa-clock-o"></i> ${activity.createdOn}</span>
+			                                <h3 class="timeline-header">${activity.title}</h3>
+			                                <div class="timeline-body">
+			                                	<div class="row">
+			                                		<div class="col-md-1">
+			                                			<div class="image">
+												            <img src="http://graph.facebook.com/${sessionScope.user.facebookId}/picture" class="img-circle" alt="User Image" style="margin-left:auto;margin-right:auto;display:block;"/>
+												        </div>
+												        <strong><small style="margin-left:auto;margin-right:auto;display:block;text-align:center;">${activity.createdBy.firstName }</small></strong>
+			                                		</div>
+			                                		<div class="col-md-11">
+			                                			${activity.description}
+			                                		</div>
+			                                	</div>
+			                                </div>
 			                                <div class='timeline-footer'>
-			                                    <a class="btn btn-default btn-xs" href="#">Read more</a>
-			                                    <a class="btn btn-success btn-xs" href="#">Be the tutor</a>
+			                                    <a class="btn btn-default btn-xs pull-right" href="#">Read more</a>
+			                                    <div class="clearfix">&nbsp;</div>
 			                                </div>
 			                            </div>
 			                        </li>

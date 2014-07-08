@@ -1,6 +1,10 @@
 package it3191.companion.dao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -37,7 +41,8 @@ public class ActivityDao implements Dao<Activity> {
 	public List<Activity> getAll() {
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		List<Activity> activities = session.createCriteria(Activity.class).list();
+		List<Activity> activities = new ArrayList<Activity>(new HashSet<Activity>(session.createCriteria(Activity.class).list()));
+		
 		session.close();
 		
 		return activities;

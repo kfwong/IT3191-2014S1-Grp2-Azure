@@ -71,27 +71,7 @@
                         </form>
                     </div>
 
-					<div id="columns">
-						<div class="pin">
-							<div class="box">
-		                        <div class="box-header">
-							        <h4 class="box-title">Some of my study notes for IT1125. Share to all of you!</h4>
-		                        </div>
-		                        <div class="box-body">
-		                            <p>Nullam eget lectus augue. Donec eu sem sit amet ligula 
-									faucibus suscipit.</p>
-									<p class="pull-right"><a class="btn btn-default btn-xs"href="#"><strong>Read more</strong></a></p>
-									<br class="clearfix" />
-		                        </div><!-- /.box-body -->
-		                        <div class="box-footer">
-		                        	<div class="pull-left image" style="padding:5px 10px 5px 10px;">
-						            	<img src="${pageContext.servletContext.contextPath}/img/avatar3.png" class="img-circle" alt="User Image" style="width:35px;height:35px;">
-						        	</div>
-		                            <p>Kang Fei shared this not long ago.<br/><span class="time-label"><i class="fa fa-clock-o"></i>&nbsp;10 Feb. 2014</span></p>
-		                        </div><!-- /.box-footer-->
-		                    </div>
-						</div>
-						
+					<div id="columns">						
 						<c:forEach items="${resources}" var="resource">
 							<div class="pin">
 								<div class="box">
@@ -101,7 +81,6 @@
 			                        <div class="box-body">
 			                            <p>${resource.description}</p>
 			                            <p class="pull-right">
-			                            	<button class="btn btn-default btn-xs"><i class="fa fa-thumbs-up"></i><strong>&nbsp;Like</strong></button>
 			                            	<button class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal"><i class="fa fa-comment"></i><strong>&nbsp;Comment</strong></button>
 			                            	<a class="btn btn-default btn-xs" href="${resource.dropboxLink}"><i class="fa fa-download"></i><strong>&nbsp;Direct Download</strong></a>
 			                            	&nbsp;
@@ -121,129 +100,6 @@
 			                    </div>
 							</div>
 						</c:forEach>
-						
-						<div class="pin">
-							<div class="box">
-		                        <div class="box-header">
-		                            <h3 class="box-title">Donec a fermentum nisi. </h3>
-		                        </div>
-		                        <div class="box-body">
-		                            Nullam eget lectus augue. Donec eu sem sit amet ligula 
-									faucibus suscipit. Suspendisse rutrum turpis quis nunc 
-									convallis quis aliquam mauris suscipit. Nullam eget lectus augue. Donec eu sem sit amet ligula 
-									faucibus suscipit. Suspendisse rutrum turpis quis nunc 
-									convallis quis aliquam mauris suscipit.
-									Nullam eget lectus augue. Donec eu sem sit amet ligula 
-									faucibus suscipit. Suspendisse rutrum turpis quis nunc 
-									convallis quis aliquam mauris suscipit.
-		                        </div><!-- /.box-body -->
-		                        <div class="box-footer">
-		                            Donec a fermentum nisi. Integer dolor est, commodo ut 
-									sagittis vitae, egestas at augue. 
-		                        </div><!-- /.box-footer-->
-		                    </div>
-						</div>
-						
-						<div class="pin">
-							<div class="box">
-		                        <div class="box-header">
-		                            <h3 class="box-title">Donec a fermentum nisi. </h3>
-		                        </div>
-		                        <div class="box-body">
-		                            Nullam eget lectus augue. Donec eu sem sit amet ligula 
-									faucibus suscipit. 
-		                        </div><!-- /.box-body -->
-		                        <div class="box-footer">
-		                            Donec a fermentum nisi. Integer dolor est, commodo ut 
-									sagittis vitae, egestas at augue. 
-		                        </div><!-- /.box-footer-->
-		                    </div>
-						</div>
-						
-						<div class="pin">
-							<div class="box">
-		                        <div class="box-header">
-		                            <h3 class="box-title">Donec a fermentum nisi. </h3>
-		                        </div>
-		                        <div class="box-body">
-		                            Nullam eget lectus augue. Donec eu sem sit amet ligula 
-									faucibus suscipit. Suspendisse rutrum turpis quis nunc 
-									convallis quis aliquam mauris suscipit.
-		                        </div><!-- /.box-body -->
-		                        <div class="box-footer">
-		                            Donec a fermentum nisi. Integer dolor est, commodo ut 
-									sagittis vitae, egestas at augue. 
-		                        </div><!-- /.box-footer-->
-		                    </div>
-						</div>
-						
-						<div class="pin">
-							<div class="box">
-		                        <div class="box-header">
-		                            <h3 class="box-title">Donec a fermentum nisi. </h3>
-		                        </div>
-		                        <div class="box-body">
-		                            Nullam eget lectus augue. Donec eu sem sit amet ligula 
-									faucibus suscipit. Suspendisse rutrum turpis quis nunc 
-									convallis quis aliquam mauris suscipit.
-		                        </div><!-- /.box-body -->
-		                        <div class="box-footer">
-		                            Donec a fermentum nisi. Integer dolor est, commodo ut 
-									sagittis vitae, egestas at augue. 
-		                        </div><!-- /.box-footer-->
-		                    </div>
-						</div>
-						
-						<div class="pin">
-							<div class="box">
-		                        <div class="box-header">
-		                            <h3 class="box-title">Donec a fermentum nisi. </h3>
-		                        </div>
-		                        <div class="box-body">
-		                            Nullam eget lectus augue. Donec eu sem sit amet ligula 
-									faucibus suscipit. Suspendisse rutrum turpis quis nunc 
-									convallis quis aliquam mauris suscipit.
-		                        </div><!-- /.box-body -->
-		                        <div class="box-footer">
-		                            Donec a fermentum nisi. Integer dolor est, commodo ut 
-									sagittis vitae, egestas at augue. 
-		                        </div><!-- /.box-footer-->
-		                    </div>
-						</div>
-						
-						<div class="pin">
-							<div class="box">
-		                        <div class="box-header">
-		                            <h3 class="box-title">Donec a fermentum nisi. </h3>
-		                        </div>
-		                        <div class="box-body">
-		                            Nullam eget lectus augue. Donec eu sem sit amet ligula 
-									faucibus suscipit. Suspendisse rutrum turpis quis nunc 
-									convallis quis aliquam mauris suscipit.
-		                        </div><!-- /.box-body -->
-		                        <div class="box-footer">
-		                            Donec a fermentum nisi. Integer dolor est, commodo ut 
-									sagittis vitae, egestas at augue. 
-		                        </div><!-- /.box-footer-->
-		                    </div>
-						</div>
-						
-						<div class="pin">
-							<div class="box">
-		                        <div class="box-header">
-		                            <h3 class="box-title">Donec a fermentum nisi. </h3>
-		                        </div>
-		                        <div class="box-body">
-		                            Nullam eget lectus augue. Donec eu sem sit amet ligula 
-									faucibus suscipit. Suspendisse rutrum turpis quis nunc 
-									convallis quis aliquam mauris suscipit.
-		                        </div><!-- /.box-body -->
-		                        <div class="box-footer">
-		                            Donec a fermentum nisi. Integer dolor est, commodo ut 
-									sagittis vitae, egestas at augue. 
-		                        </div><!-- /.box-footer-->
-		                    </div>
-						</div>
 					</div>
 				<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@END MODIFICATION FROM HERE@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
                 </section><!-- /.content -->
