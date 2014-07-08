@@ -13,16 +13,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class ActivityDisplay
+ * Servlet implementation class ActivityView
  */
-@WebServlet("/ActivityDisplay")
-public class ActivityDisplay extends HttpServlet {
+@WebServlet("/ActivityView")
+public class ActivityView extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ActivityDisplay() {
+    public ActivityView() {
         super();
         // TODO Auto-generated constructor stub
     }

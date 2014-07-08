@@ -5,7 +5,7 @@
     <!-- Sidebar user panel -->
     <div class="user-panel">
         <div class="pull-left image">
-            <img src="img/avatar3.png" class="img-circle" alt="User Image" />
+            <img src="http://graph.facebook.com/${sessionScope.user.facebookId}/picture" class="img-circle" alt="User Image" />
         </div>
         <div class="pull-left info">
             <p>Hello, ${sessionScope.user.firstName}</p>
@@ -45,23 +45,10 @@
                 <i class="fa fa-angle-left pull-right"></i>
             </a>
             <ul class="treeview-menu">
-                <li><a href="ActivityDisplay"><i class="fa fa-angle-double-right"></i> Activity</a></li>
+                <li><a href="${pageContext.servletContext.contextPath}/activity/view"><i class="fa fa-angle-double-right"></i> Activity</a></li>
                 <li><a href="#"><i class="fa fa-angle-double-right"></i> Find a Tutor</a></li>
-                <li><a href="study-group"><i class="fa fa-angle-double-right"></i> Study Group</a></li>
-            </ul>
-        </li>
-        <li class="treeview">
-            <a href="#">
-                <i class="fa fa-bar-chart-o"></i>
-                <span>Library & Archive</span>
-                <i class="fa fa-angle-left pull-right"></i>
-            </a>
-            <ul class="treeview-menu">
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> Project</a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> Written Assignment</a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> Study Notes</a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> Mock Quiz</a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> Miscellaneous Resources</a></li>
+                <li><a href="${pageContext.servletContext.contextPath}/study-group"><i class="fa fa-angle-double-right"></i> Study Group</a></li>
+                <li><a href="${pageContext.servletContext.contextPath}/resource/view"><i class="fa fa-angle-double-right"></i> Resource</a></li>
             </ul>
         </li>
         <li class="treeview">

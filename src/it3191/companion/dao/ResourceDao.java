@@ -1,36 +1,32 @@
 package it3191.companion.dao;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 
-import it3191.companion.dto.Activity;
+import it3191.companion.dto.Resource;
 import it3191.companion.util.HibernateUtils;
 
-public class ActivityDao implements Dao<Activity> {
+public class ResourceDao implements Dao<Resource> {
 
 	@Override
-	public Activity get(Integer id) {
+	public Resource get(Integer id) {
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		Activity activity = (Activity) session.get(Activity.class, id);
+		Resource resource = (Resource) session.get(Resource.class, id);
 		session.close();
 
-		return activity;
+		return resource;
 	}
 
 	@Override
-	public void saveOrUpdate(Activity activity) {
+	public void saveOrUpdate(Resource resource) {
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
-		session.saveOrUpdate(activity);
+		session.saveOrUpdate(resource);
 		session.getTransaction().commit();
 		session.close();
 		
@@ -38,31 +34,30 @@ public class ActivityDao implements Dao<Activity> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Activity> getAll() {
+	public List<Resource> getAll() {
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		List<Activity> activities = new ArrayList<Activity>(new HashSet<Activity>(session.createCriteria(Activity.class).list()));
-		
+		List<Resource> resources = session.createQuery("FROM Resource ORDER BY createdOn").list();
 		session.close();
 		
-		return activities;
+		return resources;
 	}
 
 	@Override
 	public Integer countAll() {
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		Integer count = ((Long) session.createCriteria(Activity.class).setProjection(Projections.rowCount()).uniqueResult()).intValue();
+		Integer count = ((Long) session.createCriteria(Resource.class).setProjection(Projections.rowCount()).uniqueResult()).intValue();
 		session.close();
 		
 		return count;
 	}
 
 	@Override
-	public void delete(Activity activity) {
+	public void delete(Resource resource) {
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.delete(activity);
+		session.delete(resource);
 		session.close();		
 	}
 
