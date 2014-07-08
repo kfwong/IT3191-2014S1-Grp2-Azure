@@ -39,7 +39,7 @@ public class StudyGroup {
 	@Column(name="ALL_DAY")
 	private boolean allDay;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "id", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER)
 	@Column(name="PARTICIPANT")
 	private List<User> participant;
 
