@@ -141,7 +141,7 @@ String action = request.getParameter("action");
 				List<User> participantList = new ArrayList<User>(); 
 				User user = (User) request.getSession().getAttribute("user");
 				participantList.add(user);
-				sd.setParticipant(participantList);
+				sd.setParticipants(participantList);
 				//sd.setContact(contact);
 				
 				System.out.println("List of participants: " + participantList.get(0).getFirstName());

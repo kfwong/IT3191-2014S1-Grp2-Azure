@@ -69,7 +69,7 @@
 					</div>
 					-->		
 					<div class="checkbox">
-					    <label class="allDay">
+					    <label>
 					      <input class="allDay" type="checkbox" name="allDay" value="true" checked> All day event
 					    </label>
 					</div>
@@ -92,6 +92,9 @@
 						  	<input type="text" class="form-control end" id="end" name = "end" required>
 						</div>
 					</div>
+					<table class="participants" cellspacing="0" width="100%">
+
+				    </table>
 			      </div>
 			      <div class="modal-footer">
 			     	<button type="button" class="btn btn-default pull-left delete-button">Delete</button>
@@ -128,7 +131,7 @@
 					</div>
 					 -->
 					<div class="checkbox">
-					    <label class="allDay">
+					    <label>
 					      <input class="allDay" type="checkbox" name="allDay" value="true" checked> All day event
 					    </label>
 					</div>
@@ -229,8 +232,19 @@
         						$(".start").val(json.start);
         						$(".end").val(json.end);
         						
-        						$('.contact option[value="' + json.volunteer.id + '"]').attr("selected", true);
-        						$('.contact').trigger("chosen:updated");
+        						$(".participants").dataTable({
+        							"data": json.participants,
+        					        "columns": [
+        					            { "title": "Engine" },
+        					            { "title": "Browser" },
+        					            { "title": "Platform" },
+        					            { "title": "Version", "class": "center" },
+        					            { "title": "Grade", "class": "center" }
+        					        ]
+        						});
+        						
+        						//$('.contact option[value="' + json.volunteer.id + '"]').attr("selected", true);
+        						//$('.contact').trigger("chosen:updated");      						
         						
         						if(json.allDay == true){
         							$(".allDay").prop("checked", true);

@@ -41,7 +41,7 @@ public class StudyGroup {
 	
 	@OneToMany(fetch = FetchType.EAGER)
 	@Column(name="PARTICIPANT")
-	private List<User> participant;
+	private List<User> participants;
 
 	public int getId() {
 		return id;
@@ -108,14 +108,11 @@ public class StudyGroup {
 		this.allDay = allDay;
 	}
 
-	public List<User> getParticipant() {
-		return participant;
+	public List<User> getParticipants() {
+		return participants;
 	}
 
-	public void setParticipant(List<User> participant) {
-		this.participant = participant;
+	public void setParticipants(List<User> participants) {
+		this.participants = participants;
 	}
-
-	
-
 }
