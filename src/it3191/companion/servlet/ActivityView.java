@@ -36,7 +36,7 @@ public class ActivityView extends HttpServlet {
 		
 		request.setAttribute("activities", activities);
 		
-		request.getRequestDispatcher("activity").forward(request, response);
+		request.getRequestDispatcher(this.getServletContext().getContextPath()+"/activity").forward(request, response);
 	}
 
 }

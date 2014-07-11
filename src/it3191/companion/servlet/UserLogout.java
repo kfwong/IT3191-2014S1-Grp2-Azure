@@ -27,6 +27,6 @@ public class UserLogout extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getSession().invalidate();
-		response.sendRedirect("login?info=logout");
+		response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=logout");
 	}
 }

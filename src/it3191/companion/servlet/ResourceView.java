@@ -36,7 +36,7 @@ public class ResourceView extends HttpServlet {
 		
 		request.setAttribute("resources", resources);
 		
-		request.getRequestDispatcher("resource").forward(request, response);		
+		request.getRequestDispatcher(this.getServletContext().getContextPath()+"/resource").forward(request, response);		
 	}
 
 }

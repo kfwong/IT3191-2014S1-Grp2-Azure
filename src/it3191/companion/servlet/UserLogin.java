@@ -71,15 +71,15 @@ public class UserLogin extends HttpServlet {
                     request.getSession().setAttribute("user", user);
                     response.sendRedirect(this.getServletContext().getContextPath() + "/dashboard");
                 }else{                  
-                    response.sendRedirect("login?info=login_failed");
+                    response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=login_failed");
                 }               
             } catch (NullPointerException ex) {
-                response.sendRedirect("login?info=login_failed");
+                response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=login_failed");
             } finally {
                 IOUtils.closeQuietly(inputStream);
             }
         }catch(IOException ex){
-            response.sendRedirect("login?info=login_failed");
+            response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=login_failed");
         }
     }
     
@@ -96,12 +96,12 @@ public class UserLogin extends HttpServlet {
                 
                 if(userDao.isExist(user)){
                     user = userDao.getByEmail(request.getParameter("email"));
-                    if(Hash.isExpectedPassword(request.getParameter("password").toCharArray(), user.getSalt().getBytes(), user.getPasswordMD5().getBytes())){
+                    if(Hash.isExpectedPassword(request.getParameter("password").toCharArray(), user.getSalt().getBytes(), user.getPasswordSHA1().getBytes())){
                         user = userDao.authenticate(request.getParameter("email"), Base64.encode(request.getParameter("password").getBytes()));
                     }
                     
                     if(user == null){
-                        response.sendRedirect("login?info=login_failed");
+                        response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=login_failed");
                     }else{
                         request.getSession().setAttribute("user", user);
                         response.sendRedirect(this.getServletContext().getContextPath() + "/dashboard");
@@ -109,12 +109,12 @@ public class UserLogin extends HttpServlet {
                     
                 }else{
                     user = null;
-                    response.sendRedirect("login?info=login_failed");
+                    response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=login_failed");
                 }
                 break;
             case "facebook":
                 if (request.getParameter("error") != null){
-                    response.sendRedirect("login?info=login_failed");
+                    response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=login_failed");
                 }else if (request.getParameter("code") == null) {
                     response.sendRedirect("https://www.facebook.com/dialog/oauth?client_id=390095387796223&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FIT3191-2014S1-Grp2-Azure%2FUserLogin%3Ftype%3Dfacebook&scope=email,user_about_me,user_birthday,user_friends,user_hometown,user_location,user_relationship_details,user_relationships,user_religion_politics,user_website");
                 }               

@@ -67,7 +67,7 @@ public class UserDao implements Dao<User> {
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		
-		Query query = session.createQuery("FROM User WHERE FACEBOOK_ID = :facebookId OR EMAIL = :email");
+		Query query = session.createQuery("FROM User WHERE facebookId = :facebookId OR email = :email");
 		query.setParameter("facebookId", user.getFacebookId());
 		query.setParameter("email", user.getEmail());
 		
@@ -87,7 +87,7 @@ public class UserDao implements Dao<User> {
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		
-		Query query = session.createQuery("FROM User WHERE EMAIL = :email");
+		Query query = session.createQuery("FROM User WHERE email = :email");
 		query.setParameter("email", email);
 		
 		user = (User) query.uniqueResult();
@@ -100,7 +100,7 @@ public class UserDao implements Dao<User> {
 		User user=null;
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		Query query = session.createQuery("FROM User WHERE FORGET_PASSWORD_SESSION_KEY = :forgetPasswordSessionKey");
+		Query query = session.createQuery("FROM User WHERE forgetPasswordSessionKey = :forgetPasswordSessionKey");
 		query.setParameter("forgetPasswordSessionKey", sessionKey);
 		
 		user = (User) query.uniqueResult();
@@ -113,7 +113,7 @@ public class UserDao implements Dao<User> {
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		
-		Query query = session.createQuery("FROM User WHERE FACEBOOK_ID = :facebookId");
+		Query query = session.createQuery("FROM User WHERE facebookId = :facebookId");
 		query.setParameter("facebookId", facebookId);
 		
 		user = (User) query.uniqueResult();
@@ -128,9 +128,9 @@ public class UserDao implements Dao<User> {
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		
-		Query query = session.createQuery("FROM User WHERE EMAIL = :email AND PASSWORD_SHA1 = :passwordsha1");
+		Query query = session.createQuery("FROM User WHERE email = :email AND passwordSHA1 = :passwordSHA1");
 		query.setParameter("email", email);
-		query.setParameter("passwordsha1", passwordsha1);
+		query.setParameter("passwordSHA1", passwordsha1);
 		
 		user = (User) query.uniqueResult();
 		
@@ -143,7 +143,7 @@ public class UserDao implements Dao<User> {
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		
-		Query query = session.createQuery("FROM User WHERE ANSWER = :answer");
+		Query query = session.createQuery("FROM User WHERE answer = :answer");
 		query.setParameter("answer", answer);
 		user=(User) query.uniqueResult();
 		session.close();

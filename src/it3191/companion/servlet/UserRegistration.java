@@ -7,19 +7,8 @@ import it3191.companion.util.Hash;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigInteger;
 import java.net.URL;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
 
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,13 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
@@ -46,10 +28,6 @@ import net.tanesha.recaptcha.ReCaptchaResponse;
  */
 @WebServlet("/UserRegistration")
 public class UserRegistration extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private static final Random random = new SecureRandom();
-	private static final int ITERATIONS = 10000;
-	private static final int KEY_LENGTH = 256;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -94,21 +72,18 @@ public class UserRegistration extends HttpServlet {
 				user.setGender(fbUser.getGender());
 
 				if (userDao.isExist(user)) {
-					response.sendRedirect("register?info=registration_failed");
-					System.out.println("user exist");
+					response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
 				} else {
 					userDao.saveOrUpdate(user);
-					response.sendRedirect("login?info=registration_successful");
+					response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=registration_successful");
 				}
 			} catch (NullPointerException ex) {
-				response.sendRedirect("register?info=registration_failed");
-				System.out.println("null");
+				response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
 			} finally {
 				IOUtils.closeQuietly(inputStream);
 			}
 		} catch (IOException ex) {
-			response.sendRedirect("register?info=registration_failed");
-			System.out.println("io");
+			response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
 		}
 	}
 
@@ -133,34 +108,32 @@ public class UserRegistration extends HttpServlet {
 					user.setEmail(request.getParameter("email"));
 					user.setGender(request.getParameter("gender"));
 					user.setHandphoneNo(request.getParameter("handphone"));
-					user.setPasswordMD5(Base64.encode(Hash.hash(request.getParameter("password").toCharArray(), Hash.getNextSalt())));
-					user.setPasswordSHA1(user.getPasswordMD5());
-					user.setPasswordHash(user.getPasswordMD5());
+					user.setPasswordSHA1(Base64.encode(Hash.hash(request.getParameter("password").toCharArray(), Hash.getNextSalt())));
 					user.setSalt(Base64.encode(Hash.getNextSalt()));
 					user.setSecurityQuestion(Integer.parseInt(request.getParameter("securityquestion")));
 					user.setAnswer(request.getParameter("answer"));
 
 					if (userDao.isExist(user)) {
-						response.sendRedirect("register?info=registration_failed");
+						response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
 
 					} else {
 						userDao.saveOrUpdate(user);
-						response.sendRedirect("login?info=registration_successful");
+						response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=registration_successful");
 					}
 				} else {
-					response.sendRedirect("register.jsp");
+					response.sendRedirect(this.getServletContext().getContextPath()+"/register.jsp");
 				}
 
 				break;
 			case "facebook":
 				if (request.getParameter("error") != null) {
-					response.sendRedirect("register?info=registration_failed");
+					response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
 				} else if (request.getParameter("code") == null) {
 					response.sendRedirect("https://www.facebook.com/dialog/oauth?client_id=390095387796223&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FIT3191-2014S1-Grp2-Azure%2FUserRegistration%3Ftype%3Dfacebook&scope=email,user_about_me,user_birthday,user_friends,user_hometown,user_location,user_relationship_details,user_relationships,user_religion_politics,user_website");
 				}
 				break;
 			default:
-				response.sendRedirect("register?info=registration_failed");
+				response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
 				break;
 		}
 	}

@@ -28,12 +28,6 @@ public class User {
 
 	@Column(name = "PASSWORD_SHA1")
 	private String passwordSHA1;
-	
-	@Column(name = "PASSWORD_MD5")
-	private String passwordMD5;
-	
-	@Column(name = "PASSWORD_HASH")
-	private String passwordHash;
 
 	@Column(name = "EMAIL")
 	private String email;
@@ -100,22 +94,6 @@ public class User {
 
 	public void setPasswordSHA1(String passwordSHA1) {
 		this.passwordSHA1 = passwordSHA1;
-	}
-
-	public String getPasswordMD5() {
-		return passwordMD5;
-	}
-
-	public void setPasswordMD5(String passwordMD5) {
-		this.passwordMD5 = passwordMD5;
-	}
-	
-	public void setPasswordHash(String passwordHash){
-		this.passwordHash= passwordHash;
-	}
-	
-	public String getPasswordHash(){
-		return passwordHash;
 	}
 
 	public String getEmail() {
