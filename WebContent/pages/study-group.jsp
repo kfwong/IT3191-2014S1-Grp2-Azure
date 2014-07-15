@@ -94,7 +94,7 @@
 						</div>
 					</div>
 					<label for="participants">Participants</label><br/>
-					<table class="participants" width="100%">
+					<table class="participants table table-hover table-striped table-bordered" width="100%">
 						<thead>
 				            <tr>
 				                <th>First Name</th>
@@ -238,12 +238,11 @@
         						$(".start-date").val(moment(json.start).format("YYYY-MM-DD"));
         						$(".start").val(json.start);
         						$(".end").val(json.end);
-        						console.log(json.participants[0]);
         						$(".participants").dataTable({
-        							"data": json.participants[0],
-        							"columns": [
-        							            { "participants": "firstName" },
-        							            { "participants": "lastName" }
+        							"data": json.participants,
+        							columns: [
+        							            { "data": "firstName" },
+        							            { "data": "lastName" }
         							]
         						});
         						

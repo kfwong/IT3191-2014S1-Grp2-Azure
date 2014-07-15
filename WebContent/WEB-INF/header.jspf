@@ -17,7 +17,7 @@
 <!-- <link href="css/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" /> -->
 <!-- http://xdsoft.net/ datetimepicker -->
 <link href="${pageContext.servletContext.contextPath}/css/datetimepicker/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
-<!-- DataTables -->
+<!-- DataTables 1.10.1 with bootstrap integration-->
 <link href="${pageContext.servletContext.contextPath}/css/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
 <!-- bootstrap wysihtml5 - text editor -->
 <link href="${pageContext.servletContext.contextPath}/css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
