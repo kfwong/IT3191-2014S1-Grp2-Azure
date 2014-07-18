@@ -69,5 +69,10 @@
         <to>/pages/study-group.jsp</to>
     </rule>
     
+    <rule>
+        <from>^/admin/rbac-test$</from>
+        <to>/pages/rbac-test.jsp</to>
+    </rule>
+    
 </urlrewrite>
 
