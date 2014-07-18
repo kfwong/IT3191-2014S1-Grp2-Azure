@@ -154,21 +154,20 @@ String action = request.getParameter("action");
 				//ContactDao cd = new ContactDao();
 				//contact = cd.get(contactId);
 				
-				StudyGroup sd = new StudyGroup();
+				StudyGroupDao dao = new StudyGroupDao();
+				StudyGroup sd = dao.get(id);
 				sd.setId(id);
 				sd.setTitle(title);
 				sd.setStart(start);
 				sd.setEnd(end);
 				sd.setAllDay(allDay);
-				List<User> participantList = new ArrayList<User>(); 
+				
+				List<User> participantList = sd.getParticipants(); 
 				User user = (User) request.getSession().getAttribute("user");
 				participantList.add(user);
 				sd.setParticipants(participantList);
 				//sd.setContact(contact);
 				
-				System.out.println("List of participants: " + participantList.get(0).getFirstName());
-				
-				StudyGroupDao dao = new StudyGroupDao();
 				dao.saveOrUpdate(sd);
 			}
 			if(action.equals("delete")){

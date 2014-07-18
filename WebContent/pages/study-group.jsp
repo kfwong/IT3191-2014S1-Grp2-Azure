@@ -99,6 +99,7 @@
 				            <tr>
 				                <th>First Name</th>
 				                <th>Last Name</th>
+				                <th>Email</th>
 				            </tr>
 				        </thead>
 				    </table>
@@ -239,10 +240,12 @@
         						$(".start").val(json.start);
         						$(".end").val(json.end);
         						$(".participants").dataTable({
+        							destroy: true,
         							"data": json.participants,
         							columns: [
         							            { "data": "firstName" },
-        							            { "data": "lastName" }
+        							            { "data": "lastName" },
+        							            { "data": "email"}
         							]
         						});
         						
