@@ -1,7 +1,7 @@
 package it3191.companion.servlet;
 
 import it3191.companion.dao.UserDao;
-
+import it3191.companion.dto.Role;
 import it3191.companion.dto.User;
 import it3191.companion.util.Hash;
 
@@ -20,6 +20,7 @@ import org.apache.commons.io.IOUtils;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
+
 import net.tanesha.recaptcha.ReCaptchaImpl;
 import net.tanesha.recaptcha.ReCaptchaResponse;
 
@@ -70,6 +71,8 @@ public class UserRegistration extends HttpServlet {
 				user.setLastName(fbUser.getLastName());
 				user.setEmail(fbUser.getEmail());
 				user.setGender(fbUser.getGender());
+				//testing rbac
+				user.setRole(Role.ADMIN);
 
 				if (userDao.isExist(user)) {
 					response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");

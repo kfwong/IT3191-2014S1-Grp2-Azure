@@ -29,6 +29,16 @@
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
+  <filter>
+    <filter-name>AuthorizationFilter</filter-name>
+    <filter-class>it3191.companion.filter.AuthorizationFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>AuthorizationFilter</filter-name>
+    <url-pattern>/pages/admin/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
   <context-param>
     <param-name>registration_successful</param-name>
     <param-value>Registered successfully! Please proceed to login.</param-value>

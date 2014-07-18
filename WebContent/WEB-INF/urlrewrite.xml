@@ -71,7 +71,7 @@
     
     <rule>
         <from>^/admin/rbac-test$</from>
-        <to>/pages/rbac-test.jsp</to>
+        <to>/pages/admin/rbac-test.jsp</to>
     </rule>
     
 </urlrewrite>

@@ -12,6 +12,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Servlet Filter implementation class AuthorizationFilter
@@ -37,15 +39,17 @@ public class AuthorizationFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		// TODO Auto-generated method stub
-		// place your code here
-		User user = (User) request.getAttribute("user");
+		HttpServletRequest req = (HttpServletRequest) request;
+		HttpServletResponse res = (HttpServletResponse) response;
+
+		User user = (User) req.getSession().getAttribute("user");
 		//check user role
 		if(user.isRole(Role.ADMIN)){
-			//
+			chain.doFilter(request, response);
 		}
-		// pass the request along the filter chain
-		chain.doFilter(request, response);
+		else{
+			res.sendRedirect(req.getContextPath() + "/404");
+		}
 	}
 
 	/**
