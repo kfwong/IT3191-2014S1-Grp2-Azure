@@ -1,7 +1,6 @@
 package it3191.companion.servlet;
 
 import it3191.companion.dao.UserDao;
-
 import it3191.companion.dto.User;
 import it3191.companion.util.Hash;
 
@@ -16,10 +15,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
+
 import net.tanesha.recaptcha.ReCaptchaImpl;
 import net.tanesha.recaptcha.ReCaptchaResponse;
 
@@ -28,6 +30,8 @@ import net.tanesha.recaptcha.ReCaptchaResponse;
  */
 @WebServlet("/UserRegistration")
 public class UserRegistration extends HttpServlet {
+	
+	private static final Logger log = LogManager.getLogger(UserRegistration.class.getName());
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -72,17 +76,21 @@ public class UserRegistration extends HttpServlet {
 				user.setGender(fbUser.getGender());
 
 				if (userDao.isExist(user)) {
+					log.warn("Client failed to register with existing Facebook ID \"" + user.getFacebookId() + "\".");
 					response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
 				} else {
 					userDao.saveOrUpdate(user);
+					log.info("Client with email \""+user.getEmail()+"\" and Facebook ID " + user.getFacebookId() +" registered successfully"+".");
 					response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=registration_successful");
 				}
 			} catch (NullPointerException ex) {
+				log.warn("Client failed to register with invalid Facebook ID.");
 				response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
 			} finally {
 				IOUtils.closeQuietly(inputStream);
 			}
 		} catch (IOException ex) {
+			log.error("User login operation aborted due to application error. "+ ex.getMessage());
 			response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
 		}
 	}
@@ -114,25 +122,30 @@ public class UserRegistration extends HttpServlet {
 					user.setAnswer(request.getParameter("answer"));
 
 					if (userDao.isExist(user)) {
+						log.warn("Client from " + request.getRemoteAddr() +" failed to register with an existing email \""+request.getParameter("email")+"\".");
 						response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
 
 					} else {
 						userDao.saveOrUpdate(user);
+						log.info("Client from " + request.getRemoteAddr() +" successfully registered with email \""+request.getParameter("email")+"\".");
 						response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=registration_successful");
 					}
 				} else {
+					log.warn("Client from " + request.getRemoteAddr() +" failed the captcha test.");
 					response.sendRedirect(this.getServletContext().getContextPath()+"/register.jsp");
 				}
 
 				break;
 			case "facebook":
 				if (request.getParameter("error") != null) {
+					log.warn("Client from " + request.getRemoteAddr() +" failed to initiate facebook OAuth. " + request.getParameter("error") + ".");
 					response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
 				} else if (request.getParameter("code") == null) {
 					response.sendRedirect("https://www.facebook.com/dialog/oauth?client_id=390095387796223&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FIT3191-2014S1-Grp2-Azure%2FUserRegistration%3Ftype%3Dfacebook&scope=email,user_about_me,user_birthday,user_friends,user_hometown,user_location,user_relationship_details,user_relationships,user_religion_politics,user_website");
 				}
 				break;
 			default:
+				log.warn("Client from " + request.getRemoteAddr() +" attempting invalid registration method.");
 				response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
 				break;
 		}

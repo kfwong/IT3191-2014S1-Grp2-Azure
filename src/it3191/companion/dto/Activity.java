@@ -21,8 +21,15 @@ import org.hibernate.annotations.Any;
 import org.hibernate.annotations.AnyMetaDef;
 import org.hibernate.annotations.MetaValue;
 
-@MappedSuperclass
+@Entity
+@Table(name="ACTIVITY")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Activity {
+	
+	@Id
+	@GeneratedValue
+	@Column(name="ID")
+	private int id;
 	
 	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="USER_ID")
@@ -30,6 +37,14 @@ public class Activity {
 	
 	@Column(name="DATE_CREATED")
 	private Date createdOn;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public User getCreatedBy() {
 		return createdBy;

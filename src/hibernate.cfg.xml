@@ -17,5 +17,6 @@
 		<mapping class="it3191.companion.dto.StudyGroup" />
 		<mapping class="it3191.companion.dto.Activity" />
 		<mapping class="it3191.companion.dto.Resource" />
+		<mapping class="it3191.companion.dto.Comment" />
 	</session-factory>
 </hibernate-configuration>

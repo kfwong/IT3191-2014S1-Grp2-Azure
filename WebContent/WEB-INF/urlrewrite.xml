@@ -65,6 +65,21 @@
     </rule>
     
     <rule>
+        <from>^/comment/publish$</from>
+        <to>/CommentPublish</to>
+    </rule>
+    
+    <rule>
+        <from>^/comment/view$</from>
+        <to>/CommentView</to>
+    </rule>
+    
+    <rule>
+        <from>^/log/view$</from>
+        <to>/pages/log.jsp</to>
+    </rule>
+    
+    <rule>
         <from>^/study-group$</from>
         <to>/pages/study-group.jsp</to>
     </rule>
