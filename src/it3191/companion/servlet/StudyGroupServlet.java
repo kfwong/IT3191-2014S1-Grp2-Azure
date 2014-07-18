@@ -7,7 +7,9 @@ import it3191.companion.dto.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -61,8 +63,28 @@ public class StudyGroupServlet extends HttpServlet {
 				StudyGroupDao dao = new StudyGroupDao();
 				sg = dao.get(id);
 				
+				Map<String, Object> studyGroup = new HashMap<String, Object>();
+				studyGroup.put("id", sg.getId());
+				studyGroup.put("title", sg.getTitle());
+				studyGroup.put("start", sg.getStart());
+				studyGroup.put("end", sg.getEnd());
+				studyGroup.put("allDay", sg.isAllDay());
+				
+				List<Map<String, String>> participants = new ArrayList<Map<String, String>>();
+				for(User user : sg.getParticipants()){
+					Map<String, String> participant = new HashMap<String, String>();
+					participant.put("id", Integer.toString(user.getId()));
+					participant.put("firstName", user.getFirstName());
+					participant.put("lastName", user.getLastName());
+					participant.put("email", user.getEmail());
+					
+					participants.add(participant);
+				}
+				
+				studyGroup.put("participants", participants);
+				
 				Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-				String json = gson.toJson(sg);
+				String json = gson.toJson(studyGroup);
 				
 				response.setContentType("application/json");
 				PrintWriter out = response.getWriter();
