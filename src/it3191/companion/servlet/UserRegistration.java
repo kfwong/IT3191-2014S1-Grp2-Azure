@@ -72,8 +72,14 @@ public class UserRegistration extends HttpServlet {
 				user.setEmail(fbUser.getEmail());
 				user.setGender(fbUser.getGender());
 				//testing rbac
-				user.setRole(Role.ADMIN);
-
+				if(user.getEmail().equals("admin@gmail.com")){
+					user.setRole(Role.ADMIN);
+				}
+				else{
+					user.setRole(Role.REGULAR);
+				}
+				//end of testing
+				
 				if (userDao.isExist(user)) {
 					response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
 				} else {
