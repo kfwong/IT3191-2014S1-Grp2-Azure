@@ -49,4 +49,16 @@
     <param-name>logout</param-name>
     <param-value>Log out successfully.</param-value>
   </context-param>
+    <context-param>
+  	<param-name>successfully_update</param-name>
+  	<param-value>Password Successfully! Updated</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>failure_update</param-name>
+  	<param-value>Update Failure! Please try again</param-value>
+  </context-param>
+  <context-param>
+  <param-name>email_check</param-name>
+  <param-value>Please check your email for the verification link</param-value>
+  </context-param>
 </web-app>

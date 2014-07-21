@@ -1,7 +1,9 @@
 package it3191.companion.servlet;
 
 import it3191.companion.dao.UserDao;
+
 import it3191.companion.dto.User;
+import it3191.companion.util.Email;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -42,6 +44,7 @@ public class ForgetPassword extends HttpServlet {
     	}
     	else{
     		response.getWriter().println("User can reset the password");
+    		
     	}
     		
     	
@@ -73,8 +76,16 @@ public class ForgetPassword extends HttpServlet {
 						
 						user.setForgetPasswordSessionKey(forgotPasswordSessionKey);
 						userDao.saveOrUpdate(user);
-						
+						Email emailuser=new Email();
+			    		emailuser.setFrom("Companion@example.com");
+			    		emailuser.setMessage("Thank you for using Companion. Please click on this link to reset your password.<a href=\"http://localhost:8080/IT3191-2014S1-Grp2-Azure/password-reset.jsp?sessionKey="+forgotPasswordSessionKey+"\">Click Here</a> ");
+			    		emailuser.setSubject("Reset Your Password");
+			    		emailuser.setTo(user.getEmail());
+						emailuser.send();
 						System.out.println(this.getServletContext().getContextPath()+"/ForgetPassword?sessionKey="+forgotPasswordSessionKey);
+						
+						response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=email_check");
+						
 					} catch (NoSuchAlgorithmException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -93,12 +104,7 @@ public class ForgetPassword extends HttpServlet {
 		
 		
 		
-		//2)Check the security question whether its 1 ,2 ,3 
-		//3) Check the answer whether it is correct
-		//4) If everything is alright generate session key
-		//5) Store the session key in the store the session key variable update user profile
-		//6) Generate the special key with link and send it to the user email
-		//7)
+		
 		
 		
 	}

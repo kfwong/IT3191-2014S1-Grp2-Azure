@@ -33,62 +33,33 @@
 		            <span>${initParam[param.info]}</span>
 		        </div>
 			</c:if>
-            <div class="header">Register New Membership</div>
-            <form id="form" action="UserRegistration" method="post" autocomplete='off'>
+            <div class="header">Please Answer the Security Question</div>
+            <form id="form" action="ForgetPassword" method="post" autocomplete='off'>
                 <div class="body bg-gray">
-                    <div class="form-group">
-                        <input type="text" id="firstname" name="firstname" class="form-control" placeholder="First name" />
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Last name" >
-                    </div>
                     <div class="form-group">
                         <input type="email" id="email" name="email" class="form-control" placeholder="Email" />
                     </div>
-                     <div class="form-group">
-	                    <input type="text" id="handphone" name="handphone" class="form-control" placeholder="Handphone Number"/>
-	                 </div>
                     <div class="form-group">
-                        <input type="password" id="password" name="password" class="form-control" placeholder="Password"/>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" id="password2" name="password2" class="form-control" placeholder="Retype password"/>
-                    </div>
-                    <div class="form-group">
-                    <select name="securityquestion" id="securityquestion" name="securityquestion" class="form-control">
-                    <option value="" disabled selected>Please Choose A Security Question--</option>
-    				<option value="1">What is the name of your childhood friend? </option>
-    				<option value="2">What is the name of your primary school?</option>
-    				<option value="3">What is your preferred musical genre? </option>
-    				<option value="4">What are the last 5 digits of your NRIC?</option>
-    				<option value="5">What was your dream job as a child?</option>
-  					</select>
+	                    <select name="securityquestion" id="securityquestion" name="securityquestion" class="form-control">
+		    				<option value="1">What is the name of your childhood friend? </option>
+		    				<option value="2">What is the name of your primary school?</option>
+		    				<option value="3">What is your preferred musical genre? </option>
+		    				<option value="4">What are the last 5 digits of your NRIC?</option>
+		    				<option value="5">What was your dream job as a child?</option>
+	    				</select>					
                     </div>
                     <div class="form-group">
                         <input type="text" id="answer" name="answer" class="form-control" placeholder="Answer"/>
                     </div>
-                    <%
-         			 ReCaptcha c = ReCaptchaFactory.newReCaptcha("6LduAvYSAAAAAKA9nbwujKUPIwrrmrf1tFVG5wb4", "6LduAvYSAAAAAGto0ISKfxATI9iATrIrbCX1jQlz", false);
-          			out.print(c.createRecaptchaHtml(null, null));
-       				 %>
-	                 
+                    
+	                 <button type="submit"  value="normal" class="btn bg-olive btn-block">Confirm</button>
                 </div>
-                <div class="footer">                    
-
-                    <button type="submit" name="type" value="normal" class="btn bg-olive btn-block">Sign me up</button>
-
-                    <a href="login" class="text-center">I already have a membership</a>
+                 <div class="footer">                    
+                    <a href="login" class="text-center">Return to login</a>
                 </div>
+                
             </form>
-            <form action="UserRegistration" method="post">
-            	<div class="margin text-center">
-	                <span>Register using social networks</span>
-	                <br/>
-	               	<button type="submit" name="type" value="facebook" class="btn bg-light-blue btn-circle"><i class="fa fa-facebook"></i></button>
-	                <button class="btn bg-aqua btn-circle"><i class="fa fa-twitter"></i></button>
-	                <button class="btn bg-red btn-circle"><i class="fa fa-google-plus"></i></button>
-	            </div>
-            </form>
+         
         </div>
 
 
