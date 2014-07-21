@@ -71,15 +71,7 @@ public class UserRegistration extends HttpServlet {
 				user.setLastName(fbUser.getLastName());
 				user.setEmail(fbUser.getEmail());
 				user.setGender(fbUser.getGender());
-				//testing rbac
-				if(user.getEmail().equals("admin@gmail.com")){
-					user.setRole(Role.ADMIN);
-				}
-				else{
-					user.setRole(Role.REGULAR);
-				}
-				//end of testing
-				
+								
 				if (userDao.isExist(user)) {
 					response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
 				} else {
@@ -121,6 +113,15 @@ public class UserRegistration extends HttpServlet {
 					user.setSalt(Base64.encode(Hash.getNextSalt()));
 					user.setSecurityQuestion(Integer.parseInt(request.getParameter("securityquestion")));
 					user.setAnswer(request.getParameter("answer"));
+					
+					//testing rbac
+					if(user.getEmail().equals("admin@gmail.com")){
+						user.setRole(Role.ADMIN);
+					}
+					else{
+						user.setRole(Role.REGULAR);
+					}
+					//end of testing
 
 					if (userDao.isExist(user)) {
 						response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
