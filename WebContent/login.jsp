@@ -45,7 +45,7 @@
                 <div class="footer">                                                               
                     <button type="submit" name="type" value="normal" class="btn bg-olive btn-block">Sign me in</button>  
                     
-                    <p><a href="forget-password.jsp" >I forgot my password</a></p>
+                    <p><a href="reset-password.jsp" >I forgot my password</a></p>
                     
                     <a href="register" class="text-center">Register a new membership</a>
                 </div>

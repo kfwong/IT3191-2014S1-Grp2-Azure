@@ -33,26 +33,22 @@
 		            <span>${initParam[param.info]}</span>
 		        </div>
 			</c:if>
-            <div class="header">Please Answer the Security Question</div>
-            <form id="form" action="ForgetPassword" method="post">
+            <div class="header">Reset Your Password</div>
+            <form id="form" action="ResetPassword" method="post" autocomplete='off'>
                 <div class="body bg-gray">
+                 <div class="form-group">
+                 <input type="hidden" name="sessionKey" value="${param['sessionKey']}"/>
+                 </div>
                     <div class="form-group">
-                        <input type="email" id="email" name="email" class="form-control" placeholder="Email" />
+                        <input type="password" id="password" name="password" class="form-control" placeholder="New password"/>
                     </div>
                     <div class="form-group">
-	                    <select name="securityquestion" id="securityquestion" name="securityquestion" class="form-control">
-		    				<option value="1">What is the name of your childhood friend? </option>
-		    				<option value="2">What is the name of your primary school?</option>
-		    				<option value="3">What is your preferred musical genre? </option>
-		    				<option value="4">What are the last 5 digits of your NRIC?</option>
-		    				<option value="5">What was your dream job as a child?</option>
-	    				</select>					
+                        <input type="password" id="password2" name="password2" class="form-control" placeholder="Retype new password"/>
                     </div>
-                    <div class="form-group">
-                        <input type="text" id="answer" name="answer" class="form-control" placeholder="Answer"/>
-                    </div>
-                    
 	                 <button type="submit"  value="normal" class="btn bg-olive btn-block">Confirm</button>
+                </div>
+                 <div class="footer">                    
+                    <a href="login" class="text-center">Return to login</a>
                 </div>
                 
             </form>
@@ -71,9 +67,9 @@
         });
        	$( "#form" ).validate({
        		rules: {
-       			firstname: "required",
-       			lastname: "required",
-       			answer: "required",
+       			
+       			password: "required",
+       			password2: "required",
        			email: {
        				required: true,
        				email: true
