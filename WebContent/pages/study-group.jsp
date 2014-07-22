@@ -107,11 +107,12 @@
 			      <div class="modal-footer">
 			     	<button type="button" class="btn btn-default pull-left delete-button">Delete</button>
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-default join-button" name="participant">Join</button>					  
+					<button type="button" class="btn btn-default join-button">Join</button>					  
 			        <button type="submit" class="btn btn-primary confirm-edit-button">Save</button>
 			      </div>
 			      <input type="hidden" name="action" value="edit"/>
 			      <input type="hidden" class="id" name="id" value=""/>
+			      <input type="hidden" class="participant" name="participant" value=""/>			      
 				</form>
 		    </div><!-- /.modal-content -->
 		  </div><!-- /.modal-dialog -->
@@ -222,6 +223,7 @@
                     
                     dayClick: function(date, jsEvent, view) {
         				
+                    	
         		        $(".create-modal").modal();
         		        $(".start-date").val(date.format("YYYY-MM-DD"));
         		        $(".start").val(date.format("YYYY-MM-DD HH:mm:ss"));
@@ -241,11 +243,14 @@
         						$(".end").val(json.end);
         						$(".participants").dataTable({
         							destroy: true,
+        							"language": {
+        							      "emptyTable": "There are no participants in this study group"
+        							},
         							"data": json.participants,
         							columns: [
-        							            { "data": "firstName" },
-        							            { "data": "lastName" },
-        							            { "data": "email"}
+        							            { "data": "firstName", "width": "30%" },
+        							            { "data": "lastName", "width": "30%" },
+        							            { "data": "email", "width": "40%"}
         							]
         						});
         						
@@ -304,7 +309,12 @@
 				});
 				
 				$(".join-button").on("click", function(event){
-				  	$(this).val("participant");
+					if($(".participant").val() == "participant") {
+						$(".participant").val("");
+					}
+					else{
+						$(".participant").val("participant");
+					}	
 				});
 				
 				$('.start-date').datetimepicker({

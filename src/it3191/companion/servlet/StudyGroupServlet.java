@@ -147,12 +147,6 @@ String action = request.getParameter("action");
 				String end = request.getParameter("end");
 				String allDay = request.getParameter("allDay");
 				String participant = request.getParameter("participant");
-				//int contactId = Integer.parseInt(request.getParameter("contact"));
-				
-				//Contact contact = new Contact();
-				
-				//ContactDao cd = new ContactDao();
-				//contact = cd.get(contactId);
 				
 				StudyGroupDao dao = new StudyGroupDao();
 				StudyGroup sd = dao.get(id);
@@ -162,12 +156,22 @@ String action = request.getParameter("action");
 				sd.setEnd(end);
 				sd.setAllDay(allDay);
 				
-				List<User> participantList = sd.getParticipants(); 
-				User user = (User) request.getSession().getAttribute("user");
-				participantList.add(user);
-				sd.setParticipants(participantList);
-				//sd.setContact(contact);
-				
+				if(participant != null && participant.equals("participant")){
+					boolean containsUser = false;
+					List<User> participantList = sd.getParticipants(); 
+					User user = (User) request.getSession().getAttribute("user");
+					for(User eachParticipant : participantList){
+						if(eachParticipant.getId() == user.getId()){
+							containsUser = true;
+							break;
+						}
+					}
+					if(!containsUser){
+						participantList.add(user);
+						sd.setParticipants(participantList);
+					}
+				}
+					
 				dao.saveOrUpdate(sd);
 			}
 			if(action.equals("delete")){
