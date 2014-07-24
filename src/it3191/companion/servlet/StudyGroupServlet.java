@@ -1,13 +1,16 @@
 package it3191.companion.servlet;
 
 import it3191.companion.dao.StudyGroupDao;
+import it3191.companion.dao.UserDao;
 import it3191.companion.dto.StudyGroup;
 import it3191.companion.dto.User;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -61,8 +64,28 @@ public class StudyGroupServlet extends HttpServlet {
 				StudyGroupDao dao = new StudyGroupDao();
 				sg = dao.get(id);
 				
+				Map<String, Object> studyGroup = new HashMap<String, Object>();
+				studyGroup.put("id", sg.getId());
+				studyGroup.put("title", sg.getTitle());
+				studyGroup.put("start", sg.getStart());
+				studyGroup.put("end", sg.getEnd());
+				studyGroup.put("allDay", sg.isAllDay());
+				
+				List<Map<String, String>> participants = new ArrayList<Map<String, String>>();
+				for(User user : sg.getParticipants()){
+					Map<String, String> participant = new HashMap<String, String>();
+					participant.put("id", Integer.toString(user.getId()));
+					participant.put("firstName", user.getFirstName());
+					participant.put("lastName", user.getLastName());
+					participant.put("email", user.getEmail());
+					
+					participants.add(participant);
+				}
+				
+				studyGroup.put("participants", participants);
+				
 				Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-				String json = gson.toJson(sg);
+				String json = gson.toJson(studyGroup);
 				
 				response.setContentType("application/json");
 				PrintWriter out = response.getWriter();
@@ -124,30 +147,32 @@ String action = request.getParameter("action");
 				String start = request.getParameter("start");
 				String end = request.getParameter("end");
 				String allDay = request.getParameter("allDay");
-				String participant = request.getParameter("participant");
-				//int contactId = Integer.parseInt(request.getParameter("contact"));
+				String participantStr = request.getParameter("participant");
 				
-				//Contact contact = new Contact();
-				
-				//ContactDao cd = new ContactDao();
-				//contact = cd.get(contactId);
-				
-				StudyGroup sd = new StudyGroup();
+				StudyGroupDao dao = new StudyGroupDao();
+				StudyGroup sd = dao.get(id);
 				sd.setId(id);
 				sd.setTitle(title);
 				sd.setStart(start);
 				sd.setEnd(end);
 				sd.setAllDay(allDay);
-				List<User> participantList = new ArrayList<User>(); 
+
+				List<User> participantList = sd.getParticipants();
 				User user = (User) request.getSession().getAttribute("user");
-				participantList.add(user);
-				sd.setParticipant(participantList);
-				//sd.setContact(contact);
 				
-				System.out.println("List of participants: " + participantList.get(0).getFirstName());
-				
-				StudyGroupDao dao = new StudyGroupDao();
-				dao.saveOrUpdate(sd);
+				if(participantStr == null){
+					//do nothing for now
+				}
+				else{
+					if(participantStr.equals("true")){
+						sd.addParticipant(user);
+					}
+					else if(participantStr.equals("false")){
+						sd.removeParticipant(user);
+					}
+				}
+					
+ 				dao.saveOrUpdate(sd);
 			}
 			if(action.equals("delete")){
 				int id  = Integer.parseInt(request.getParameter("id"));

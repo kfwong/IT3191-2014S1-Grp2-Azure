@@ -4,6 +4,7 @@
     <head>
     	<!-- header fragment -->
     	<jsp:include page="../WEB-INF/header.jspf" />
+    	<link href="${pageContext.servletContext.contextPath}/css/study-group.css" rel="stylesheet" type="text/css" />
     </head>
     <body class="skin-blue">
         <!-- navigation top fragment -->
@@ -49,7 +50,7 @@
 
         <!-- Modal-view -->
 		<div class="modal view-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		  <div class="modal-dialog">
+		  <div class="modal-dialog modal-lg">
 		    <div class="modal-content">
 				<form role="form" method="post" action="StudyGroupServlet">
 			      <div class="modal-header">
@@ -69,7 +70,7 @@
 					</div>
 					-->		
 					<div class="checkbox">
-					    <label class="allDay">
+					    <label>
 					      <input class="allDay" type="checkbox" name="allDay" value="true" checked> All day event
 					    </label>
 					</div>
@@ -92,15 +93,26 @@
 						  	<input type="text" class="form-control end" id="end" name = "end" required>
 						</div>
 					</div>
+					<label for="participants">Participants</label><br/>
+					<table class="participants table table-hover table-striped table-bordered" width="100%">
+						<thead>
+				            <tr>
+				                <th>First Name</th>
+				                <th>Last Name</th>
+				                <th>Email</th>
+				            </tr>
+				        </thead>
+				    </table>
 			      </div>
 			      <div class="modal-footer">
 			     	<button type="button" class="btn btn-default pull-left delete-button">Delete</button>
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-default join-button" name="participant">Join</button>					  
+					<button type="button" class="btn btn-default join-button">Join</button>					  
 			        <button type="submit" class="btn btn-primary confirm-edit-button">Save</button>
 			      </div>
 			      <input type="hidden" name="action" value="edit"/>
 			      <input type="hidden" class="id" name="id" value=""/>
+			      <input type="hidden" class="participant" name="participant" value=""/>			      
 				</form>
 		    </div><!-- /.modal-content -->
 		  </div><!-- /.modal-dialog -->
@@ -128,7 +140,7 @@
 					</div>
 					 -->
 					<div class="checkbox">
-					    <label class="allDay">
+					    <label>
 					      <input class="allDay" type="checkbox" name="allDay" value="true" checked> All day event
 					    </label>
 					</div>
@@ -210,7 +222,8 @@
                     ],
                     
                     dayClick: function(date, jsEvent, view) {
-        				
+                    	$(".title").val("");
+                    	
         		        $(".create-modal").modal();
         		        $(".start-date").val(date.format("YYYY-MM-DD"));
         		        $(".start").val(date.format("YYYY-MM-DD HH:mm:ss"));
@@ -228,9 +241,21 @@
         						$(".start-date").val(moment(json.start).format("YYYY-MM-DD"));
         						$(".start").val(json.start);
         						$(".end").val(json.end);
+        						$(".participants").dataTable({
+        							destroy: true,
+        							"language": {
+        							      "emptyTable": "There are no participants in this study group"
+        							},
+        							"data": json.participants,
+        							columns: [
+        							            { "data": "firstName", "width": "30%" },
+        							            { "data": "lastName", "width": "30%" },
+        							            { "data": "email", "width": "40%"}
+        							]
+        						});
         						
-        						$('.contact option[value="' + json.volunteer.id + '"]').attr("selected", true);
-        						$('.contact').trigger("chosen:updated");
+        						//$('.contact option[value="' + json.volunteer.id + '"]').attr("selected", true);
+        						//$('.contact').trigger("chosen:updated");      						
         						
         						if(json.allDay == true){
         							$(".allDay").prop("checked", true);
@@ -241,7 +266,7 @@
         							$(".allDay").prop("checked", false);
         							$(".date-time").removeClass("hide");
         							$(".date").addClass("hide");
-        						}	
+        						}					
         		    		}
         		    	});
         		    }, 
@@ -284,7 +309,12 @@
 				});
 				
 				$(".join-button").on("click", function(event){
-				  	$(this).val("participant");
+					if($(".participant").val() == "true") {
+						$(".participant").val("false");
+					}
+					else{
+						$(".participant").val("true");
+					}	
 				});
 				
 				$('.start-date').datetimepicker({

@@ -69,7 +69,7 @@ public class UserLogin extends HttpServlet {
                 if(userDao.isExist(user)){
                     user = userDao.authenticate(fbUser.getId());
                     request.getSession().setAttribute("user", user);
-                    response.sendRedirect(this.getServletContext().getContextPath() + "/dashboard");
+                    response.sendRedirect(this.getServletContext().getContextPath());
                 }else{                  
                     response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=login_failed");
                 }               
@@ -104,7 +104,7 @@ public class UserLogin extends HttpServlet {
                         response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=login_failed");
                     }else{
                         request.getSession().setAttribute("user", user);
-                        response.sendRedirect(this.getServletContext().getContextPath() + "/dashboard");
+                        response.sendRedirect(this.getServletContext().getContextPath());
                     }
                     
                 }else{

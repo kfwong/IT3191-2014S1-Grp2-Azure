@@ -1,7 +1,7 @@
 package it3191.companion.servlet;
 
 import it3191.companion.dao.UserDao;
-
+import it3191.companion.dto.Role;
 import it3191.companion.dto.User;
 import it3191.companion.util.Hash;
 
@@ -20,6 +20,7 @@ import org.apache.commons.io.IOUtils;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
+
 import net.tanesha.recaptcha.ReCaptchaImpl;
 import net.tanesha.recaptcha.ReCaptchaResponse;
 
@@ -70,7 +71,7 @@ public class UserRegistration extends HttpServlet {
 				user.setLastName(fbUser.getLastName());
 				user.setEmail(fbUser.getEmail());
 				user.setGender(fbUser.getGender());
-
+								
 				if (userDao.isExist(user)) {
 					response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
 				} else {
@@ -112,6 +113,15 @@ public class UserRegistration extends HttpServlet {
 					user.setSalt(Base64.encode(Hash.getNextSalt()));
 					user.setSecurityQuestion(Integer.parseInt(request.getParameter("securityquestion")));
 					user.setAnswer(request.getParameter("answer"));
+					
+					//testing rbac
+					if(user.getEmail().equals("admin@gmail.com")){
+						user.setRole(Role.ADMIN);
+					}
+					else{
+						user.setRole(Role.REGULAR);
+					}
+					//end of testing
 
 					if (userDao.isExist(user)) {
 						response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");

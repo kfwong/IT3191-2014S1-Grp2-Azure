@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -16,6 +18,10 @@ public class User {
 	@GeneratedValue
 	@Column(name = "ID")
 	private int id;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "ROLE")
+	private Role role;
 
 	@Column(name = "FIRST_NAME")
 	private String firstName;
@@ -168,6 +174,48 @@ public class User {
 	public void setForgetPasswordSessionKey(String forgetPasswordSessionKey) {
 		this.forgetPasswordSessionKey = forgetPasswordSessionKey;
 	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
 	
+	public boolean isRole(Role role){
+		if(this.role == role){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 	
+	public boolean isAdmin(){
+		if(this.role == Role.ADMIN){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	public boolean isRegular(){
+		if(this.role == Role.REGULAR){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	public boolean isGuest(){
+		if(this.role == Role.GUEST){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 }
