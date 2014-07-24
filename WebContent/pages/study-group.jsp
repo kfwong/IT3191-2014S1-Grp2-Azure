@@ -222,7 +222,7 @@
                     ],
                     
                     dayClick: function(date, jsEvent, view) {
-        				
+                    	$(".title").val("");
                     	
         		        $(".create-modal").modal();
         		        $(".start-date").val(date.format("YYYY-MM-DD"));
@@ -266,7 +266,7 @@
         							$(".allDay").prop("checked", false);
         							$(".date-time").removeClass("hide");
         							$(".date").addClass("hide");
-        						}	
+        						}					
         		    		}
         		    	});
         		    }, 
