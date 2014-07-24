@@ -39,8 +39,10 @@ public class StudyGroup {
 	@Column(name="ALL_DAY")
 	private boolean allDay;
 	
-	@OneToMany(fetch = FetchType.EAGER)
-	@Column(name="PARTICIPANT")
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "STUDY_GROUP_PARTICIPANT", joinColumns = { 
+			@JoinColumn(name = "STUDY_GROUP_ID")}, 
+			inverseJoinColumns = { @JoinColumn(name = "PARTICIPANT_ID") })
 	private List<User> participants;
 
 	public int getId() {
@@ -114,5 +116,49 @@ public class StudyGroup {
 
 	public void setParticipants(List<User> participants) {
 		this.participants = participants;
+	}
+	
+	public boolean isParticipantExist(User user){
+		boolean participantExist = false;
+		
+		for(User participant:participants){
+			if(participant.getId() == user.getId()){
+				participantExist = true;
+				break;
+			}
+			else{
+				participantExist = false;
+				break;
+			}
+		}
+		
+		return participantExist;
+	}
+	
+	public boolean addParticipant(User user){
+		boolean success = false;
+		
+		if(!isParticipantExist(user)){
+			participants.add(user);
+			success = true;
+		}
+		
+		return success;
+	}
+	
+	public boolean removeParticipant(User user){
+		boolean success = false;
+		
+		if(isParticipantExist(user)){
+			for(User participant:participants){
+				if(participant.getId() == user.getId()){
+					participant = null;
+					success = true;
+					break;
+				}
+			}
+		}
+		
+		return success;
 	}
 }

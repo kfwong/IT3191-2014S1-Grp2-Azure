@@ -1,6 +1,7 @@
 package it3191.companion.servlet;
 
 import it3191.companion.dao.StudyGroupDao;
+import it3191.companion.dao.UserDao;
 import it3191.companion.dto.StudyGroup;
 import it3191.companion.dto.User;
 
@@ -146,7 +147,7 @@ String action = request.getParameter("action");
 				String start = request.getParameter("start");
 				String end = request.getParameter("end");
 				String allDay = request.getParameter("allDay");
-				String participant = request.getParameter("participant");
+				String participantStr = request.getParameter("participant");
 				
 				StudyGroupDao dao = new StudyGroupDao();
 				StudyGroup sd = dao.get(id);
@@ -155,21 +156,15 @@ String action = request.getParameter("action");
 				sd.setStart(start);
 				sd.setEnd(end);
 				sd.setAllDay(allDay);
+
+				List<User> participantList = sd.getParticipants();
+				User user = (User) request.getSession().getAttribute("user");
 				
-				if(participant != null && participant.equals("participant")){
-					boolean containsUser = false;
-					List<User> participantList = sd.getParticipants(); 
-					User user = (User) request.getSession().getAttribute("user");
-					for(User eachParticipant : participantList){
-						if(eachParticipant.getId() == user.getId()){
-							containsUser = true;
-							break;
-						}
-					}
-					if(!containsUser){
-						participantList.add(user);
-						sd.setParticipants(participantList);
-					}
+				if(participantStr != null && participantStr.equals("participant")){
+					sd.addParticipant(user);
+				}
+				else{
+					sd.removeParticipant(user);
 				}
 					
 				dao.saveOrUpdate(sd);
