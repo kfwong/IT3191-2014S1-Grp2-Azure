@@ -150,9 +150,10 @@ public class StudyGroup {
 		boolean success = false;
 		
 		if(isParticipantExist(user)){
-			for(User participant:participants){
+			for(int i=0; i<participants.size(); i++){
+				User participant = participants.get(i);
 				if(participant.getId() == user.getId()){
-					participant = null;
+					participants.remove(i);
 					success = true;
 					break;
 				}

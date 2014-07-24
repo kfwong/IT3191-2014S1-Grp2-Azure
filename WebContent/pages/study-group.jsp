@@ -309,11 +309,11 @@
 				});
 				
 				$(".join-button").on("click", function(event){
-					if($(".participant").val() == "participant") {
-						$(".participant").val("");
+					if($(".participant").val() == "true") {
+						$(".participant").val("false");
 					}
 					else{
-						$(".participant").val("participant");
+						$(".participant").val("true");
 					}	
 				});
 				

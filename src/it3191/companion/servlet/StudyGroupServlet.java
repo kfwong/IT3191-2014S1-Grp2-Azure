@@ -160,14 +160,19 @@ String action = request.getParameter("action");
 				List<User> participantList = sd.getParticipants();
 				User user = (User) request.getSession().getAttribute("user");
 				
-				if(participantStr != null && participantStr.equals("participant")){
-					sd.addParticipant(user);
+				if(participantStr == null){
+					//do nothing for now
 				}
 				else{
-					sd.removeParticipant(user);
+					if(participantStr.equals("true")){
+						sd.addParticipant(user);
+					}
+					else if(participantStr.equals("false")){
+						sd.removeParticipant(user);
+					}
 				}
 					
-				dao.saveOrUpdate(sd);
+ 				dao.saveOrUpdate(sd);
 			}
 			if(action.equals("delete")){
 				int id  = Integer.parseInt(request.getParameter("id"));
