@@ -70,7 +70,7 @@
     
     <rule>
         <from>^/study-group$</from>
-        <to>/pages/study-group.jsp</to>
+        <to>/StudyGroupServlet</to>
     </rule>
     
     <rule>
@@ -95,6 +95,6 @@
     
     <rule>
         <from>^/user-management$</from>
-        <to>/pages/admin/user-management.jsp</to>
+        <to>UserManagementServlet</to>
     </rule>
 </urlrewrite>

@@ -39,6 +39,16 @@
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
+  <filter>
+    <filter-name>HtmlCompressorFilter</filter-name>
+    <filter-class>it3191.companion.filter.HtmlCompressorFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>HtmlCompressorFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
   <context-param>
     <param-name>registration_successful</param-name>
     <param-value>Registered successfully! Please proceed to login.</param-value>

@@ -52,7 +52,7 @@
 		<div class="modal view-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog modal-lg">
 		    <div class="modal-content">
-				<form role="form" method="post" action="StudyGroupServlet">
+				<form role="form" method="post" action="study-group">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			        <h4 class="modal-title" id="myModalLabel">Event details</h4>
@@ -122,7 +122,7 @@
 		<div class="modal create-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
-				<form role="form" method="post" action="StudyGroupServlet">
+				<form role="form" method="post" action="study-group">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			        <h4 class="modal-title" id="myModalLabel">Create event</h4>
@@ -178,7 +178,7 @@
 		<div class="modal delete-modal bs-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog modal-sm">
 		    <div class="modal-content">
-		    	<form role="form" method="post" action="CalendarFoodDriveServlet">
+		    	<form role="form" method="post" action="study-group">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			        <h4 class="modal-title" id="myModalLabel">Delete events</h4>
@@ -213,7 +213,7 @@
                     
                     eventSources: [
 						{
-							url: "StudyGroupServlet?action=getCalendar",
+							url: "study-group?action=getCalendar",
 						},
 						{
 							url: "https://www.google.com/calendar/feeds/amuletxheart%40gmail.com/public/basic",
@@ -223,6 +223,9 @@
                     
                     dayClick: function(date, jsEvent, view) {
                     	$(".title").val("");
+                    	$(".allDay").prop("checked", true);
+						$(".date").removeClass("hide");
+						$(".date-time").addClass("hide");
                     	
         		        $(".create-modal").modal();
         		        $(".start-date").val(date.format("YYYY-MM-DD"));
@@ -233,7 +236,8 @@
         		    eventClick: function(calEvent, jsEvent, view) {
         		    	$.ajax({
         		    		type: "GET",
-        		    		url: "StudyGroupServlet?action=view&id=" + calEvent.id,
+        		    		dataType: "json",
+        		    		url: "study-group?action=view&id=" + calEvent.id,
         		    		success: function(json){
         						$(".view-modal").modal();
         						$(".id").val(json.id);
@@ -273,7 +277,8 @@
         		    eventDrop: function(event, revertFunc) {
         		    	$.ajax({
         		    		type: "POST",
-        		    		url: "StudyGroupServlet",
+        		    		dataType: "json",
+        		    		url: "study-group",
         		    		data: {
         		    			action:"edit",
         		    	        id: event.id,
@@ -317,6 +322,27 @@
 					}	
 				});
 				
+				$(".delete-button").on("click", function(){
+		        	$(".delete-modal").modal();
+		 
+		        });
+				
+				$('.delete-modal').on('show.bs.modal', function() {
+		        	$('.view-modal').css('filter', 'brightness(50%)');
+		            $('.view-modal').css('-webkit-filter', 'brightness(50%)');
+		            $('.view-modal').css('-moz-transition', 'brightness(50%)');
+		            $('.view-modal').css('-ms-transition', 'brightness(50%)');
+		            $('.view-modal').css('-o-transition', 'brightness(50%)');
+		        });
+		        
+		        $('.delete-modal').on('hide.bs.modal', function() {
+		        	$('.view-modal').css('filter', 'brightness(100%)');
+		        	$('.view-modal').css('-webkit-filter', 'brightness(100%)');
+		        	$('.view-modal').css('-moz-transition', 'brightness(100%)');
+		        	$('.view-modal').css('-ms-transition', 'brightness(100%)');
+		        	$('.view-modal').css('-o-transition', 'brightness(100%)');
+		        });
+
 				$('.start-date').datetimepicker({
 		        	
 		            format:'Y-m-d',
