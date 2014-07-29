@@ -71,10 +71,12 @@ public class UserLogin extends HttpServlet {
                 if(userDao.isExist(user)){
                     user = userDao.authenticate(fbUser.getId());
                     request.getSession().setAttribute("user", user);
+
                     log.info("Client with email \""+user.getEmail()+"\" and Facebook ID " + user.getFacebookId() +" login successfully"+".");
                     response.sendRedirect(this.getServletContext().getContextPath() + "/dashboard");
                 }else{
                 	log.warn("Client failed to login with invalid Facebook ID \"" + user.getFacebookId() + "\".");
+
                     response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=login_failed");
                 }               
             } catch (NullPointerException ex) {
@@ -112,6 +114,7 @@ public class UserLogin extends HttpServlet {
                         response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=login_failed");
                     }else{
                         request.getSession().setAttribute("user", user);
+
                     	log.info("Client from " + request.getRemoteAddr() +" login successfully using email \""+request.getParameter("email")+"\".");
                         response.sendRedirect(this.getServletContext().getContextPath() + "/dashboard");
                     }

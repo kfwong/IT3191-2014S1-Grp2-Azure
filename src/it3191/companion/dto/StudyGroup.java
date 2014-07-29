@@ -39,9 +39,11 @@ public class StudyGroup {
 	@Column(name="ALL_DAY")
 	private boolean allDay;
 	
-	@OneToMany(fetch = FetchType.EAGER)
-	@Column(name="PARTICIPANT")
-	private List<User> participant;
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "STUDY_GROUP_PARTICIPANT", joinColumns = { 
+			@JoinColumn(name = "STUDY_GROUP_ID")}, 
+			inverseJoinColumns = { @JoinColumn(name = "PARTICIPANT_ID") })
+	private List<User> participants;
 
 	public int getId() {
 		return id;
@@ -108,14 +110,56 @@ public class StudyGroup {
 		this.allDay = allDay;
 	}
 
-	public List<User> getParticipant() {
-		return participant;
+	public List<User> getParticipants() {
+		return participants;
 	}
 
-	public void setParticipant(List<User> participant) {
-		this.participant = participant;
+	public void setParticipants(List<User> participants) {
+		this.participants = participants;
 	}
-
 	
-
+	public boolean isParticipantExist(User user){
+		boolean participantExist = false;
+		
+		for(User participant:participants){
+			if(participant.getId() == user.getId()){
+				participantExist = true;
+				break;
+			}
+			else{
+				participantExist = false;
+				break;
+			}
+		}
+		
+		return participantExist;
+	}
+	
+	public boolean addParticipant(User user){
+		boolean success = false;
+		
+		if(!isParticipantExist(user)){
+			participants.add(user);
+			success = true;
+		}
+		
+		return success;
+	}
+	
+	public boolean removeParticipant(User user){
+		boolean success = false;
+		
+		if(isParticipantExist(user)){
+			for(int i=0; i<participants.size(); i++){
+				User participant = participants.get(i);
+				if(participant.getId() == user.getId()){
+					participants.remove(i);
+					success = true;
+					break;
+				}
+			}
+		}
+		
+		return success;
+	}
 }

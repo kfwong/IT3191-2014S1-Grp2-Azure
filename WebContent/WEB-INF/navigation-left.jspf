@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- Left side column. contains the logo and sidebar -->
 <aside class="left-side sidebar-offcanvas">
 <!-- sidebar: style can be found in sidebar.less -->
@@ -63,22 +64,24 @@
                 <li><a href="#"><i class="fa fa-angle-double-right"></i> Biology</a></li>
             </ul>
         </li>
-        <li class="treeview">
-            <a href="#">
-                <i class="fa fa-bar-chart-o"></i>
-                <span>Administrative Control</span>
-                <i class="fa fa-angle-left pull-right"></i>
-            </a>
-            <ul class="treeview-menu">
-            	<li><a href="#"><i class="fa fa-angle-double-right"></i> Site Notifications</a></li>	
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> User Management</a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> Role Management</a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> Reward Management</a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> Reviews & Complaints</a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> Activity Log</a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> Settings</a></li>
-            </ul>
-        </li>
+        <c:if test="${sessionScope.user.isAdmin()}">
+			<li class="treeview">
+	            <a href="#">
+	                <i class="fa fa-bar-chart-o"></i>
+	                <span>Administrative Control</span>
+	                <i class="fa fa-angle-left pull-right"></i>
+	            </a>
+	            <ul class="treeview-menu">
+	            	<li><a href="#"><i class="fa fa-angle-double-right"></i> Site Notifications</a></li>	
+	                <li><a href="${pageContext.servletContext.contextPath}/user-management"><i class="fa fa-angle-double-right"></i> User Management</a></li>
+	                <li><a href="#"><i class="fa fa-angle-double-right"></i> Role Management</a></li>
+	                <li><a href="#"><i class="fa fa-angle-double-right"></i> Reward Management</a></li>
+	                <li><a href="#"><i class="fa fa-angle-double-right"></i> Reviews & Complaints</a></li>
+	                <li><a href="#"><i class="fa fa-angle-double-right"></i> Activity Log</a></li>
+	                <li><a href="#"><i class="fa fa-angle-double-right"></i> Settings</a></li>
+	            </ul>
+        	</li>
+		</c:if>
     </ul>
 </section>
 <!-- /.sidebar -->

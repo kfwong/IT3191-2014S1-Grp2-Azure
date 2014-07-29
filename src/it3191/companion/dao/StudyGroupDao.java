@@ -60,5 +60,25 @@ public class StudyGroupDao implements Dao<StudyGroup> {
 		session.close();
 		
 	}
-
+	/*public boolean isParticipantOfStudyGroup(int studyGroupId, int participantId){
+	boolean isExist = true;
+	
+	SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
+	Session session = sessionFactory.openSession();
+	Criteria criteria = session.createCriteria(StudyGroup.class, "studyGroup");
+	criteria.createAlias("studyGroup.participants", "participant");
+	criteria.add(Restrictions.idEq(studyGroupId));
+	criteria.add(Restrictions.eq("participant.id", participantId));		
+	
+	if(criteria.uniqueResult() == null){
+		isExist = false;
+	}else{
+		isExist = true;
+	}
+	
+	session.close();
+	
+	return isExist;
+	}*/
+	
 }

@@ -1,6 +1,9 @@
 package it3191.companion.servlet;
 
 import it3191.companion.dao.UserDao;
+
+import it3191.companion.dto.Role;
+
 import it3191.companion.dto.User;
 import it3191.companion.util.Hash;
 
@@ -74,7 +77,7 @@ public class UserRegistration extends HttpServlet {
 				user.setLastName(fbUser.getLastName());
 				user.setEmail(fbUser.getEmail());
 				user.setGender(fbUser.getGender());
-
+								
 				if (userDao.isExist(user)) {
 					log.warn("Client failed to register with existing Facebook ID \"" + user.getFacebookId() + "\".");
 					response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
@@ -120,6 +123,15 @@ public class UserRegistration extends HttpServlet {
 					user.setSalt(Base64.encode(Hash.getNextSalt()));
 					user.setSecurityQuestion(Integer.parseInt(request.getParameter("securityquestion")));
 					user.setAnswer(request.getParameter("answer"));
+					
+					//testing rbac
+					if(user.getEmail().equals("admin@gmail.com")){
+						user.setRole(Role.ADMIN);
+					}
+					else{
+						user.setRole(Role.REGULAR);
+					}
+					//end of testing
 
 					if (userDao.isExist(user)) {
 						log.warn("Client from " + request.getRemoteAddr() +" failed to register with an existing email \""+request.getParameter("email")+"\".");
