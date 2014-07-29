@@ -81,7 +81,7 @@
 			                        <div class="box-body">
 			                            <p>${resource.description}</p>
 			                            <p class="pull-right">
-			                            	<button class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal"><i class="fa fa-comment"></i><strong>&nbsp;Comment</strong></button>
+			                            	<button class="btn btn-default btn-xs comment-view-btn" data-toggle="modal" data-target="#myModal" value="${resource.id}"><i class="fa fa-comment"></i><strong>&nbsp;Comment</strong></button>
 			                            	<a class="btn btn-default btn-xs" href="${resource.dropboxLink}"><i class="fa fa-download"></i><strong>&nbsp;Direct Download</strong></a>
 			                            	&nbsp;
 			                            	<a class="btn btn-default btn-xs dropbox-saver" href="${resource.dropboxLink}"></a>
@@ -115,40 +115,24 @@
 		        <h4 class="modal-title" id="myModalLabel">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h4>
 		      </div>
 		      <div class="modal-body">
-		      	<div class="form-group">
-                    <textarea name="comment" class="form-control" rows="3" placeholder="Comment"></textarea>
+	      		<input id="comment-activity-id" type="hidden" value="" />
+	      		<div class="form-group">
+                    <textarea id="comment-content" class="form-control" rows="3" placeholder="Comment"></textarea>
                 </div>
-                <button class="btn btn-default btn-xs pull-right"><strong>Submit</strong></button>
+                <button id="comment-submit-btn" class="btn btn-default btn-xs pull-right" "><strong>Submit</strong></button>
                 <div class="clearfix">&nbsp;</div>
                 <hr/>
 		        <div class="callout callout-info">
-		        	<p>Donec interdum, nisi ac lobortis feugiat, ante arcu condimentum lectus, eu faucibus eros erat ac nisl. Vestibulum quis urna eu nibh egestas vulputate. Aliquam eros nisi, vehicula at pharetra eget, sollicitudin in erat. Nulla facilisi. Curabitur dictum accumsan accumsan. Ut laoreet, quam a volutpat gravida, tortor mauris pulvinar ipsum, at fermentum massa ligula et magna. Aenean congue ante at arcu lacinia, eu venenatis justo tempus. </p>
+		        	<p id="resource-description"></p>
 		        	<div class="pull-left image" style="padding:5px 10px 5px 10px;">
 		            	<img src="${pageContext.servletContext.contextPath}/img/avatar3.png" class="img-circle" alt="User Image" style="width:35px;height:35px;">
 		        	</div>
-		        	<small>Kang Fei shared this not long ago.<br/><span class="time-label"><i class="fa fa-clock-o"></i>&nbsp;10 Feb. 2014</span></small>
+		        	<small><span id="resource-author"></span> shared this not long ago.<br/><span class="time-label"><i class="fa fa-clock-o"></i>&nbsp;<span id="resource-date"></</span></span></small>
                 </div>
-                <div class="callout">
-		        	<p>Quisque consectetur at metus a imperdiet. Suspendisse lectus eros, tincidunt vel sapien id, luctus semper orci. Mauris aliquet molestie sapien ac tincidunt. </p>
-		        	<div class="pull-left image" style="padding:5px 10px 5px 10px;">
-		            	<img src="${pageContext.servletContext.contextPath}/img/avatar3.png" class="img-circle" alt="User Image" style="width:35px;height:35px;">
-		        	</div>
-		        	<small>Kang Fei commented on this not long ago.<br/><span class="time-label"><i class="fa fa-clock-o"></i>&nbsp;10 Feb. 2014</span></small>
+                
+                <div id="comments">
                 </div>
-                <div class="callout">
-		        	<p>Vestibulum laoreet orci est, ut bibendum ante sodales eget. Quisque ac lacus diam. Pellentesque enim nulla, ultricies et tortor et, hendrerit vehicula turpis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id mollis lacus. Fusce ac nisl sit amet urna sodales convallis egestas quis libero. In et placerat mauris. </p>
-		        	<div class="pull-left image" style="padding:5px 10px 5px 10px;">
-		            	<img src="${pageContext.servletContext.contextPath}/img/avatar3.png" class="img-circle" alt="User Image" style="width:35px;height:35px;">
-		        	</div>
-		        	<small>Kang Fei commented on this not long ago.<br/><span class="time-label"><i class="fa fa-clock-o"></i>&nbsp;10 Feb. 2014</span></small>
-                </div>
-                <div class="callout">
-		        	<p>Praesent quis ligula aliquam, consectetur sem non, volutpat nibh. Donec porttitor justo mauris, quis imperdiet risus rhoncus in. </p>
-		        	<div class="pull-left image" style="padding:5px 10px 5px 10px;">
-		            	<img src="${pageContext.servletContext.contextPath}/img/avatar3.png" class="img-circle" alt="User Image" style="width:35px;height:35px;">
-		        	</div>
-		        	<small>Kang Fei commented on this not long ago.<br/><span class="time-label"><i class="fa fa-clock-o"></i>&nbsp;10 Feb. 2014</span></small>
-                </div> 
+
 		      </div>
 		    </div>
 		  </div>
@@ -196,6 +180,51 @@
         	tags:["red", "green", "blue"],
         	placeholder:"Tag your post for easier discovery!"
         });
+    	
+    	$('#comment-submit-btn').on('click', function(e){
+    		$(e.target).attr('disabled',true);
+    		$.ajax({
+	    		type: "POST",
+	    		url: "${pageContext.servletContext.contextPath}/comment/publish",
+	    		data: {
+	    			"activity-id": $('#comment-activity-id').val(),
+	    			"content": $('#comment-content').val()
+	    		},
+	    		success: function(comment){
+	        		$('#comment-activity-id').val($(e.target).val());
+					$('#comments').append(
+						'<div class="callout">'+
+							'<p>'+comment.content+'</p>'+
+			        		'<div class="pull-left image" style="padding:5px 10px 5px 10px;">'+
+			            	'<img src="${pageContext.servletContext.contextPath}/img/avatar3.png" class="img-circle" alt="User Image" style="width:35px;height:35px;">'+
+			        	'</div>'+
+			        	'<small>'+comment.commentedBy.firstName+ ' commented on this not long ago.<br/><span class="time-label"><i class="fa fa-clock-o"></i>&nbsp;'+comment.commentedOn+'</span></small>'
+					);
+	    		}
+	    	});
+    	});
+
+    	$('.comment-view-btn').on('click',function(e){
+    		$.ajax({
+	    		type: "GET",
+	    		url: "${pageContext.servletContext.contextPath}/comment/view",
+	    		data: {id: $(e.target).val()},
+	    		success: function(comments){
+	        		$('#comment-activity-id').val($(e.target).val());
+	    			$('#comments').empty();
+					comments.forEach(function(comment){
+						$('#comments').append(
+							'<div class="callout">'+
+								'<p>'+comment.content+'</p>'+
+				        		'<div class="pull-left image" style="padding:5px 10px 5px 10px;">'+
+				            	'<img src="${pageContext.servletContext.contextPath}/img/avatar3.png" class="img-circle" alt="User Image" style="width:35px;height:35px;">'+
+				        	'</div>'+
+				        	'<small>'+comment.commentedBy.firstName+ ' commented on this not long ago.<br/><span class="time-label"><i class="fa fa-clock-o"></i>&nbsp;'+comment.commentedOn+'</span></small>'
+						);
+					});
+	    		}
+	    	});
+    	});
     	</script>
     </body>
 </html>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+    	<File name="File" fileName="${sys:user.dir}/.IT3191-2014S1-Grp2-Azure/app.log">
+			<PatternLayout>
+				<pattern>%p %d %c{1}: %m%n</pattern>
+			</PatternLayout>
+		</File>
+    </Appenders>
+    <Loggers>
+    	<Root level="trace">
+   			<AppenderRef ref="File"/>
+	    </Root>
+    </Loggers>
+</Configuration>

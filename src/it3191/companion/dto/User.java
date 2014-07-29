@@ -10,10 +10,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 @Table(name = "USER")
 public class User {
 
+	@Expose
 	@Id
 	@GeneratedValue
 	@Column(name = "ID")
@@ -23,27 +26,34 @@ public class User {
 	@Column(name = "ROLE")
 	private Role role;
 
+	@Expose
 	@Column(name = "FIRST_NAME")
 	private String firstName;
 	
+	@Expose
 	@Column(name = "LAST_NAME")
 	private String lastName;
 
+	@Expose
 	@Column(name = "GENDER")
 	private String gender;
 
 	@Column(name = "PASSWORD_SHA1")
 	private String passwordSHA1;
 
+	@Expose
 	@Column(name = "EMAIL")
 	private String email;
 
+	@Expose
 	@Column(name = "LOCATION")
 	private String location;
 	
+	@Expose
 	@Column(name = "BIRTHDAY")
 	private Date birthday;
 	
+	@Expose
 	@Column(name = "HANDPHONENO")
 	private String handphoneNo;
 	

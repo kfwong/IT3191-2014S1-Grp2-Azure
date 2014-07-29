@@ -74,6 +74,21 @@
     </rule>
     
     <rule>
+        <from>^/comment/publish$</from>
+        <to>/CommentPublish</to>
+    </rule>
+    
+    <rule>
+        <from>^/comment/view$</from>
+        <to>/CommentView</to>
+    </rule>
+    
+    <rule>
+        <from>^/log/view$</from>
+        <to>/pages/log.jsp</to>
+    </rule>
+    
+    <rule>
         <from>^/rbac-test$</from>
         <to>/pages/admin/rbac-test.jsp</to>
     </rule>
@@ -83,4 +98,3 @@
         <to>/pages/admin/user-management.jsp</to>
     </rule>
 </urlrewrite>
-

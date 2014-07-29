@@ -4,7 +4,6 @@ import it3191.companion.dao.UserDao;
 import it3191.companion.dto.User;
 import it3191.companion.util.Hash;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -16,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
@@ -27,6 +28,7 @@ import com.sun.org.apache.xml.internal.security.utils.Base64;
 @WebServlet("/UserLogin")
 public class UserLogin extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private static final Logger log = LogManager.getLogger(UserLogin.class.getName());
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -69,18 +71,25 @@ public class UserLogin extends HttpServlet {
                 if(userDao.isExist(user)){
                     user = userDao.authenticate(fbUser.getId());
                     request.getSession().setAttribute("user", user);
-                    response.sendRedirect(this.getServletContext().getContextPath());
-                }else{                  
+
+                    log.info("Client with email \""+user.getEmail()+"\" and Facebook ID " + user.getFacebookId() +" login successfully"+".");
+                    response.sendRedirect(this.getServletContext().getContextPath() + "/dashboard");
+                }else{
+                	log.warn("Client failed to login with invalid Facebook ID \"" + user.getFacebookId() + "\".");
+
                     response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=login_failed");
                 }               
             } catch (NullPointerException ex) {
+            	log.warn("Client failed to login with invalid user account or Facebook ID.");
                 response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=login_failed");
             } finally {
                 IOUtils.closeQuietly(inputStream);
             }
         }catch(IOException ex){
+        	log.error("User login operation aborted due to application error. "+ ex.getMessage());
             response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=login_failed");
         }
+        
     }
     
     /**
@@ -89,7 +98,7 @@ public class UserLogin extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         switch (request.getParameter("type")) {
-            case "normal":
+            case "normal":            	
                 User user = new User();
                 UserDao userDao = new UserDao();
                 user.setEmail(request.getParameter("email"));
@@ -101,19 +110,24 @@ public class UserLogin extends HttpServlet {
                     }
                     
                     if(user == null){
+                    	log.warn("Client from " + request.getRemoteAddr() +" failed to login using email \""+request.getParameter("email")+"\" with invalid password.");
                         response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=login_failed");
                     }else{
                         request.getSession().setAttribute("user", user);
-                        response.sendRedirect(this.getServletContext().getContextPath());
+
+                    	log.info("Client from " + request.getRemoteAddr() +" login successfully using email \""+request.getParameter("email")+"\".");
+                        response.sendRedirect(this.getServletContext().getContextPath() + "/dashboard");
                     }
                     
                 }else{
                     user = null;
+                    log.warn("Client from " + request.getRemoteAddr() +" failed to login with non-existence email \""+request.getParameter("email")+"\".");
                     response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=login_failed");
                 }
                 break;
             case "facebook":
                 if (request.getParameter("error") != null){
+                	log.warn("Client from " + request.getRemoteAddr() +" failed to initiate facebook OAuth. " + request.getParameter("error") + ".");
                     response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=login_failed");
                 }else if (request.getParameter("code") == null) {
                     response.sendRedirect("https://www.facebook.com/dialog/oauth?client_id=390095387796223&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FIT3191-2014S1-Grp2-Azure%2FUserLogin%3Ftype%3Dfacebook&scope=email,user_about_me,user_birthday,user_friends,user_hometown,user_location,user_relationship_details,user_relationships,user_religion_politics,user_website");

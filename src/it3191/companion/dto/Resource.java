@@ -18,12 +18,8 @@ import org.hibernate.annotations.PolymorphismType;
 
 @Entity
 @Table(name="RESOURCE")
+@PrimaryKeyJoinColumn(name = "ACTIVITY_ID")
 public class Resource extends Activity{
-	
-	@Id
-	@GeneratedValue
-	@Column(name = "ID")
-	private int id;
 	
 	@Column(name = "TITLE")
 	private String title;
@@ -70,13 +66,4 @@ public class Resource extends Activity{
 	public void setTags(List<String> tags) {
 		this.tags = tags;
 	}
-	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 }
