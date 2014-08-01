@@ -182,7 +182,6 @@
         });
     	
     	$('#comment-submit-btn').on('click', function(e){
-    		$(e.target).attr('disabled',true);
     		$.ajax({
 	    		type: "POST",
 	    		url: "${pageContext.servletContext.contextPath}/comment/publish",
@@ -191,7 +190,6 @@
 	    			"content": $('#comment-content').val()
 	    		},
 	    		success: function(comment){
-	        		$('#comment-activity-id').val($(e.target).val());
 					$('#comments').append(
 						'<div class="callout">'+
 							'<p>'+comment.content+'</p>'+
