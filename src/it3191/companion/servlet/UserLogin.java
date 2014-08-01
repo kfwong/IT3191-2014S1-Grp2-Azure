@@ -98,32 +98,37 @@ public class UserLogin extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         switch (request.getParameter("type")) {
-            case "normal":            	
-                User user = new User();
-                UserDao userDao = new UserDao();
-                user.setEmail(request.getParameter("email"));
-                
-                if(userDao.isExist(user)){
-                    user = userDao.getByEmail(request.getParameter("email"));
-                    if(Hash.isExpectedPassword(request.getParameter("password").toCharArray(), user.getSalt().getBytes(), user.getPasswordSHA1().getBytes())){
-                        user = userDao.authenticate(request.getParameter("email"), Base64.encode(request.getParameter("password").getBytes()));
-                    }
-                    
-                    if(user == null){
-                    	log.warn("Client from " + request.getRemoteAddr() +" failed to login using email \""+request.getParameter("email")+"\" with invalid password.");
-                        response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=login_failed");
-                    }else{
-                        request.getSession().setAttribute("user", user);
-
-                    	log.info("Client from " + request.getRemoteAddr() +" login successfully using email \""+request.getParameter("email")+"\".");
-                        response.sendRedirect(this.getServletContext().getContextPath());
-                    }
-                    
-                }else{
-                    user = null;
-                    log.warn("Client from " + request.getRemoteAddr() +" failed to login with non-existence email \""+request.getParameter("email")+"\".");
+            case "normal":
+            	try{
+	                User user = new User();
+	                UserDao userDao = new UserDao();
+	                user.setEmail(request.getParameter("email"));
+	                
+	                if(userDao.isExist(user)){
+	                    user = userDao.getByEmail(request.getParameter("email"));
+	                    
+	                    byte[] bDigest = Hash.getHash(request.getParameter("password"),Hash.base64ToByte(user.getSalt()));
+				        String sDigest = Hash.byteToBase64(bDigest);
+	                    
+	                    if(sDigest.equals(user.getPasswordSHA1())){
+	                    	 request.getSession().setAttribute("user", user);
+	                    	 log.info("Client from " + request.getRemoteAddr() +" login successfully using email \""+request.getParameter("email")+"\".");
+		                     response.sendRedirect(this.getServletContext().getContextPath() + "/dashboard");
+	                    }else{
+	                    	user=null;
+	                    	log.warn("Client from " + request.getRemoteAddr() +" failed to login using email \""+request.getParameter("email")+"\" with invalid password.");
+	                    	response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=login_failed");
+	                    }
+	                    
+	                }else{
+	                    user = null;
+	                    log.warn("Client from " + request.getRemoteAddr() +" failed to login with non-existence email \""+request.getParameter("email")+"\".");
+	                    response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=login_failed");
+	                }
+            	}catch(Exception ex){
+            		ex.printStackTrace();
                     response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=login_failed");
-                }
+            	}
                 break;
             case "facebook":
                 if (request.getParameter("error") != null){

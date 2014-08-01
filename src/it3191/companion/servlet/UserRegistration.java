@@ -5,6 +5,7 @@ import it3191.companion.dao.UserDao;
 import it3191.companion.dto.Role;
 
 import it3191.companion.dto.User;
+import it3191.companion.util.Email;
 import it3191.companion.util.Hash;
 
 import java.io.IOException;
@@ -44,7 +45,8 @@ public class UserRegistration extends HttpServlet {
 		// TODO Auto-generated constructor stub
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		try {
 			String accessToken = null;
 			Integer expires = null;
@@ -52,7 +54,9 @@ public class UserRegistration extends HttpServlet {
 			it3191.companion.dto.User user = new User();
 			UserDao userDao = new UserDao();
 
-			InputStream inputStream = new URL("https://graph.facebook.com/oauth/access_token?client_id=390095387796223&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FIT3191-2014S1-Grp2-Azure%2FUserRegistration%3Ftype%3Dfacebook&client_secret=9503acd1dc6276b1bf64673d0fb4db7e&code=" + request.getParameter("code")).openStream();
+			InputStream inputStream = new URL(
+					"https://graph.facebook.com/oauth/access_token?client_id=390095387796223&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FIT3191-2014S1-Grp2-Azure%2FUserRegistration%3Ftype%3Dfacebook&client_secret=9503acd1dc6276b1bf64673d0fb4db7e&code="
+							+ request.getParameter("code")).openStream();
 			try {
 				String[] pairs = IOUtils.toString(inputStream).split("&");
 				for (String pair : pairs) {
@@ -69,8 +73,10 @@ public class UserRegistration extends HttpServlet {
 					}
 				}
 
-				FacebookClient facebookClient = new DefaultFacebookClient(accessToken);
-				com.restfb.types.User fbUser = facebookClient.fetchObject("me", com.restfb.types.User.class);
+				FacebookClient facebookClient = new DefaultFacebookClient(
+						accessToken);
+				com.restfb.types.User fbUser = facebookClient.fetchObject("me",
+						com.restfb.types.User.class);
 
 				user.setFacebookId(fbUser.getId());
 				user.setFirstName(fbUser.getFirstName());
@@ -81,15 +87,20 @@ public class UserRegistration extends HttpServlet {
 								
 				if (userDao.isExist(user)) {
 					log.warn("Client failed to register with existing Facebook ID \"" + user.getFacebookId() + "\".");
-					response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
+					response.sendRedirect(this.getServletContext()
+							.getContextPath()
+							+ "/register?info=registration_failed");
 				} else {
 					userDao.saveOrUpdate(user);
 					log.info("Client with email \""+user.getEmail()+"\" and Facebook ID " + user.getFacebookId() +" registered successfully"+".");
-					response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=registration_successful");
+					response.sendRedirect(this.getServletContext()
+							.getContextPath()
+							+ "/login?info=registration_successful");
 				}
 			} catch (NullPointerException ex) {
 				log.warn("Client failed to register with invalid Facebook ID.");
-				response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
+				response.sendRedirect(this.getServletContext().getContextPath()
+						+ "/register?info=registration_failed");
 			} finally {
 				IOUtils.closeQuietly(inputStream);
 			}
@@ -103,49 +114,59 @@ public class UserRegistration extends HttpServlet {
 
 		switch (request.getParameter("type")) {
 			case "normal":
-				String remoteAddr = request.getRemoteAddr();
-				ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
-				reCaptcha.setPrivateKey("6LduAvYSAAAAAGto0ISKfxATI9iATrIrbCX1jQlz");
-
-				String challenge = request.getParameter("recaptcha_challenge_field");
-				String uresponse = request.getParameter("recaptcha_response_field");
-				ReCaptchaResponse reCaptchaResponse = reCaptcha.checkAnswer(remoteAddr, challenge, uresponse);
-
-				if (reCaptchaResponse.isValid()) {
-					User user = new User();
-					UserDao userDao = new UserDao();
-
-					user.setFirstName(request.getParameter("firstname"));
-					user.setLastName(request.getParameter("lastname"));
-					user.setEmail(request.getParameter("email"));
-					user.setGender(request.getParameter("gender"));
-					user.setHandphoneNo(request.getParameter("handphone"));
-					user.setPasswordSHA1(Base64.encode(Hash.hash(request.getParameter("password").toCharArray(), Hash.getNextSalt())));
-					user.setSalt(Base64.encode(Hash.getNextSalt()));
-					user.setSecurityQuestion(Integer.parseInt(request.getParameter("securityquestion")));
-					user.setAnswer(request.getParameter("answer"));
-					
-					//testing rbac
-					if(user.getEmail().equals("admin@gmail.com")){
-						user.setRole(Role.ADMIN);
-					}
-					else{
-						user.setRole(Role.REGULAR);
-					}
-					//end of testing
-
-					if (userDao.isExist(user)) {
-						log.warn("Client from " + request.getRemoteAddr() +" failed to register with an existing email \""+request.getParameter("email")+"\".");
-						response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
-
+				try{
+					String remoteAddr = request.getRemoteAddr();
+					ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
+					reCaptcha.setPrivateKey("6LduAvYSAAAAAGto0ISKfxATI9iATrIrbCX1jQlz");
+	
+					String challenge = request.getParameter("recaptcha_challenge_field");
+					String uresponse = request.getParameter("recaptcha_response_field");
+					ReCaptchaResponse reCaptchaResponse = reCaptcha.checkAnswer(remoteAddr, challenge, uresponse);
+					byte[] salt = Hash.getNextSalt();
+	
+					if (reCaptchaResponse.isValid()) {
+						
+						User user = new User();
+						UserDao userDao = new UserDao();
+	
+						user.setFirstName(request.getParameter("firstname"));
+						user.setLastName(request.getParameter("lastname"));
+						user.setEmail(request.getParameter("email"));
+						user.setGender(request.getParameter("gender"));
+						user.setHandphoneNo(request.getParameter("handphone"));
+						
+						// Digest computation
+				        byte[] bDigest = Hash.getHash(request.getParameter("password"),salt);
+				        String sDigest = Hash.byteToBase64(bDigest);
+				        String sSalt = Hash.byteToBase64(salt);
+						
+						//bytes[] to string
+						user.setPasswordSHA1(sDigest);
+						user.setSalt(sSalt);
+						user.setSecurityQuestion(Integer.parseInt(request.getParameter("securityquestion")));
+						user.setAnswer(request.getParameter("answer"));
+	
+						if (userDao.isExist(user)) {
+							log.warn("Client from " + request.getRemoteAddr() +" failed to register with an existing email \""+request.getParameter("email")+"\".");
+							response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
+	
+						} else {
+							userDao.saveOrUpdate(user);
+							log.info("Client from " + request.getRemoteAddr() +" successfully registered with email \""+request.getParameter("email")+"\".");
+							Email emailuser=new Email();
+				    		emailuser.setFrom("Companion@example.com");
+				    		emailuser.setMessage("Thank you for using Companion. Please click here to verify your account.<a href=\"http://localhost:8080/IT3191-2014S1-Grp2-Azure/password-reset.jsp?sessionKey="+""+"\">Click Here</a> ");
+				    		emailuser.setSubject("Account Verification");
+				    		emailuser.setTo(user.getEmail());
+							emailuser.send();
+							response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=registration_successful");
+						}
 					} else {
-						userDao.saveOrUpdate(user);
-						log.info("Client from " + request.getRemoteAddr() +" successfully registered with email \""+request.getParameter("email")+"\".");
-						response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=registration_successful");
+						log.warn("Client from " + request.getRemoteAddr() +" failed the captcha test.");
+						response.sendRedirect(this.getServletContext().getContextPath()+"/register.jsp");
 					}
-				} else {
-					log.warn("Client from " + request.getRemoteAddr() +" failed the captcha test.");
-					response.sendRedirect(this.getServletContext().getContextPath()+"/register.jsp");
+				}catch(Exception ex){
+					ex.printStackTrace();
 				}
 
 				break;

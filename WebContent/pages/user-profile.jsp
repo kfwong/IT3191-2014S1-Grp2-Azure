@@ -24,5 +24,18 @@
 </head>
 <body class="bg-black">
 
+<div class="form-group">
+                        <input type="text" id="firstname" name="firstname" class="form-control" placeholder="First name" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Last name" >
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Email" />
+                    </div>
+                     <div class="form-group">
+	                    <input type="text" id="handphone" name="handphone" class="form-control" placeholder="Handphone Number"/>
+	                 </div>
+	                
 </body>
 </html>

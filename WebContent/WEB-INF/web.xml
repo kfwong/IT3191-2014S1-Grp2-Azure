@@ -60,7 +60,7 @@
   </filter-mapping>
   <context-param>
     <param-name>registration_successful</param-name>
-    <param-value>Registered successfully! Please proceed to login.</param-value>
+    <param-value>Registered successfully! Please proceed to login and check your email for your verification link.</param-value>
   </context-param>
   <context-param>
     <param-name>registration_failed</param-name>
