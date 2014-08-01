@@ -97,4 +97,5 @@
         <from>^/user-management$</from>
         <to>/pages/admin/user-management.jsp</to>
     </rule>
+
 </urlrewrite>

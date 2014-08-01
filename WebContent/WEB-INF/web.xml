@@ -9,6 +9,7 @@
       <url-pattern>*.jspf</url-pattern>
     </jsp-property-group>
   </jsp-config>
+ 
   <filter>
     <filter-name>UrlRewriteFilter</filter-name>
     <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
@@ -39,6 +40,19 @@
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
+  
+  <filter>
+		<filter-name>CSRFGuard</filter-name>
+		<filter-class>org.owasp.csrfguard.CsrfGuardFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>CSRFGuard</filter-name>
+		<url-pattern>/ResourcePublish</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+    	<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+  
   <context-param>
     <param-name>registration_successful</param-name>
     <param-value>Registered successfully! Please proceed to login.</param-value>
@@ -71,4 +85,51 @@
     <param-name>email_check</param-name>
     <param-value>Please check your email for the verification link</param-value>
   </context-param>
+	
+	<context-param>
+		<param-name>Owasp.CsrfGuard.Config</param-name>
+		<param-value>WEB-INF/csrfguard.properties</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>Owasp.CsrfGuard.Config.Print</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
+	<listener>
+		<listener-class>org.owasp.csrfguard.CsrfGuardServletContextListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.owasp.csrfguard.CsrfGuardHttpSessionListener</listener-class>
+	</listener>
+	
+	 <servlet>
+		<servlet-name>JavaScriptServlet</servlet-name>
+		<servlet-class>org.owasp.csrfguard.servlet.JavaScriptServlet</servlet-class>
+		<init-param>
+			<param-name>source-file</param-name>
+			<param-value>WEB-INF/csrfguard.js</param-value>
+		</init-param>
+		<init-param>
+			<param-name>inject-into-forms</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>inject-into-attributes</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		<init-param>
+			<param-name>domain-strict</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>referer-pattern</param-name>
+			<param-value>http://localhost:8080/IT3191-2014S1-Grp2-Azure.*</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>JavaScriptServlet</servlet-name>
+		<url-pattern>/JavaScriptServlet</url-pattern>
+	</servlet-mapping>
 </web-app>

@@ -7,6 +7,7 @@ import it3191.companion.dto.Resource;
 import it3191.companion.dto.User;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -15,6 +16,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
  * Servlet implementation class ResourcePublish
@@ -37,10 +40,10 @@ public class ResourcePublish extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Resource resource = new Resource();
-		resource.setDescription(request.getParameter("description"));
-		resource.setDropboxLink(request.getParameter("dropboxLink"));
-		resource.setTitle(request.getParameter("title"));
-		resource.setTags(Arrays.asList(request.getParameter("tags").split(",")));
+		resource.setDescription(escapeIllegalChar(request.getParameter("description")));
+		resource.setDropboxLink(URLEncoder.encode(request.getParameter("dropboxLink"),"UTF-8"));
+		resource.setTitle(escapeIllegalChar(request.getParameter("title")));
+		resource.setTags(Arrays.asList(escapeIllegalChar(request.getParameter("tags")).split(",")));
 		resource.setCreatedBy((User) request.getSession().getAttribute("user"));
 		resource.setCreatedOn(new Date());
 
@@ -48,6 +51,10 @@ public class ResourcePublish extends HttpServlet {
 		resourceDao.saveOrUpdate(resource);
 
 		response.sendRedirect(this.getServletContext().getContextPath() + "/resource/view");
+	}
+	
+	private String escapeIllegalChar(String input){
+		return StringEscapeUtils.escapeHtml4(StringEscapeUtils.escapeEcmaScript(input));
 	}
 
 }
