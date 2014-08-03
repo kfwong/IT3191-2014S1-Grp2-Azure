@@ -107,7 +107,7 @@
 			      <div class="modal-footer">
 			     	<button type="button" class="btn btn-default pull-left delete-button">Delete</button>
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-default join-button">Join</button>					  
+					<button type="button" class="btn join-button">Join</button>					  
 			        <button type="submit" class="btn btn-primary confirm-edit-button">Save</button>
 			      </div>
 			      <input type="hidden" name="action" value="edit"/>
@@ -256,10 +256,7 @@
         							            { "data": "lastName", "width": "30%" },
         							            { "data": "email", "width": "40%"}
         							]
-        						});
-        						
-        						//$('.contact option[value="' + json.volunteer.id + '"]').attr("selected", true);
-        						//$('.contact').trigger("chosen:updated");      						
+        						});						
         						
         						if(json.allDay == true){
         							$(".allDay").prop("checked", true);
@@ -270,7 +267,24 @@
         							$(".allDay").prop("checked", false);
         							$(".date-time").removeClass("hide");
         							$(".date").addClass("hide");
-        						}					
+        						}
+        						
+        						if(json.isParticipant == true){
+        							$(".participant").val("true");
+        							
+        							$(".join-button").removeClass("btn-primary");
+        							$(".join-button").addClass("btn-danger");
+        							
+        							$(".join-button").text("Leave");
+        						}
+        						else{
+									$(".participant").val("false");
+        							
+        							$(".join-button").addClass("btn-primary");
+        							$(".join-button").removeClass("btn-danger");
+        							
+        							$(".join-button").text("Join");
+        						}
         		    		}
         		    	});
         		    }, 
