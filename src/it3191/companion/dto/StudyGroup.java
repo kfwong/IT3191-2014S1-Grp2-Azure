@@ -129,7 +129,6 @@ public class StudyGroup {
 			}
 			else{
 				participantExist = false;
-				break;
 			}
 		}
 		
