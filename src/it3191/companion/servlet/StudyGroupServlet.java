@@ -63,22 +63,25 @@ public class StudyGroupServlet extends HttpServlet {
 				StudyGroupDao dao = new StudyGroupDao();
 				sg = dao.get(id);
 				
+				User user = (User) request.getSession().getAttribute("user");
+				
 				Map<String, Object> studyGroup = new HashMap<String, Object>();
 				studyGroup.put("id", sg.getId());
 				studyGroup.put("title", sg.getTitle());
 				studyGroup.put("start", sg.getStart());
 				studyGroup.put("end", sg.getEnd());
 				studyGroup.put("allDay", sg.isAllDay());
+				studyGroup.put("isParticipant", sg.isParticipantExist(user));
 				
 				List<Map<String, String>> participants = new ArrayList<Map<String, String>>();
-				for(User user : sg.getParticipants()){
-					Map<String, String> participant = new HashMap<String, String>();
-					participant.put("id", Integer.toString(user.getId()));
-					participant.put("firstName", user.getFirstName());
-					participant.put("lastName", user.getLastName());
-					participant.put("email", user.getEmail());
+				for(User participant : sg.getParticipants()){
+					Map<String, String> participantMap = new HashMap<String, String>();
+					participantMap.put("id", Integer.toString(participant.getId()));
+					participantMap.put("firstName", participant.getFirstName());
+					participantMap.put("lastName", participant.getLastName());
+					participantMap.put("email", participant.getEmail());
 					
-					participants.add(participant);
+					participants.add(participantMap);
 				}
 				
 				studyGroup.put("participants", participants);
