@@ -8,6 +8,9 @@ import it3191.companion.dto.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -46,8 +49,24 @@ public class UserManagementServlet extends HttpServlet {
 				UserDao dao = new UserDao();
 				userArray = (ArrayList<User>) dao.getAll();
 				
+				List<Map<String,Object>> jsonArray = new ArrayList<Map<String,Object>>();
+				
+				for(User user:userArray){
+					Map<String,Object> userMap = new HashMap<String,Object>();
+					userMap.put("id", user.getId());
+					userMap.put("role", user.getRole());
+					userMap.put("firstName", user.getFirstName());
+					userMap.put("lastName", user.getLastName());
+					userMap.put("email", user.getEmail());
+					userMap.put("handphoneNo", user.getHandphoneNo());
+					userMap.put("securityQuestion", user.getSecurityQuestion());
+					userMap.put("answer", user.getAnswer());
+					
+					jsonArray.add(userMap);
+				}
+								
 				Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-				String json = gson.toJson(userArray);
+				String json = gson.toJson(jsonArray);
 				
 				response.setContentType("application/json");
 				PrintWriter out = response.getWriter();

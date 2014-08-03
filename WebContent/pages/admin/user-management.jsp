@@ -39,12 +39,16 @@
                                     <!-- THE INTERACTIVE TABLE -->
                                     <table id="users" class="participants table table-hover table-striped table-bordered" width="100%">
 										<thead>
-								            <tr>
-								                <th>First Name</th>
-								                <th>Last Name</th>
-								                <th>Email</th>
-								            </tr>
-								        </thead>
+											<tr>
+												<th>Role</th>
+												<th>First Name</th>
+												<th>Last Name</th>
+												<th>Email</th>
+												<th>Handphone Number</th>
+												<th>Security Question</th>
+												<th>Security Number</th>
+											</tr>
+										</thead>
 								    </table>
                                 </div><!-- /.box-body -->
                             </div><!-- /. box -->
@@ -64,12 +68,7 @@
 					"language": {
 					      "emptyTable": "There are no users currently"
 					},
-					"ajax": "user-management?action=getUsers",
-					columns: [
-					            { "data": "firstName", "width": "30%" },
-					            { "data": "lastName", "width": "30%" },
-					            { "data": "email", "width": "40%"}
-					]
+					"ajax": "user-management?action=getUsers"
 				});
         	});
         </script>
