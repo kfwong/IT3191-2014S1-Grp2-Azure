@@ -73,7 +73,7 @@ public class UserLogin extends HttpServlet {
                     request.getSession().setAttribute("user", user);
 
                     log.info("Client with email \""+user.getEmail()+"\" and Facebook ID " + user.getFacebookId() +" login successfully"+".");
-                    response.sendRedirect(this.getServletContext().getContextPath() + "/dashboard");
+                    response.sendRedirect(this.getServletContext().getContextPath());
                 }else{
                 	log.warn("Client failed to login with invalid Facebook ID \"" + user.getFacebookId() + "\".");
 
@@ -116,7 +116,7 @@ public class UserLogin extends HttpServlet {
                         request.getSession().setAttribute("user", user);
 
                     	log.info("Client from " + request.getRemoteAddr() +" login successfully using email \""+request.getParameter("email")+"\".");
-                        response.sendRedirect(this.getServletContext().getContextPath() + "/dashboard");
+                        response.sendRedirect(this.getServletContext().getContextPath());
                     }
                     
                 }else{
