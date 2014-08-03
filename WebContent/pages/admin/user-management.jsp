@@ -4,6 +4,7 @@
     <head>
     	<!-- header fragment -->
     	<jsp:include page="../../WEB-INF/header.jspf" />
+    	<link href="${pageContext.servletContext.contextPath}/css/user-management.css" rel="stylesheet" type="text/css" />
     </head>
     <body class="skin-blue">
         <!-- navigation top fragment -->
@@ -35,9 +36,20 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="box box-primary">                                
-                                <div class="box-body no-padding">
+                                <div class="box-body">
                                     <!-- THE INTERACTIVE TABLE -->
-                                    <table id="users" class="participants table table-hover table-striped table-bordered" width="100%">
+                                    <div class="table-above form-button-group">
+										<div class="form-group">
+											<button type="submit" class="pull-right btn btn-default submit-button">Add / Edit</button>
+											<button type="button" class="pull-right btn btn-default delete-button">Delete</button>
+										</div>
+														
+										<span class="pull-left alert alert-info row-selected-count">No records selected</span>
+										
+										<div class="clearfix"></div>
+									</div>
+                                    
+                                    <table id="users" class="participants table table-hover table-bordered" width="100%">
 										<thead>
 											<tr>
 												<th>Role</th>
@@ -46,7 +58,7 @@
 												<th>Email</th>
 												<th>Handphone Number</th>
 												<th>Security Question</th>
-												<th>Security Number</th>
+												<th>Security Answer</th>
 											</tr>
 										</thead>
 								    </table>
@@ -57,7 +69,28 @@
 				<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@END MODIFICATION FROM HERE@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
                 </section><!-- /.content -->
             </aside><!-- /.right-side -->
-        </div><!-- ./wrapper -->       
+        </div><!-- ./wrapper -->      
+        
+        <!-- Modal-delete -->
+		<div class="modal delete-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" id="myModalLabel">Delete contacts</h4>
+		      </div>
+		      <div class="modal-body">
+		         <p>Are you sure you want to delete the records?</p>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+		        <button type="button" class="btn btn-primary confirm-delete-button">Confirm</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+        
+         
 		<!-- javscript fragment -->
     	<jsp:include page="../../WEB-INF/javascript.jspf" />
     	<!-- Page specific script -->
@@ -80,8 +113,70 @@
 			            {"data": "handphoneNo"},
 			            {"data": "securityQuestion"},
 			            {"data": "answer"},
-					]
+					],			  
+			        "initComplete": function(settings, json) {		        		
+		        		addInteractiveRows();
+			    	}
 				});
+        		
+        		function addInteractiveRows(){
+        			$("#users tbody tr").addClass("table-row");
+        			
+        			var rowSelectedCount = 0;
+            		$(".table-row").on("click", function(event){
+            			alert("test");
+            			$(".row-selected-count").removeClass("alert-danger");
+            			
+            			var elementSelected = event.target;
+            			var rowSelected = $(elementSelected).parents("tr");
+            			
+            			if($(rowSelected).hasClass("warning selected")){
+            				$(rowSelected).removeClass("warning selected");
+            				rowSelectedCount--;
+            				$(rowSelected).find("input").removeClass("selectedId");
+            			}
+            			else{
+            				$(rowSelected).addClass("warning selected"); 
+            				rowSelectedCount++;
+            				$(rowSelected).find("input").addClass("selectedId");
+            			}			
+            		
+            			if(rowSelectedCount == 0){
+            				$(".row-selected-count").text("No records selected");
+            			}
+            			else{
+            				$(".row-selected-count").text(rowSelectedCount + " records selected");
+            			}
+            		});	
+            		
+            		$(".delete-button").on("click", function(event){
+            			if(rowSelectedCount <= 0){
+            				$(".row-selected-count").text("No records selected");
+            				$(".row-selected-count").addClass("alert-danger");
+            			}
+            			else{
+            				$(".delete-modal").modal();
+            			}
+            		});
+            		
+            		$(".confirm-delete-button").on("click", function(){
+            			location.reload(true);
+            		});
+            		
+            		$(".submit-button").on("click", function(event){
+            			event.preventDefault();
+            			$(".id").not(".selectedId").remove();
+
+            			$("form").submit();
+            		});
+            		
+            		$(".confirm-delete-button").on("click", function(event){
+            			event.preventDefault();
+            			$(".id").not(".selectedId").remove();
+            			$("form").append('<input type="hidden" name="delete" value="true">');
+            			$("form").submit();
+            		});
+        		};      		    		
         	});
         </script>
     </body>
