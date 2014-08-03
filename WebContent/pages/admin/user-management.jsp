@@ -68,7 +68,19 @@
 					"language": {
 					      "emptyTable": "There are no users currently"
 					},
-					"ajax": "user-management?action=getUsers"
+					"ajax": {
+						"url": "user-management?action=getUsers",
+			            "dataSrc": ""
+			        },
+					"columns": [
+			            {"data": "role"},
+			            {"data": "firstName"},
+			            {"data": "lastName"},
+			            {"data": "email"},
+			            {"data": "handphoneNo"},
+			            {"data": "securityQuestion"},
+			            {"data": "answer"},
+					]
 				});
         	});
         </script>

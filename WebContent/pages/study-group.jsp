@@ -252,9 +252,9 @@
         							},
         							"data": json.participants,
         							columns: [
-        							            { "data": "firstName", "width": "30%" },
-        							            { "data": "lastName", "width": "30%" },
-        							            { "data": "email", "width": "40%"}
+							            {"data": "firstName", "width": "30%"},
+							            {"data": "lastName", "width": "30%"},
+							            {"data": "email", "width": "40%"}
         							]
         						});						
         						
