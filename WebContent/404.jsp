@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=US-ASCII" pageEncoding="US-ASCII"%>
 <!DOCTYPE html>
 <html class="bg-black">
     <head>
@@ -27,7 +28,7 @@
 	                    <h3><i class="fa fa-warning text-yellow"></i> Oops! Page not found.</h3>
 	                    <p>
 	                        We could not find the page you were looking for. 
-	                        Meanwhile, you may <a href='index.jsp'>return to home page</a> or try using the search form.
+	                        Meanwhile, you may <a href='${pageContext.servletContext.contextPath}'>return to home page</a> or try using the search form.
 	                    </p>
 	                    <form class='search-form'>
 	                        <div class='input-group'>
