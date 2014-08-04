@@ -56,7 +56,9 @@ public class StudyGroupDao implements Dao<StudyGroup> {
 	public void delete(StudyGroup t) {
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 		Session session = sessionFactory.openSession();
+		session.beginTransaction();
 		session.delete(t);
+		session.getTransaction().commit();
 		session.close();
 		
 	}

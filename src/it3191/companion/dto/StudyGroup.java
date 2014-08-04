@@ -39,9 +39,10 @@ public class StudyGroup {
 	@Column(name="ALL_DAY")
 	private boolean allDay;
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "STUDY_GROUP_PARTICIPANT", joinColumns = { 
-			@JoinColumn(name = "STUDY_GROUP_ID")}, 
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+			name = "STUDY_GROUP_PARTICIPANT", 
+			joinColumns = {	@JoinColumn(name = "STUDY_GROUP_ID")}, 
 			inverseJoinColumns = { @JoinColumn(name = "PARTICIPANT_ID") })
 	private List<User> participants;
 
@@ -128,7 +129,6 @@ public class StudyGroup {
 			}
 			else{
 				participantExist = false;
-				break;
 			}
 		}
 		

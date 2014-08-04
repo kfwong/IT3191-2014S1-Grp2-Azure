@@ -1,7 +1,6 @@
 package it3191.companion.servlet;
 
 import it3191.companion.dao.StudyGroupDao;
-import it3191.companion.dao.UserDao;
 import it3191.companion.dto.StudyGroup;
 import it3191.companion.dto.User;
 
@@ -56,7 +55,7 @@ public class StudyGroupServlet extends HttpServlet {
 				PrintWriter out = response.getWriter();
 				out.write(json);
 			}
-			if(action.equals("view")){
+			else if(action.equals("view")){
 				int id = Integer.parseInt(request.getParameter("id"));
 				
 				StudyGroup sg = new StudyGroup();
@@ -64,22 +63,25 @@ public class StudyGroupServlet extends HttpServlet {
 				StudyGroupDao dao = new StudyGroupDao();
 				sg = dao.get(id);
 				
+				User user = (User) request.getSession().getAttribute("user");
+				
 				Map<String, Object> studyGroup = new HashMap<String, Object>();
 				studyGroup.put("id", sg.getId());
 				studyGroup.put("title", sg.getTitle());
 				studyGroup.put("start", sg.getStart());
 				studyGroup.put("end", sg.getEnd());
 				studyGroup.put("allDay", sg.isAllDay());
+				studyGroup.put("isParticipant", sg.isParticipantExist(user));
 				
 				List<Map<String, String>> participants = new ArrayList<Map<String, String>>();
-				for(User user : sg.getParticipants()){
-					Map<String, String> participant = new HashMap<String, String>();
-					participant.put("id", Integer.toString(user.getId()));
-					participant.put("firstName", user.getFirstName());
-					participant.put("lastName", user.getLastName());
-					participant.put("email", user.getEmail());
+				for(User participant : sg.getParticipants()){
+					Map<String, String> participantMap = new HashMap<String, String>();
+					participantMap.put("id", Integer.toString(participant.getId()));
+					participantMap.put("firstName", participant.getFirstName());
+					participantMap.put("lastName", participant.getLastName());
+					participantMap.put("email", participant.getEmail());
 					
-					participants.add(participant);
+					participants.add(participantMap);
 				}
 				
 				studyGroup.put("participants", participants);
@@ -91,18 +93,12 @@ public class StudyGroupServlet extends HttpServlet {
 				PrintWriter out = response.getWriter();
 				out.write(json);
 			}
-			/*if(action.equals("getContacts")){	
-				StudyGroupDao sgd = new StudyGroupDao();
-				ArrayList<Contact> contactArrayList= (ArrayList<Contact>) cd.getAllByType("school");
-				contactArrayList.addAll(cd.getAllByType("scc"));
-						
-				Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-				String json = gson.toJson(contactArrayList);
-				
-				response.setContentType("application/json");
-				PrintWriter out = response.getWriter();
-				out.write(json);
-			}*/
+			else{
+				request.getRequestDispatcher("404").forward(request, response);
+			}
+		}
+		else{
+			request.getRequestDispatcher("/pages/study-group.jsp").forward(request, response);
 		}
 	}
 
@@ -110,7 +106,7 @@ public class StudyGroupServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-String action = request.getParameter("action");
+		String action = request.getParameter("action");
 		
 		if(action != null){
 		
@@ -119,12 +115,6 @@ String action = request.getParameter("action");
 				String start = request.getParameter("start");
 				String end = request.getParameter("end");
 				String allDay = request.getParameter("allDay");
-				//int contactId = Integer.parseInt(request.getParameter("contact"));
-				
-				//Contact contact = new Contact();
-				
-				//ContactDao cd = new ContactDao();
-				//contact = cd.get(contactId);
 				
 				if(allDay != null && allDay.equals(true)){
 					
@@ -135,7 +125,6 @@ String action = request.getParameter("action");
 				sd.setStart(start);
 				sd.setEnd(end);
 				sd.setAllDay(allDay);
-				//sd.setContact(contact);
 				
 				StudyGroupDao dao = new StudyGroupDao();
 				dao.saveOrUpdate(sd);
@@ -157,7 +146,6 @@ String action = request.getParameter("action");
 				sd.setEnd(end);
 				sd.setAllDay(allDay);
 
-				List<User> participantList = sd.getParticipants();
 				User user = (User) request.getSession().getAttribute("user");
 				
 				if(participantStr == null){
@@ -176,10 +164,9 @@ String action = request.getParameter("action");
 			}
 			if(action.equals("delete")){
 				int id  = Integer.parseInt(request.getParameter("id"));
-				StudyGroup sd = new StudyGroup();
-				sd.setId(id);
 				
 				StudyGroupDao dao = new StudyGroupDao();
+				StudyGroup sd = dao.get(id);
 				dao.delete(sd);
 			}
 		}

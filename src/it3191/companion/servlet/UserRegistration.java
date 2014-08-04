@@ -77,6 +77,7 @@ public class UserRegistration extends HttpServlet {
 				user.setLastName(fbUser.getLastName());
 				user.setEmail(fbUser.getEmail());
 				user.setGender(fbUser.getGender());
+				user.setRole(Role.REGULAR);
 								
 				if (userDao.isExist(user)) {
 					log.warn("Client failed to register with existing Facebook ID \"" + user.getFacebookId() + "\".");
