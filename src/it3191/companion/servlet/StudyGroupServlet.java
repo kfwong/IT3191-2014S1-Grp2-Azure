@@ -49,8 +49,21 @@ public class StudyGroupServlet extends HttpServlet {
 				StudyGroupDao dao = new StudyGroupDao();
 				studyGroupArray = (ArrayList<StudyGroup>) dao.getAll();
 				
+				List<Map<String, Object>> studyGroupMapList = new ArrayList<Map<String, Object>>();
+				
+				for(StudyGroup studyGroup:studyGroupArray){
+					Map<String, Object> studyGroupMap = new HashMap<String, Object>();
+					studyGroupMap.put("id", studyGroup.getId());
+					studyGroupMap.put("title", studyGroup.getTitle());
+					studyGroupMap.put("start", studyGroup.getStart());
+					studyGroupMap.put("end", studyGroup.getEnd());
+					studyGroupMap.put("allDay", studyGroup.isAllDay());
+					
+					studyGroupMapList.add(studyGroupMap);
+				}
+				
 				Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-				String json = gson.toJson(studyGroupArray);
+				String json = gson.toJson(studyGroupMapList);
 				
 				response.setContentType("application/json");
 				PrintWriter out = response.getWriter();
@@ -73,6 +86,7 @@ public class StudyGroupServlet extends HttpServlet {
 				studyGroup.put("end", sg.getEnd());
 				studyGroup.put("allDay", sg.isAllDay());
 				studyGroup.put("isParticipant", sg.isParticipantExist(user));
+				studyGroup.put("createdBy", sg.getCreatedBy().getId());
 				
 				List<Map<String, String>> participants = new ArrayList<Map<String, String>>();
 				for(User participant : sg.getParticipants()){

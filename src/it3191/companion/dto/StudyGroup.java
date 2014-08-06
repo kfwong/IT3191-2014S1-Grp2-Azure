@@ -151,4 +151,17 @@ public class StudyGroup extends Activity{
 		
 		return success;
 	}
+	
+	public boolean isOwner(User user){
+		boolean success = false; 
+		
+		if(getCreatedBy().getId() == user.getId()){
+			success = true;
+		}
+		else{
+			success = false;
+		}
+		
+		return success;
+	}
 }
