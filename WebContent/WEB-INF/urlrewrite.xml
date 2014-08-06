@@ -39,6 +39,11 @@
     </rule>
     
     <rule>
+        <from>^/403$</from>
+        <to>/403.jsp</to>
+    </rule>
+    
+    <rule>
         <from>^/resource$</from>
         <to>/pages/resource.jsp</to>
     </rule>

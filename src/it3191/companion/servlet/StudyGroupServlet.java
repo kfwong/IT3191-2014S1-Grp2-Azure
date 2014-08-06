@@ -147,7 +147,10 @@ public class StudyGroupServlet extends HttpServlet {
 				
 				StudyGroupDao dao = new StudyGroupDao();
 				dao.saveOrUpdate(sd);
+				
+				response.sendRedirect("study-group");
 			}
+			
 			if(action.equals("edit")){
 				int id = Integer.parseInt(request.getParameter("id"));
 				
@@ -178,19 +181,45 @@ public class StudyGroupServlet extends HttpServlet {
 						sd.removeParticipant(user);
 					}
 				}
-					
- 				dao.saveOrUpdate(sd);
+				
+				if(sd.isOwner(user)){
+	 				dao.saveOrUpdate(sd);
+	 				response.sendRedirect("study-group");
+				}
+				else{
+					response.sendRedirect("403");
+				}
 			}
+			
 			if(action.equals("delete")){
 				int id  = Integer.parseInt(request.getParameter("id"));
 				
 				StudyGroupDao dao = new StudyGroupDao();
 				StudyGroup sd = dao.get(id);
 				dao.delete(sd);
+				
+				response.sendRedirect("study-group");
 			}
-		}
-		
-		response.sendRedirect("study-group");
+						
+			if(action.equals("editDate")){
+				int id = Integer.parseInt(request.getParameter("id"));
+				
+				String title = request.getParameter("title");
+				String start = request.getParameter("start");
+				String end = request.getParameter("end");
+				String allDay = request.getParameter("allDay");
+				
+				StudyGroupDao dao = new StudyGroupDao();
+				StudyGroup sd = dao.get(id);
+				sd.setId(id);
+				sd.setTitle(title);
+				sd.setStart(start);
+				sd.setEnd(end);
+				sd.setAllDay(allDay);
+					
+ 				dao.saveOrUpdate(sd);
+			}
+		}		
 	}
 
 }

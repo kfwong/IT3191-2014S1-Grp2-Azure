@@ -285,7 +285,7 @@
         		    		dataType: "json",
         		    		url: "study-group",
         		    		data: {
-        		    			action:"edit",
+        		    			action:"editDate",
         		    	        id: event.id,
         		    	        title: event.title,
         		    	        start: event.start.format("YYYY-MM-DD HH:mm:ss"),
