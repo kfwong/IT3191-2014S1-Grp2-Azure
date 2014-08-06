@@ -271,20 +271,11 @@
         						
         						if(json.isParticipant == true){
         							$(".participant").val("true");
-        							
-        							$(".join-button").removeClass("btn-primary");
-        							$(".join-button").addClass("btn-danger");
-        							
-        							$(".join-button").text("Leave");
         						}
         						else{
 									$(".participant").val("false");
-        							
-        							$(".join-button").addClass("btn-primary");
-        							$(".join-button").removeClass("btn-danger");
-        							
-        							$(".join-button").text("Join");
         						}
+        						$(".participant").trigger("change");
         		    		}
         		    	});
         		    }, 
@@ -326,6 +317,21 @@
 				  	
 				 	$(this).trigger("click");
 				});
+							
+				$(".participant").on("change", function(event){
+					if($(".participant").val() == "true") {
+						$(".join-button").removeClass("btn-primary");
+						$(".join-button").addClass("btn-danger");
+						
+						$(".join-button").text("Leave");
+					}
+					else{						
+						$(".join-button").addClass("btn-primary");
+						$(".join-button").removeClass("btn-danger");
+						
+						$(".join-button").text("Join");
+					}	
+				});
 				
 				$(".join-button").on("click", function(event){
 					if($(".participant").val() == "true") {
@@ -333,7 +339,9 @@
 					}
 					else{
 						$(".participant").val("true");
-					}	
+					}
+					//to be changed to submit instead of triggering change
+					$(".participant").trigger("change");
 				});
 				
 				$(".delete-button").on("click", function(){

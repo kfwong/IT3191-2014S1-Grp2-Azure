@@ -15,17 +15,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 
 @Entity
 @Table(name = "STUDY_GROUP")
-public class StudyGroup {
-
-	@Id
-	@GeneratedValue
-	@Column(name="ID")
-	private int id;
+@PrimaryKeyJoinColumn(name = "ID")
+public class StudyGroup extends Activity{
 
 	@Column(name="TITLE")
 	private String title;
@@ -45,14 +42,6 @@ public class StudyGroup {
 			joinColumns = {	@JoinColumn(name = "STUDY_GROUP_ID")}, 
 			inverseJoinColumns = { @JoinColumn(name = "PARTICIPANT_ID") })
 	private List<User> participants;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getTitle() {
 		return title;

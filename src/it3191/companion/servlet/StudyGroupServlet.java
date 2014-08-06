@@ -7,6 +7,7 @@ import it3191.companion.dto.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -117,14 +118,18 @@ public class StudyGroupServlet extends HttpServlet {
 				String allDay = request.getParameter("allDay");
 				
 				if(allDay != null && allDay.equals(true)){
-					
+					//do nothing for now
 				}
+				
+				User user = (User) request.getSession().getAttribute("user");
 				
 				StudyGroup sd = new StudyGroup();
 				sd.setTitle(title);
 				sd.setStart(start);
 				sd.setEnd(end);
 				sd.setAllDay(allDay);
+				sd.setCreatedBy(user);
+				sd.setCreatedOn(new Date());
 				
 				StudyGroupDao dao = new StudyGroupDao();
 				dao.saveOrUpdate(sd);
