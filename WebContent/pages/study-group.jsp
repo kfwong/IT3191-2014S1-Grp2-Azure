@@ -61,14 +61,7 @@
 					<div class="form-group">
 					  <label for="title">Title</label>
 					  <input type="text" class="form-control title" id="title" name = "title" required autofocus>
-					</div>
-					<!-- <div class="form-group">
-					  <label for="contact">Contact</label>
-					  	<select class="form-control contact" id="contact" name="contact">
-	
-						</select>
-					</div>
-					-->		
+					</div>	
 					<div class="checkbox">
 					    <label>
 					      <input class="allDay" type="checkbox" name="allDay" value="true" checked> All day event
@@ -92,6 +85,25 @@
 							<label for="end">End time</label>
 						  	<input type="text" class="form-control end" id="end" name = "end" required>
 						</div>
+					</div>
+					<div class="owner">
+						<label for="owner">Created by</label>
+						<table class="owner table table-bordered" width="100%">
+							<thead>
+								<tr>
+									<th class="first-name">First Name</th>
+									<th class="last-name">Last Name</th>
+									<th class="email">Email</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="first-name-data"></td>
+									<td class="last-name-data"></td>
+									<td class="email-data"></td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 					<label for="participants">Participants</label><br/>
 					<table class="participants table table-hover table-striped table-bordered" width="100%">
@@ -245,6 +257,10 @@
         						$(".start-date").val(moment(json.start).format("YYYY-MM-DD"));
         						$(".start").val(json.start);
         						$(".end").val(json.end);
+        						$(".first-name-data").text(json.owner.firstName);
+        						$(".last-name-data").text(json.owner.lastName);
+        						$(".email-data").text(json.owner.email);
+        					        						
         						$(".participants").dataTable({
         							destroy: true,
         							"language": {
