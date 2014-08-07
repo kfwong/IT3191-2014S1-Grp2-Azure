@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=US-ASCII" pageEncoding="US-ASCII"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ page import="net.tanesha.recaptcha.ReCaptcha" %>
+    <%@ page import="net.tanesha.recaptcha.ReCaptchaFactory" %>
 <!DOCTYPE html>
+
 <html class="bg-black">
     <head>
         <meta charset="UTF-8">
@@ -21,6 +24,7 @@
         <![endif]-->
     </head>
     <body class="bg-black">
+
         <div class="form-box" id="login-box">
         	<c:if test="${!empty param.info}">
     			<div class="alert alert-info alert-dismissable">
@@ -29,42 +33,41 @@
 		            <span>${initParam[param.info]}</span>
 		        </div>
 			</c:if>
-            <div class="header">Sign In</div>
-            <form action="UserLogin" method="post">
+            <div class="header">Account Verification</div>
+            <form id="form" action="AccountVerification" method="post" autocomplete='off'>
                 <div class="body bg-gray">
-                    <div class="form-group">
-                        <input type="email" id="email" name="email" class="form-control" placeholder="Email" required/>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required/>
-                    </div>          
-                    <div class="form-group">
-                        <input type="checkbox" name="remember_me"/> Remember me
-                    </div>
-                </div>
-                <div class="footer">                                                               
-                    <button type="submit" name="type" value="normal" class="btn bg-olive btn-block">Sign me in</button>  
+                 <div class="form-group">
+                 <input type="hidden" name="sessionKey" value="${param['sessionKey']}"/>
+                 </div>
+                 <div class="nav-tabs-custom">
+                    <div class="tab-content">
+                    <div class="tab-pane.active" id="tab_1">
+                    <b><p>Thank You For Registering With Companion!</p></b>
                     
-                    <p><a href="security-question.jsp" >I forgot my password</a></p>
-                    
-                    <a href="register" class="text-center">Register a new membership</a>
-                </div>
+                    <p>
+                    You are one step away from completing your registration with Companion! Please click the verify button
+                    to join our list of active users! After verifying your account, you will be able to participate in our community
+                    and have a rich experience! 
+                    </p>
+                    </div>
+                   </div>
+                  </div>
+	                 <button type="submit"  value="normal" class="btn bg-olive btn-block">Verify</button>
+               
+              </div>
+                
             </form>
-			<form action="UserLogin" method="post">
-	            <div class="margin text-center">
-	                <span>Sign in using social networks</span>
-	                <br/>
-	                <button type="submit" name="type" value="facebook" class="btn bg-light-blue btn-circle"><i class="fa fa-facebook"></i></button>
-	                <button class="btn bg-aqua btn-circle"><i class="fa fa-twitter"></i></button>
-	                <button class="btn bg-red btn-circle"><i class="fa fa-google-plus"></i></button>
-	            </div>
-            </form>
+         
         </div>
 
 
         <!-- jQuery 2.0.2 -->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
         <!-- Bootstrap -->
-        <script src="js/bootstrap.min.js" type="text/javascript"></script>        
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/AdminLTE/app.js" type="text/javascript"></script>
+        <script src="js/plugins/jqueryvalidation/jquery.validate.min.js" type="text/javascript"></script>
+
+
     </body>
 </html>

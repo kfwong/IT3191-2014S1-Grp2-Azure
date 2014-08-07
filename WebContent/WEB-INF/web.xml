@@ -90,4 +90,20 @@
     <param-name>email_check</param-name>
     <param-value>Please check your email for the verification link</param-value>
   </context-param>
+  <context-param>
+  <param-name>verification_successful</param-name>
+  <param-value>Your Account Is Verified Successfully!</param-value>
+  </context-param>
+  <context-param>
+  <param-name>verification_failure</param-name>
+  <param-value>Failure to verify account!</param-value>
+  </context-param>
+  <context-param>
+  <param-name>email_check</param-name>
+  <param-value>Wrong email specified!</param-value>
+  </context-param>
+  <context-param>
+  <param-name>security_question</param-name>
+  <param-value>Incorrect security question or answer supplied!</param-value>
+  </context-param>
 </web-app>

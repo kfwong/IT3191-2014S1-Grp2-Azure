@@ -11,6 +11,8 @@ import it3191.companion.util.Hash;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -122,6 +125,9 @@ public class UserRegistration extends HttpServlet {
 					String challenge = request.getParameter("recaptcha_challenge_field");
 					String uresponse = request.getParameter("recaptcha_response_field");
 					ReCaptchaResponse reCaptchaResponse = reCaptcha.checkAnswer(remoteAddr, challenge, uresponse);
+					MessageDigest md;
+					String forgotPasswordSessionKey;
+					
 					byte[] salt = Hash.getNextSalt();
 	
 					if (reCaptchaResponse.isValid()) {
@@ -151,11 +157,14 @@ public class UserRegistration extends HttpServlet {
 							response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
 	
 						} else {
+							md = MessageDigest.getInstance("MD5");
+							forgotPasswordSessionKey= Hex.encodeHexString(md.digest(UUID.randomUUID().toString().getBytes()));
+							user.setForgetPasswordSessionKey(forgotPasswordSessionKey);
 							userDao.saveOrUpdate(user);
 							log.info("Client from " + request.getRemoteAddr() +" successfully registered with email \""+request.getParameter("email")+"\".");
 							Email emailuser=new Email();
 				    		emailuser.setFrom("Companion@example.com");
-				    		emailuser.setMessage("Thank you for using Companion. Please click here to verify your account.<a href=\"http://localhost:8080/IT3191-2014S1-Grp2-Azure/password-reset.jsp?sessionKey="+""+"\">Click Here</a> ");
+				    		emailuser.setMessage("Thank you for using Companion.To complete your registration,please click here to verify your account.<a href=\""+request.getScheme()+ "://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/account-verification.jsp?sessionKey="+forgotPasswordSessionKey+"\">Click Here</a> ");
 				    		emailuser.setSubject("Account Verification");
 				    		emailuser.setTo(user.getEmail());
 							emailuser.send();

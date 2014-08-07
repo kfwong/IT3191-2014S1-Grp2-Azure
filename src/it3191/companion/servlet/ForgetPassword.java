@@ -63,7 +63,7 @@ public class ForgetPassword extends HttpServlet {
 		
 		//1)Check against email, if the email doesn't exist, the user object will be null, so check the null value
 		if(user==null){
-			response.sendRedirect(this.getServletContext().getContextPath()+"/404");
+			response.sendRedirect(this.getServletContext().getContextPath()+"/security-question?info=email_check");
 			System.out.println("user/email does not exist");
 		}else{
 			if(user.getSecurityQuestion() == securityquestion){
@@ -92,11 +92,11 @@ public class ForgetPassword extends HttpServlet {
 					}
 				}
 				else{
-					response.sendRedirect(this.getServletContext().getContextPath()+"/404");
+					response.sendRedirect(this.getServletContext().getContextPath()+"/security-question?info=security_question");
 					System.out.println("answer q is wrong.");
 				}
 			}else{
-				response.sendRedirect(this.getServletContext().getContextPath()+"/404");
+				response.sendRedirect(this.getServletContext().getContextPath()+"/security-question?info=security_question");
 				System.out.println("security q is wrong.");
 			}
 		}
