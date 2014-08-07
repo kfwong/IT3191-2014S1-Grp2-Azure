@@ -61,14 +61,7 @@
 					<div class="form-group">
 					  <label for="title">Title</label>
 					  <input type="text" class="form-control title" id="title" name = "title" required autofocus>
-					</div>
-					<!-- <div class="form-group">
-					  <label for="contact">Contact</label>
-					  	<select class="form-control contact" id="contact" name="contact">
-	
-						</select>
-					</div>
-					-->		
+					</div>	
 					<div class="checkbox">
 					    <label>
 					      <input class="allDay" type="checkbox" name="allDay" value="true" checked> All day event
@@ -92,6 +85,25 @@
 							<label for="end">End time</label>
 						  	<input type="text" class="form-control end" id="end" name = "end" required>
 						</div>
+					</div>
+					<div class="owner">
+						<label for="owner">Created by</label>
+						<table class="owner table table-bordered" width="100%">
+							<thead>
+								<tr>
+									<th class="first-name">First Name</th>
+									<th class="last-name">Last Name</th>
+									<th class="email">Email</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="first-name-data"></td>
+									<td class="last-name-data"></td>
+									<td class="email-data"></td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 					<label for="participants">Participants</label><br/>
 					<table class="participants table table-hover table-striped table-bordered" width="100%">
@@ -245,6 +257,10 @@
         						$(".start-date").val(moment(json.start).format("YYYY-MM-DD"));
         						$(".start").val(json.start);
         						$(".end").val(json.end);
+        						$(".first-name-data").text(json.owner.firstName);
+        						$(".last-name-data").text(json.owner.lastName);
+        						$(".email-data").text(json.owner.email);
+        					        						
         						$(".participants").dataTable({
         							destroy: true,
         							"language": {
@@ -271,20 +287,11 @@
         						
         						if(json.isParticipant == true){
         							$(".participant").val("true");
-        							
-        							$(".join-button").removeClass("btn-primary");
-        							$(".join-button").addClass("btn-danger");
-        							
-        							$(".join-button").text("Leave");
         						}
         						else{
 									$(".participant").val("false");
-        							
-        							$(".join-button").addClass("btn-primary");
-        							$(".join-button").removeClass("btn-danger");
-        							
-        							$(".join-button").text("Join");
         						}
+        						$(".participant").trigger("change");
         		    		}
         		    	});
         		    }, 
@@ -294,7 +301,7 @@
         		    		dataType: "json",
         		    		url: "study-group",
         		    		data: {
-        		    			action:"edit",
+        		    			action:"editDate",
         		    	        id: event.id,
         		    	        title: event.title,
         		    	        start: event.start.format("YYYY-MM-DD HH:mm:ss"),
@@ -326,6 +333,21 @@
 				  	
 				 	$(this).trigger("click");
 				});
+							
+				$(".participant").on("change", function(event){
+					if($(".participant").val() == "true") {
+						$(".join-button").removeClass("btn-primary");
+						$(".join-button").addClass("btn-danger");
+						
+						$(".join-button").text("Leave");
+					}
+					else{						
+						$(".join-button").addClass("btn-primary");
+						$(".join-button").removeClass("btn-danger");
+						
+						$(".join-button").text("Join");
+					}	
+				});
 				
 				$(".join-button").on("click", function(event){
 					if($(".participant").val() == "true") {
@@ -333,7 +355,9 @@
 					}
 					else{
 						$(".participant").val("true");
-					}	
+					}
+					//to be changed to submit instead of triggering change
+					$(".participant").trigger("change");
 				});
 				
 				$(".delete-button").on("click", function(){
