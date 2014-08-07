@@ -53,7 +53,7 @@
 			                                	<div class="row">
 			                                		<div class="col-md-1">
 			                                			<div class="image">
-												            <img src="http://graph.facebook.com/${sessionScope.user.facebookId}/picture" class="img-circle" alt="User Image" style="margin-left:auto;margin-right:auto;display:block;"/>
+												            <img src="https://graph.facebook.com/${sessionScope.user.facebookId}/picture" class="img-circle" alt="User Image" style="margin-left:auto;margin-right:auto;display:block;"/>
 												        </div>
 												        <strong><small style="margin-left:auto;margin-right:auto;display:block;text-align:center;">${activity.createdBy.firstName }</small></strong>
 			                                		</div>

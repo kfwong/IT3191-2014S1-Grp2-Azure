@@ -91,7 +91,7 @@
 			                        </div><!-- /.box-body -->
 			                        <div class="box-footer">
 			                        	<div class="pull-left image" style="padding:5px 10px 5px 10px;">
-							            	<img src="http://graph.facebook.com/${resource.createdBy.facebookId}/picture" class="img-circle" alt="User Image" style="width:35px;height:35px;">
+							            	<img src="https://graph.facebook.com/${resource.createdBy.facebookId}/picture" class="img-circle" alt="User Image" style="width:35px;height:35px;">
 							            	&nbsp;
 							            	<small>${resource.createdBy.firstName} shared this on ${resource.createdOn}</small>
 							        	</div>

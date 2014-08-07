@@ -31,7 +31,7 @@
 				        				${pageContext.servletContext.contextPath}/img/avatar3.png
 				    				</c:when>
 								    <c:otherwise>
-								         http://graph.facebook.com/${sessionScope.user.facebookId}/picture
+								         https://graph.facebook.com/${sessionScope.user.facebookId}/picture
 								    </c:otherwise>
 								</c:choose>
 							" class="img-circle" alt="User Image" />
