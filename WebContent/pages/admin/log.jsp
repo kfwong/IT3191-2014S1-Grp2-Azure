@@ -60,9 +60,9 @@
     	<script src="//cdn.jsdelivr.net/jquery.datatables/1.10.1/plugins/bootstrap/3/dataTables.bootstrap.js"></script>
     	<script src="//cdn.datatables.net/responsive/1.0.0/js/dataTables.responsive.js"></script>
 		<script src="//cdn.jsdelivr.net/jquery.datatables/1.10.1/plugins/tabletools/js/dataTables.tableTools.min.js"></script>
-		<script src="http://code.highcharts.com/highcharts.js"></script>
-		<script src="http://code.highcharts.com/highcharts-more.js"></script>
-		<script src="http://code.highcharts.com/modules/exporting.js"></script>
+		<script src="//code.highcharts.com/highcharts.js"></script>
+		<script src="//code.highcharts.com/highcharts-more.js"></script>
+		<script src="//code.highcharts.com/modules/exporting.js"></script>
     	<script type="text/javascript">
     		$('#example').dataTable(
     			{
@@ -70,10 +70,10 @@
     				"dom": 'T<"clear">lfrtip',
     				"bSort" : false,
     		        "tableTools": {
-    		            "sSwfPath": "http://cdn.jsdelivr.net/jquery.datatables/1.10.1/plugins/tabletools/swf/copy_csv_xls_pdf.swf"
+    		            "sSwfPath": "https://cdn.jsdelivr.net/jquery.datatables/1.10.1/plugins/tabletools/swf/copy_csv_xls_pdf.swf"
     		        },
     		        "ajax": {
-	    	            "url": "http://localhost:8080/IT3191-2014S1-Grp2-Azure/LogView",
+	    	            "url": window.location.protocol+"//"+window.location.hostname+":"+window.location.port +"${pageContext.request.contextPath}/LogView",
 	    	            "data": {
 	    	            	"type": "log"
 	    	            },
@@ -119,7 +119,7 @@
     		
     		$.ajax({
     		    type: "GET",
-    		    url: "http://localhost:8080/IT3191-2014S1-Grp2-Azure/LogView",
+    		    url: window.location.protocol+"//"+window.location.hostname+":"+window.location.port +"${pageContext.request.contextPath}/LogView",
     		    data: {
     		    	"type": "heatMap"
     		    },

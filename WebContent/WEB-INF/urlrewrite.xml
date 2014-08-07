@@ -107,5 +107,10 @@
         <from>^/user-management$</from>
         <to>UserManagementServlet</to>
     </rule>
+    
+    <rule>
+        <from>^/security-question$</from>
+        <to>security-question.jsp</to>
+    </rule>
 
 </urlrewrite>

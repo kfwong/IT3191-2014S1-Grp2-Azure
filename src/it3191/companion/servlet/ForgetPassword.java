@@ -78,7 +78,7 @@ public class ForgetPassword extends HttpServlet {
 						userDao.saveOrUpdate(user);
 						Email emailuser=new Email();
 			    		emailuser.setFrom("Companion@example.com");
-			    		emailuser.setMessage("Thank you for using Companion. Please click on this link to reset your password.<a href=\"http://localhost:8080/IT3191-2014S1-Grp2-Azure/password-reset.jsp?sessionKey="+forgotPasswordSessionKey+"\">Click Here</a> ");
+			    		emailuser.setMessage("Thank you for using Companion. Please click on this link to reset your password.<a href=\""+request.getScheme()+ "://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/password-reset.jsp?sessionKey="+forgotPasswordSessionKey+"\">Click Here</a> ");
 			    		emailuser.setSubject("Reset Your Password");
 			    		emailuser.setTo(user.getEmail());
 						emailuser.send();
