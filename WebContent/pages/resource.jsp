@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=US-ASCII" pageEncoding="US-ASCII"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -51,7 +52,7 @@
                 <section class="content">
                 <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@START MODIFICATION FROM HERE@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
                 	<div class="box">
-                		<form role="form" action="publish" method="post">
+                		<csrf:form role="form" action="publish" method="post">
 	                        <div class="box-header">
 	                            <h3 class="box-title">Showcase your study notes or useful materials with others!</h3>
 	                        </div>
@@ -68,7 +69,7 @@
 	                        	<input id="dropbox-link" type="hidden" name="dropboxLink" value=""/>
 	                            <p><input type="submit" class="btn btn-primary btn-xs" value="Publish" />&nbsp;<span id="dropbox-chooser-btn-container"></span>&nbsp;<i id="dropbox-chooser-chosen-file-link" style="color:gray;"></i></p>
 	                        </div><!-- /.box-footer-->
-                        </form>
+                        </csrf:form>
                     </div>
 
 					<div id="columns">						
@@ -142,6 +143,7 @@
     	<jsp:include page="../WEB-INF/javascript.jspf" />
 		<script src="//cdn.jsdelivr.net/select2/3.4.8/select2.min.js"></script>
     	<script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="mt3jcgn5fd1vnvo"></script>
+    	<script type="text/javascript" src="${pageContext.servletContext.contextPath}/JavaScriptServlet"></script>
     	<script type="text/javascript">
     	var options = {
 

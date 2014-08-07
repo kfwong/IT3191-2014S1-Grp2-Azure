@@ -45,7 +45,6 @@ public class LogView extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	@SuppressWarnings({ "deprecation", "unchecked" })
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// Sample Log:
 		// INFO 2014-07-24 09:43:16,012 UserLogin: Client with email "whitekoffee@gmail.com" and Facebook ID 761632213867348 login successfully.

@@ -37,3 +37,16 @@
 
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <!-- <script src="${pageContext.servletContext.contextPath}/js/AdminLTE/dashboard.js" type="text/javascript"></script> -->
+
+<!-- To expand proper menu tab at sidebar -->
+<script type="text/javascript">
+$(document).ready(function(){
+	$('.sidebar-menu a').each(function(){
+		if($(this).attr('href') == window.location.pathname){
+			$(this).parent('li').addClass('active');
+			$(this).parents('.treeview').addClass('active');
+			$(this).parents('.treeview .treeview-menu').css('display', 'block');
+		}
+	});
+});
+</script>

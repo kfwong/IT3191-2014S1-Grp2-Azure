@@ -3,10 +3,15 @@
         "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
 
 <urlrewrite>
-	<rule>
-        <from>^/$</from>
-        <to>/pages/dashboard.jsp</to>
-    </rule>
+	 <rule enabled="true">
+		<name>Block direct access</name>
+		<note>Restricts direct access to the resources</note>
+		<condition type="attribute" name="javax.servlet.forward.request_uri" operator="equal">^$</condition>
+		<from>^/pages/(.*)$</from>
+		<set type="status">404</set>
+		<set type="request" name="UrlRewriteFilter.sendError">404</set>
+		<to type="redirect">%{context-path}/404.html</to>
+	</rule> 
 
 	<rule>
         <from>^/dashboard$</from>
@@ -90,7 +95,7 @@
     
     <rule>
         <from>^/log/view$</from>
-        <to>/pages/log.jsp</to>
+        <to>/pages/admin/log.jsp</to>
     </rule>
     
     <rule>
@@ -102,4 +107,5 @@
         <from>^/user-management$</from>
         <to>UserManagementServlet</to>
     </rule>
+
 </urlrewrite>

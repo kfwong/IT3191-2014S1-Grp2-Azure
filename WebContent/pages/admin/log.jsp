@@ -3,7 +3,7 @@
 <html>
     <head>
     	<!-- header fragment -->
-    	<jsp:include page="../WEB-INF/header.jspf" />
+    	<jsp:include page="../../WEB-INF/header.jspf" />
     	<link rel="stylesheet" href="//cdn.jsdelivr.net/jquery.datatables/1.10.1/plugins/bootstrap/3/dataTables.bootstrap.css">
     	<link rel="stylesheet" href="//cdn.datatables.net/responsive/1.0.0/css/dataTables.responsive.css">
     	<link rel="stylesheet" href="//cdn.jsdelivr.net/jquery.datatables/1.10.1/plugins/tabletools/css/dataTables.tableTools.min.css">
@@ -11,11 +11,11 @@
     </head>
     <body class="skin-blue">
         <!-- navigation top fragment -->
-        <jsp:include page="../WEB-INF/navigation-top.jspf" />
+        <jsp:include page="../../WEB-INF/navigation-top.jspf" />
         
         <div class="wrapper row-offcanvas row-offcanvas-left">
         	<!-- navigation left fragment -->
-        	<jsp:include page="../WEB-INF/navigation-left.jspf" />	
+        	<jsp:include page="../../WEB-INF/navigation-left.jspf" />	
         	
             <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">
@@ -55,7 +55,7 @@
         <!-- add new calendar event modal -->
         
 		<!-- javscript fragment -->
-    	<jsp:include page="../WEB-INF/javascript.jspf" />
+    	<jsp:include page="../../WEB-INF/javascript.jspf" />
     	<script src="//cdn.datatables.net/1.10.1/js/jquery.dataTables.js"></script>
     	<script src="//cdn.jsdelivr.net/jquery.datatables/1.10.1/plugins/bootstrap/3/dataTables.bootstrap.js"></script>
     	<script src="//cdn.datatables.net/responsive/1.0.0/js/dataTables.responsive.js"></script>

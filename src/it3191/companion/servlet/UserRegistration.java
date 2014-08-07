@@ -1,9 +1,7 @@
 package it3191.companion.servlet;
 
 import it3191.companion.dao.UserDao;
-
 import it3191.companion.dto.Role;
-
 import it3191.companion.dto.User;
 import it3191.companion.util.Email;
 import it3191.companion.util.Hash;
@@ -20,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.net.URLCodec;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
@@ -56,10 +55,13 @@ public class UserRegistration extends HttpServlet {
 
 			it3191.companion.dto.User user = new User();
 			UserDao userDao = new UserDao();
+			
+			URLCodec urlCodec = new URLCodec();
+        	
+        	String redirectURI = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/UserRegistration?type=facebook";
 
-			InputStream inputStream = new URL(
-					"https://graph.facebook.com/oauth/access_token?client_id=390095387796223&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FIT3191-2014S1-Grp2-Azure%2FUserRegistration%3Ftype%3Dfacebook&client_secret=9503acd1dc6276b1bf64673d0fb4db7e&code="
-							+ request.getParameter("code")).openStream();
+			InputStream inputStream = new URL("https://graph.facebook.com/oauth/access_token?client_id=390095387796223&redirect_uri="+urlCodec.encode(redirectURI)+"&client_secret=9503acd1dc6276b1bf64673d0fb4db7e&code=" + request.getParameter("code")).openStream();
+
 			try {
 				String[] pairs = IOUtils.toString(inputStream).split("&");
 				for (String pair : pairs) {
@@ -107,7 +109,7 @@ public class UserRegistration extends HttpServlet {
 			} finally {
 				IOUtils.closeQuietly(inputStream);
 			}
-		} catch (IOException ex) {
+		} catch (Exception ex) {
 			log.error("User login operation aborted due to application error. "+ ex.getMessage());
 			response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
 		}
@@ -180,11 +182,20 @@ public class UserRegistration extends HttpServlet {
 
 				break;
 			case "facebook":
-				if (request.getParameter("error") != null) {
-					log.warn("Client from " + request.getRemoteAddr() +" failed to initiate facebook OAuth. " + request.getParameter("error") + ".");
-					response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
-				} else if (request.getParameter("code") == null) {
-					response.sendRedirect("https://www.facebook.com/dialog/oauth?client_id=390095387796223&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FIT3191-2014S1-Grp2-Azure%2FUserRegistration%3Ftype%3Dfacebook&scope=email,user_about_me,user_birthday,user_friends,user_hometown,user_location,user_relationship_details,user_relationships,user_religion_politics,user_website");
+				try{
+					if (request.getParameter("error") != null) {
+						log.warn("Client from " + request.getRemoteAddr() +" failed to initiate facebook OAuth. " + request.getParameter("error") + ".");
+						response.sendRedirect(this.getServletContext().getContextPath()+"/register?info=registration_failed");
+					} else if (request.getParameter("code") == null) {
+						
+						URLCodec urlCodec = new URLCodec();
+			        	
+			        	String redirectURI = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/UserRegistration?type=facebook";
+			        	
+						response.sendRedirect("https://www.facebook.com/dialog/oauth?client_id=390095387796223&response_type=code&redirect_uri="+urlCodec.encode(redirectURI)+"&scope=email,user_about_me,user_birthday,user_friends,user_hometown,user_location,user_relationship_details,user_relationships,user_religion_politics,user_website");
+					}
+				}catch(Exception ex){
+					ex.printStackTrace();
 				}
 				break;
 			default:
