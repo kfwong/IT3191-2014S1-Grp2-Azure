@@ -123,14 +123,14 @@ public class UserDao implements Dao<User> {
 		return user;
 	}
 
-	public User authenticate(String email, String passwordsha1){
+	public User authenticate(String email, String passwordSHA1){
 		User user = null;
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		
 		Query query = session.createQuery("FROM User WHERE email = :email AND passwordSHA1 = :passwordSHA1");
 		query.setParameter("email", email);
-		query.setParameter("passwordSHA1", passwordsha1);
+		query.setParameter("passwordSHA1", passwordSHA1);
 		
 		user = (User) query.uniqueResult();
 		
@@ -138,6 +138,7 @@ public class UserDao implements Dao<User> {
 	
 		return user;
 	}
+	
 	public User authorizePasswordReset(String answer){
 		User user = null;
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
@@ -148,6 +149,7 @@ public class UserDao implements Dao<User> {
 		user=(User) query.uniqueResult();
 		session.close();
 		return user;
+		
 	
 }
 }

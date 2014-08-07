@@ -1,13 +1,13 @@
 package it3191.companion.servlet;
 
 import it3191.companion.dao.StudyGroupDao;
-import it3191.companion.dao.UserDao;
 import it3191.companion.dto.StudyGroup;
 import it3191.companion.dto.User;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,14 +49,27 @@ public class StudyGroupServlet extends HttpServlet {
 				StudyGroupDao dao = new StudyGroupDao();
 				studyGroupArray = (ArrayList<StudyGroup>) dao.getAll();
 				
+				List<Map<String, Object>> studyGroupMapList = new ArrayList<Map<String, Object>>();
+				
+				for(StudyGroup studyGroup:studyGroupArray){
+					Map<String, Object> studyGroupMap = new HashMap<String, Object>();
+					studyGroupMap.put("id", studyGroup.getId());
+					studyGroupMap.put("title", studyGroup.getTitle());
+					studyGroupMap.put("start", studyGroup.getStart());
+					studyGroupMap.put("end", studyGroup.getEnd());
+					studyGroupMap.put("allDay", studyGroup.isAllDay());
+					
+					studyGroupMapList.add(studyGroupMap);
+				}
+				
 				Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-				String json = gson.toJson(studyGroupArray);
+				String json = gson.toJson(studyGroupMapList);
 				
 				response.setContentType("application/json");
 				PrintWriter out = response.getWriter();
 				out.write(json);
 			}
-			if(action.equals("view")){
+			else if(action.equals("view")){
 				int id = Integer.parseInt(request.getParameter("id"));
 				
 				StudyGroup sg = new StudyGroup();
@@ -64,22 +77,33 @@ public class StudyGroupServlet extends HttpServlet {
 				StudyGroupDao dao = new StudyGroupDao();
 				sg = dao.get(id);
 				
+				User user = (User) request.getSession().getAttribute("user");
+				
 				Map<String, Object> studyGroup = new HashMap<String, Object>();
 				studyGroup.put("id", sg.getId());
 				studyGroup.put("title", sg.getTitle());
 				studyGroup.put("start", sg.getStart());
 				studyGroup.put("end", sg.getEnd());
 				studyGroup.put("allDay", sg.isAllDay());
-				
-				List<Map<String, String>> participants = new ArrayList<Map<String, String>>();
-				for(User user : sg.getParticipants()){
-					Map<String, String> participant = new HashMap<String, String>();
-					participant.put("id", Integer.toString(user.getId()));
-					participant.put("firstName", user.getFirstName());
-					participant.put("lastName", user.getLastName());
-					participant.put("email", user.getEmail());
+				studyGroup.put("isParticipant", sg.isParticipantExist(user));
 					
-					participants.add(participant);
+				Map<String, Object> ownerMap = new HashMap<String, Object>();
+				ownerMap.put("id", sg.getCreatedBy().getId());
+				ownerMap.put("firstName", sg.getCreatedBy().getFirstName());
+				ownerMap.put("lastName", sg.getCreatedBy().getLastName());
+				ownerMap.put("email", sg.getCreatedBy().getEmail());
+				
+				studyGroup.put("owner", ownerMap);
+				
+				List<Map<String, Object>> participants = new ArrayList<Map<String, Object>>();
+				for(User participant : sg.getParticipants()){
+					Map<String, Object> participantMap = new HashMap<String, Object>();
+					participantMap.put("id", participant.getId());
+					participantMap.put("firstName", participant.getFirstName());
+					participantMap.put("lastName", participant.getLastName());
+					participantMap.put("email", participant.getEmail());
+					
+					participants.add(participantMap);
 				}
 				
 				studyGroup.put("participants", participants);
@@ -91,18 +115,12 @@ public class StudyGroupServlet extends HttpServlet {
 				PrintWriter out = response.getWriter();
 				out.write(json);
 			}
-			/*if(action.equals("getContacts")){	
-				StudyGroupDao sgd = new StudyGroupDao();
-				ArrayList<Contact> contactArrayList= (ArrayList<Contact>) cd.getAllByType("school");
-				contactArrayList.addAll(cd.getAllByType("scc"));
-						
-				Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-				String json = gson.toJson(contactArrayList);
-				
-				response.setContentType("application/json");
-				PrintWriter out = response.getWriter();
-				out.write(json);
-			}*/
+			else{
+				request.getRequestDispatcher("404").forward(request, response);
+			}
+		}
+		else{
+			request.getRequestDispatcher("/pages/study-group.jsp").forward(request, response);
 		}
 	}
 
@@ -110,7 +128,7 @@ public class StudyGroupServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-String action = request.getParameter("action");
+		String action = request.getParameter("action");
 		
 		if(action != null){
 		
@@ -119,27 +137,27 @@ String action = request.getParameter("action");
 				String start = request.getParameter("start");
 				String end = request.getParameter("end");
 				String allDay = request.getParameter("allDay");
-				//int contactId = Integer.parseInt(request.getParameter("contact"));
-				
-				//Contact contact = new Contact();
-				
-				//ContactDao cd = new ContactDao();
-				//contact = cd.get(contactId);
 				
 				if(allDay != null && allDay.equals(true)){
-					
+					//do nothing for now
 				}
 				
-				StudyGroup sd = new StudyGroup();
-				sd.setTitle(title);
-				sd.setStart(start);
-				sd.setEnd(end);
-				sd.setAllDay(allDay);
-				//sd.setContact(contact);
+				User user = (User) request.getSession().getAttribute("user");
+				
+				StudyGroup sg = new StudyGroup();
+				sg.setTitle(title);
+				sg.setStart(start);
+				sg.setEnd(end);
+				sg.setAllDay(allDay);
+				sg.setCreatedBy(user);
+				sg.setCreatedOn(new Date());
 				
 				StudyGroupDao dao = new StudyGroupDao();
-				dao.saveOrUpdate(sd);
+				dao.saveOrUpdate(sg);
+				
+				response.sendRedirect("study-group");
 			}
+			
 			if(action.equals("edit")){
 				int id = Integer.parseInt(request.getParameter("id"));
 				
@@ -150,14 +168,13 @@ String action = request.getParameter("action");
 				String participantStr = request.getParameter("participant");
 				
 				StudyGroupDao dao = new StudyGroupDao();
-				StudyGroup sd = dao.get(id);
-				sd.setId(id);
-				sd.setTitle(title);
-				sd.setStart(start);
-				sd.setEnd(end);
-				sd.setAllDay(allDay);
+				StudyGroup sg = dao.get(id);
+				sg.setId(id);
+				sg.setTitle(title);
+				sg.setStart(start);
+				sg.setEnd(end);
+				sg.setAllDay(allDay);
 
-				List<User> participantList = sd.getParticipants();
 				User user = (User) request.getSession().getAttribute("user");
 				
 				if(participantStr == null){
@@ -165,26 +182,90 @@ String action = request.getParameter("action");
 				}
 				else{
 					if(participantStr.equals("true")){
-						sd.addParticipant(user);
+						sg.addParticipant(user);
 					}
 					else if(participantStr.equals("false")){
-						sd.removeParticipant(user);
+						sg.removeParticipant(user);
 					}
 				}
-					
- 				dao.saveOrUpdate(sd);
+				
+				if(sg.isOwner(user)){
+	 				dao.saveOrUpdate(sg);
+	 				response.sendRedirect("study-group");
+				}
+				else{
+					response.sendRedirect("403");
+				}
 			}
+			
 			if(action.equals("delete")){
 				int id  = Integer.parseInt(request.getParameter("id"));
-				StudyGroup sd = new StudyGroup();
-				sd.setId(id);
 				
 				StudyGroupDao dao = new StudyGroupDao();
-				dao.delete(sd);
+				StudyGroup sg = dao.get(id);
+				
+				User user = (User) request.getSession().getAttribute("user");
+				
+				if(sg.isOwner(user)){
+					dao.delete(sg);
+	 				response.sendRedirect("study-group");
+				}
+				else{
+					response.sendRedirect("403");
+				}
 			}
-		}
-		
-		response.sendRedirect("study-group");
+						
+			if(action.equals("editDate")){
+				int id = Integer.parseInt(request.getParameter("id"));
+				
+				String title = request.getParameter("title");
+				String start = request.getParameter("start");
+				String end = request.getParameter("end");
+				String allDay = request.getParameter("allDay");
+				
+				StudyGroupDao dao = new StudyGroupDao();
+				StudyGroup sg = dao.get(id);
+				sg.setId(id);
+				sg.setTitle(title);
+				sg.setStart(start);
+				sg.setEnd(end);
+				sg.setAllDay(allDay);
+					
+ 				dao.saveOrUpdate(sg);
+			}
+			
+			if(action.equals("editParticipant")){
+				int id = Integer.parseInt(request.getParameter("id"));
+				
+				String participantStr = request.getParameter("participant");
+				
+				StudyGroupDao dao = new StudyGroupDao();
+				StudyGroup sg = dao.get(id);
+				sg.setId(id);
+
+				User user = (User) request.getSession().getAttribute("user");
+				
+				if(participantStr == null){
+					//do nothing for now
+				}
+				else{
+					if(participantStr.equals("true")){
+						sg.addParticipant(user);
+					}
+					else if(participantStr.equals("false")){
+						sg.removeParticipant(user);
+					}
+				}
+				
+				if(sg.isOwner(user)){
+					response.sendRedirect("403");
+				}
+				else{
+					dao.saveOrUpdate(sg);
+	 				response.sendRedirect("study-group");
+				}
+			}
+		}		
 	}
 
 }

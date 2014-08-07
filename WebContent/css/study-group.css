@@ -1,3 +1,11 @@
 .modal-lg{
 	width:800px;
 }
+
+.owner .first-name, .owner .last-name{
+	width:30%;
+}
+
+.owner .email{
+	width:40%;
+}

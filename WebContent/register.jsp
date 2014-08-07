@@ -67,12 +67,20 @@
                     <div class="form-group">
                         <input type="text" id="answer" name="answer" class="form-control" placeholder="Answer"/>
                     </div>
-                    <%
-         			 ReCaptcha c = ReCaptchaFactory.newReCaptcha("6LduAvYSAAAAAKA9nbwujKUPIwrrmrf1tFVG5wb4", "6LduAvYSAAAAAGto0ISKfxATI9iATrIrbCX1jQlz", false);
-          			out.print(c.createRecaptchaHtml(null, null));
-       				 %>
-	                 
-                </div>
+				
+					<script type="text/javascript" src="https://www.google.com/recaptcha/api/challenge?k=6Lf1NfgSAAAAAC__ADmMVg4LQ19zDc5HGJg52muH"></script>
+				<noscript>
+					<iframe
+						src="https://www.google.com/recaptcha/api/noscript?k=6Lf1NfgSAAAAAC__ADmMVg4LQ19zDc5HGJg52muH"
+						height="300" width="500" frameborder="0"></iframe>
+					<br>
+					<textarea name="recaptcha_challenge_field" rows="3" cols="40">
+   					</textarea>
+					<input type="hidden" name="recaptcha_response_field"
+						value="manual_challenge">
+				</noscript>
+
+			</div>
                 <div class="footer">                    
 
                     <button type="submit" name="type" value="normal" class="btn bg-olive btn-block">Sign me up</button>

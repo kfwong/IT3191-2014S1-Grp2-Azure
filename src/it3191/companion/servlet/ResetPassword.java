@@ -54,27 +54,22 @@ public class ResetPassword extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		UserDao userDao=new UserDao();
-		String sessionKey=request.getParameter("sessionKey");
-		User user = userDao.getByForgetPasswordSessionKey(sessionKey);
-		byte[] salt= Hash.getNextSalt();
-		
-		
-		
-		
-		user.setPasswordSHA1(Base64.encode(Hash.hash(request.getParameter("password").toCharArray(), salt)));
-		user.setSalt(Base64.encode(salt));
-		user.setForgetPasswordSessionKey(null);
-		userDao.saveOrUpdate(user);
-		
-		
-		
-		response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=successfully_update");
-		
-		
-			
-			
-		
-		
+		byte[] salt;
+		try {
+			salt = Hash.getNextSalt();
+			String sessionKey=request.getParameter("sessionKey");
+			User user = userDao.getByForgetPasswordSessionKey(sessionKey);
+			 byte[] bDigest = Hash.getHash(request.getParameter("password"),salt);
+		        String sDigest = Hash.byteToBase64(bDigest);
+		        String sSalt = Hash.byteToBase64(salt);
+				user.setPasswordSHA1(sDigest);
+				user.setSalt(sSalt);
+			user.setForgetPasswordSessionKey(null);
+			userDao.saveOrUpdate(user);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}		
+		response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=successfully_update");	
 	}
 
 }

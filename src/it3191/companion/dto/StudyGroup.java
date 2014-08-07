@@ -15,17 +15,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 
 @Entity
 @Table(name = "STUDY_GROUP")
-public class StudyGroup {
-
-	@Id
-	@GeneratedValue
-	@Column(name="ID")
-	private int id;
+@PrimaryKeyJoinColumn(name = "ID")
+public class StudyGroup extends Activity{
 
 	@Column(name="TITLE")
 	private String title;
@@ -39,19 +36,12 @@ public class StudyGroup {
 	@Column(name="ALL_DAY")
 	private boolean allDay;
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "STUDY_GROUP_PARTICIPANT", joinColumns = { 
-			@JoinColumn(name = "STUDY_GROUP_ID")}, 
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+			name = "STUDY_GROUP_PARTICIPANT", 
+			joinColumns = {	@JoinColumn(name = "STUDY_GROUP_ID")}, 
 			inverseJoinColumns = { @JoinColumn(name = "PARTICIPANT_ID") })
 	private List<User> participants;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getTitle() {
 		return title;
@@ -128,7 +118,6 @@ public class StudyGroup {
 			}
 			else{
 				participantExist = false;
-				break;
 			}
 		}
 		
@@ -158,6 +147,19 @@ public class StudyGroup {
 					break;
 				}
 			}
+		}
+		
+		return success;
+	}
+	
+	public boolean isOwner(User user){
+		boolean success = false; 
+		
+		if(getCreatedBy().getId() == user.getId()){
+			success = true;
+		}
+		else{
+			success = false;
 		}
 		
 		return success;

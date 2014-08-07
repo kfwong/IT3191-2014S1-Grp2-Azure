@@ -4,6 +4,15 @@
   <welcome-file-list>
     <welcome-file>login.jsp</welcome-file>
   </welcome-file-list>
+  <security-constraint>
+  	<web-resource-collection>
+    	<web-resource-name>secured</web-resource-name>
+        <url-pattern>/*</url-pattern>
+	</web-resource-collection>
+    	<user-data-constraint>
+        	<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+  		</user-data-constraint>
+  </security-constraint>
   <jsp-config>
     <jsp-property-group>
       <url-pattern>*.jspf</url-pattern>
@@ -40,7 +49,6 @@
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
-  
   <filter>
 		<filter-name>CSRFGuard</filter-name>
 		<filter-class>org.owasp.csrfguard.CsrfGuardFilter</filter-class>
@@ -52,10 +60,19 @@
 		<dispatcher>REQUEST</dispatcher>
     	<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>
-  
+  <filter>
+    <filter-name>HtmlCompressorFilter</filter-name>
+    <filter-class>it3191.companion.filter.HtmlCompressorFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>HtmlCompressorFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
   <context-param>
     <param-name>registration_successful</param-name>
-    <param-value>Registered successfully! Please proceed to login.</param-value>
+    <param-value>Registered successfully! Please proceed to login and check your email for your verification link.</param-value>
   </context-param>
   <context-param>
     <param-name>registration_failed</param-name>
@@ -85,7 +102,6 @@
     <param-name>email_check</param-name>
     <param-value>Please check your email for the verification link</param-value>
   </context-param>
-	
 	<context-param>
 		<param-name>Owasp.CsrfGuard.Config</param-name>
 		<param-value>WEB-INF/csrfguard.properties</param-value>
@@ -132,4 +148,20 @@
 		<servlet-name>JavaScriptServlet</servlet-name>
 		<url-pattern>/JavaScriptServlet</url-pattern>
 	</servlet-mapping>
+  <context-param>
+  <param-name>verification_successful</param-name>
+  <param-value>Your Account Is Verified Successfully!</param-value>
+  </context-param>
+  <context-param>
+  <param-name>verification_failure</param-name>
+  <param-value>Failure to verify account!</param-value>
+  </context-param>
+  <context-param>
+  <param-name>email_check</param-name>
+  <param-value>Wrong email specified!</param-value>
+  </context-param>
+  <context-param>
+  <param-name>security_question</param-name>
+  <param-value>Incorrect security question or answer supplied!</param-value>
+  </context-param>
 </web-app>

@@ -192,7 +192,6 @@
 	    			"content": $('#comment-content').val()
 	    		},
 	    		success: function(comment){
-	        		$('#comment-activity-id').val($(e.target).val());
 					$('#comments').append(
 						'<div class="callout">'+
 							'<p>'+comment.content+'</p>'+

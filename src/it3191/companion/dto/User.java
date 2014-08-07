@@ -72,6 +72,9 @@ public class User {
 	@Column(name = "FORGET_PASSWORD_SESSION_KEY")
 	private String forgetPasswordSessionKey;
 	
+	@Column(name = "VERIFIED")
+	private boolean verified;
+	
 	public int getId() {
 		return id;
 	}
@@ -185,12 +188,22 @@ public class User {
 		this.forgetPasswordSessionKey = forgetPasswordSessionKey;
 	}
 
+
 	public Role getRole() {
 		return role;
 	}
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+
+	public boolean isVerified() {
+		return verified;
+	}
+
+	public void setVerified(boolean verified) {
+		this.verified = verified;
+
 	}
 	
 	public boolean isRole(Role role){

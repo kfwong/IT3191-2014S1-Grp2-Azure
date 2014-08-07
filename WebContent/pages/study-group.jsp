@@ -52,7 +52,7 @@
 		<div class="modal view-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog modal-lg">
 		    <div class="modal-content">
-				<form role="form" method="post" action="StudyGroupServlet">
+				<form role="form" method="post" action="study-group">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			        <h4 class="modal-title" id="myModalLabel">Event details</h4>
@@ -61,14 +61,7 @@
 					<div class="form-group">
 					  <label for="title">Title</label>
 					  <input type="text" class="form-control title" id="title" name = "title" required autofocus>
-					</div>
-					<!-- <div class="form-group">
-					  <label for="contact">Contact</label>
-					  	<select class="form-control contact" id="contact" name="contact">
-	
-						</select>
-					</div>
-					-->		
+					</div>	
 					<div class="checkbox">
 					    <label>
 					      <input class="allDay" type="checkbox" name="allDay" value="true" checked> All day event
@@ -93,6 +86,25 @@
 						  	<input type="text" class="form-control end" id="end" name = "end" required>
 						</div>
 					</div>
+					<div class="owner">
+						<label for="owner">Created by</label>
+						<table class="owner table table-bordered" width="100%">
+							<thead>
+								<tr>
+									<th class="first-name">First Name</th>
+									<th class="last-name">Last Name</th>
+									<th class="email">Email</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="first-name-data"></td>
+									<td class="last-name-data"></td>
+									<td class="email-data"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 					<label for="participants">Participants</label><br/>
 					<table class="participants table table-hover table-striped table-bordered" width="100%">
 						<thead>
@@ -107,7 +119,7 @@
 			      <div class="modal-footer">
 			     	<button type="button" class="btn btn-default pull-left delete-button">Delete</button>
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-default join-button">Join</button>					  
+					<button type="button" class="btn join-button">Join</button>					  
 			        <button type="submit" class="btn btn-primary confirm-edit-button">Save</button>
 			      </div>
 			      <input type="hidden" name="action" value="edit"/>
@@ -122,7 +134,7 @@
 		<div class="modal create-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
-				<form role="form" method="post" action="StudyGroupServlet">
+				<form role="form" method="post" action="study-group">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			        <h4 class="modal-title" id="myModalLabel">Create event</h4>
@@ -178,7 +190,7 @@
 		<div class="modal delete-modal bs-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog modal-sm">
 		    <div class="modal-content">
-		    	<form role="form" method="post" action="CalendarFoodDriveServlet">
+		    	<form role="form" method="post" action="study-group">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			        <h4 class="modal-title" id="myModalLabel">Delete events</h4>
@@ -213,7 +225,7 @@
                     
                     eventSources: [
 						{
-							url: "StudyGroupServlet?action=getCalendar",
+							url: "study-group?action=getCalendar",
 						},
 						{
 							url: "https://www.google.com/calendar/feeds/amuletxheart%40gmail.com/public/basic",
@@ -223,6 +235,9 @@
                     
                     dayClick: function(date, jsEvent, view) {
                     	$(".title").val("");
+                    	$(".allDay").prop("checked", true);
+						$(".date").removeClass("hide");
+						$(".date-time").addClass("hide");
                     	
         		        $(".create-modal").modal();
         		        $(".start-date").val(date.format("YYYY-MM-DD"));
@@ -233,7 +248,8 @@
         		    eventClick: function(calEvent, jsEvent, view) {
         		    	$.ajax({
         		    		type: "GET",
-        		    		url: "StudyGroupServlet?action=view&id=" + calEvent.id,
+        		    		dataType: "json",
+        		    		url: "study-group?action=view&id=" + calEvent.id,
         		    		success: function(json){
         						$(".view-modal").modal();
         						$(".id").val(json.id);
@@ -241,6 +257,10 @@
         						$(".start-date").val(moment(json.start).format("YYYY-MM-DD"));
         						$(".start").val(json.start);
         						$(".end").val(json.end);
+        						$(".first-name-data").text(json.owner.firstName);
+        						$(".last-name-data").text(json.owner.lastName);
+        						$(".email-data").text(json.owner.email);
+        					        						
         						$(".participants").dataTable({
         							destroy: true,
         							"language": {
@@ -248,14 +268,11 @@
         							},
         							"data": json.participants,
         							columns: [
-        							            { "data": "firstName", "width": "30%" },
-        							            { "data": "lastName", "width": "30%" },
-        							            { "data": "email", "width": "40%"}
+							            {"data": "firstName", "width": "30%"},
+							            {"data": "lastName", "width": "30%"},
+							            {"data": "email", "width": "40%"}
         							]
-        						});
-        						
-        						//$('.contact option[value="' + json.volunteer.id + '"]').attr("selected", true);
-        						//$('.contact').trigger("chosen:updated");      						
+        						});						
         						
         						if(json.allDay == true){
         							$(".allDay").prop("checked", true);
@@ -266,16 +283,25 @@
         							$(".allDay").prop("checked", false);
         							$(".date-time").removeClass("hide");
         							$(".date").addClass("hide");
-        						}					
+        						}
+        						
+        						if(json.isParticipant == true){
+        							$(".participant").val("true");
+        						}
+        						else{
+									$(".participant").val("false");
+        						}
+        						$(".participant").trigger("change");
         		    		}
         		    	});
         		    }, 
         		    eventDrop: function(event, revertFunc) {
         		    	$.ajax({
         		    		type: "POST",
-        		    		url: "StudyGroupServlet",
+        		    		dataType: "json",
+        		    		url: "study-group",
         		    		data: {
-        		    			action:"edit",
+        		    			action:"editDate",
         		    	        id: event.id,
         		    	        title: event.title,
         		    	        start: event.start.format("YYYY-MM-DD HH:mm:ss"),
@@ -307,6 +333,21 @@
 				  	
 				 	$(this).trigger("click");
 				});
+							
+				$(".participant").on("change", function(event){
+					if($(".participant").val() == "true") {
+						$(".join-button").removeClass("btn-primary");
+						$(".join-button").addClass("btn-danger");
+						
+						$(".join-button").text("Leave");
+					}
+					else{						
+						$(".join-button").addClass("btn-primary");
+						$(".join-button").removeClass("btn-danger");
+						
+						$(".join-button").text("Join");
+					}	
+				});
 				
 				$(".join-button").on("click", function(event){
 					if($(".participant").val() == "true") {
@@ -314,9 +355,32 @@
 					}
 					else{
 						$(".participant").val("true");
-					}	
+					}
+					//to be changed to submit instead of triggering change
+					$(".participant").trigger("change");
 				});
 				
+				$(".delete-button").on("click", function(){
+		        	$(".delete-modal").modal();
+		 
+		        });
+				
+				$('.delete-modal').on('show.bs.modal', function() {
+		        	$('.view-modal').css('filter', 'brightness(50%)');
+		            $('.view-modal').css('-webkit-filter', 'brightness(50%)');
+		            $('.view-modal').css('-moz-transition', 'brightness(50%)');
+		            $('.view-modal').css('-ms-transition', 'brightness(50%)');
+		            $('.view-modal').css('-o-transition', 'brightness(50%)');
+		        });
+		        
+		        $('.delete-modal').on('hide.bs.modal', function() {
+		        	$('.view-modal').css('filter', 'brightness(100%)');
+		        	$('.view-modal').css('-webkit-filter', 'brightness(100%)');
+		        	$('.view-modal').css('-moz-transition', 'brightness(100%)');
+		        	$('.view-modal').css('-ms-transition', 'brightness(100%)');
+		        	$('.view-modal').css('-o-transition', 'brightness(100%)');
+		        });
+
 				$('.start-date').datetimepicker({
 		        	
 		            format:'Y-m-d',
