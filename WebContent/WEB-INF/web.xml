@@ -124,7 +124,7 @@
 		</init-param>
 		<init-param>
 			<param-name>referer-pattern</param-name>
-			<param-value>http://localhost:8080/IT3191-2014S1-Grp2-Azure.*</param-value>
+			<param-value>%{context-path}.*</param-value>
 		</init-param>
 	</servlet>
 

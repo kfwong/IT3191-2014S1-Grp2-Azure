@@ -6,7 +6,16 @@
     <!-- Sidebar user panel -->
     <div class="user-panel">
         <div class="pull-left image">
-            <img src="http://graph.facebook.com/${sessionScope.user.facebookId}/picture" class="img-circle" alt="User Image" />
+            <img src="
+            	<c:choose>
+    				<c:when test="${empty sessionScope.user.facebookId}">
+        				${pageContext.servletContext.contextPath}/img/avatar3.png
+    				</c:when>
+				    <c:otherwise>
+				         http://graph.facebook.com/${sessionScope.user.facebookId}/picture
+				    </c:otherwise>
+				</c:choose>
+            " class="img-circle" alt="User Image" />
         </div>
         <div class="pull-left info">
             <p>Hello, ${sessionScope.user.firstName}</p>
@@ -26,17 +35,15 @@
     <!-- /.search form -->
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu">
-        <li class="treeview active">
+        <li class="treeview">
             <a href="#">
                 <i class="fa fa-bar-chart-o"></i>
                 <span>Profile</span>
                 <i class="fa fa-angle-left pull-right"></i>
             </a>
             <ul class="treeview-menu">
-            	<li><a href="#"><i class="fa fa-angle-double-right"></i> Dashboard</a></li>
+            	<li><a href="${pageContext.servletContext.contextPath}/dashboard"><i class="fa fa-angle-double-right"></i> Dashboard</a></li>
                 <li><a href="#"><i class="fa fa-angle-double-right"></i> Personal Details</a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> Messages</a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> Settings</a></li>
             </ul>
         </li>
         <li class="treeview">
@@ -47,21 +54,8 @@
             </a>
             <ul class="treeview-menu">
                 <li><a href="${pageContext.servletContext.contextPath}/activity/view"><i class="fa fa-angle-double-right"></i> Activity</a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> Find a Tutor</a></li>
                 <li><a href="${pageContext.servletContext.contextPath}/study-group"><i class="fa fa-angle-double-right"></i> Study Group</a></li>
                 <li><a href="${pageContext.servletContext.contextPath}/resource/view"><i class="fa fa-angle-double-right"></i> Resource</a></li>
-            </ul>
-        </li>
-        <li class="treeview">
-            <a href="#">
-                <i class="fa fa-bar-chart-o"></i>
-                <span>Bounty Board</span>
-                <i class="fa fa-angle-left pull-right"></i>
-            </a>
-            <ul class="treeview-menu">
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> Mathemathics</a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> English</a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> Biology</a></li>
             </ul>
         </li>
         <c:if test="${sessionScope.user.isAdmin()}">
@@ -72,13 +66,8 @@
 	                <i class="fa fa-angle-left pull-right"></i>
 	            </a>
 	            <ul class="treeview-menu">
-	            	<li><a href="#"><i class="fa fa-angle-double-right"></i> Site Notifications</a></li>	
 	                <li><a href="${pageContext.servletContext.contextPath}/user-management"><i class="fa fa-angle-double-right"></i> User Management</a></li>
-	                <li><a href="#"><i class="fa fa-angle-double-right"></i> Role Management</a></li>
-	                <li><a href="#"><i class="fa fa-angle-double-right"></i> Reward Management</a></li>
-	                <li><a href="#"><i class="fa fa-angle-double-right"></i> Reviews & Complaints</a></li>
-	                <li><a href="#"><i class="fa fa-angle-double-right"></i> Activity Log</a></li>
-	                <li><a href="#"><i class="fa fa-angle-double-right"></i> Settings</a></li>
+	                <li><a href="${pageContext.servletContext.contextPath}/log/view"><i class="fa fa-angle-double-right"></i> System Log</a></li>
 	            </ul>
         	</li>
 		</c:if>

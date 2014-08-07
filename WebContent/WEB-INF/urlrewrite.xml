@@ -90,7 +90,7 @@
     
     <rule>
         <from>^/log/view$</from>
-        <to>/pages/log.jsp</to>
+        <to>/pages/admin/log.jsp</to>
     </rule>
     
     <rule>
