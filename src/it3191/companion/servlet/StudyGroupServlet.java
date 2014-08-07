@@ -49,6 +49,8 @@ public class StudyGroupServlet extends HttpServlet {
 				StudyGroupDao dao = new StudyGroupDao();
 				studyGroupArray = (ArrayList<StudyGroup>) dao.getAll();
 				
+				User user = (User) request.getSession().getAttribute("user");
+				
 				List<Map<String, Object>> studyGroupMapList = new ArrayList<Map<String, Object>>();
 				
 				for(StudyGroup studyGroup:studyGroupArray){
@@ -58,6 +60,14 @@ public class StudyGroupServlet extends HttpServlet {
 					studyGroupMap.put("start", studyGroup.getStart());
 					studyGroupMap.put("end", studyGroup.getEnd());
 					studyGroupMap.put("allDay", studyGroup.isAllDay());
+					studyGroupMap.put("editable", studyGroup.isOwner(user));
+					
+					if(studyGroup.isOwner(user)){
+						studyGroupMap.put("color", "#00a65a");
+					}
+					else{
+						studyGroupMap.put("color", "#3c8dbc");
+					}
 					
 					studyGroupMapList.add(studyGroupMap);
 				}
@@ -229,9 +239,17 @@ public class StudyGroupServlet extends HttpServlet {
 				sg.setTitle(title);
 				sg.setStart(start);
 				sg.setEnd(end);
-				sg.setAllDay(allDay);
-					
- 				dao.saveOrUpdate(sg);
+				sg.setAllDay(allDay);	
+				
+				User user = (User) request.getSession().getAttribute("user");
+ 				
+ 				if(sg.isOwner(user)){
+ 					dao.saveOrUpdate(sg);
+	 				response.sendRedirect("study-group");
+				}
+				else{
+					response.sendRedirect("403");
+				}
 			}
 			
 			if(action.equals("editParticipant")){
