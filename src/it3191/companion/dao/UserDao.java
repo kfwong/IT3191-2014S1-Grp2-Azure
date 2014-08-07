@@ -138,6 +138,7 @@ public class UserDao implements Dao<User> {
 	
 		return user;
 	}
+	
 	public User authorizePasswordReset(String answer){
 		User user = null;
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
@@ -148,6 +149,7 @@ public class UserDao implements Dao<User> {
 		user=(User) query.uniqueResult();
 		session.close();
 		return user;
+		
 	
 }
 }

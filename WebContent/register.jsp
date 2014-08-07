@@ -68,10 +68,10 @@
                         <input type="text" id="answer" name="answer" class="form-control" placeholder="Answer"/>
                     </div>
 				
-					<script type="text/javascript" src="https://www.google.com/recaptcha/api/challenge?k=6LduAvYSAAAAAKA9nbwujKUPIwrrmrf1tFVG5wb4"></script>
+					<script type="text/javascript" src="https://www.google.com/recaptcha/api/challenge?k=6Lf1NfgSAAAAAC__ADmMVg4LQ19zDc5HGJg52muH"></script>
 				<noscript>
 					<iframe
-						src="https://www.google.com/recaptcha/api/noscript?k=6LduAvYSAAAAAKA9nbwujKUPIwrrmrf1tFVG5wb4"
+						src="https://www.google.com/recaptcha/api/noscript?k=6Lf1NfgSAAAAAC__ADmMVg4LQ19zDc5HGJg52muH"
 						height="300" width="500" frameborder="0"></iframe>
 					<br>
 					<textarea name="recaptcha_challenge_field" rows="3" cols="40">

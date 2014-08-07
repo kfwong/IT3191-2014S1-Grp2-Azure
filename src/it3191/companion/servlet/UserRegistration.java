@@ -120,7 +120,7 @@ public class UserRegistration extends HttpServlet {
 				try{
 					String remoteAddr = request.getRemoteAddr();
 					ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
-					reCaptcha.setPrivateKey("6LduAvYSAAAAAGto0ISKfxATI9iATrIrbCX1jQlz");
+					reCaptcha.setPrivateKey("6Lf1NfgSAAAAAC4KYPj6QR1--UUYZykE6neViyL8");
 	
 					String challenge = request.getParameter("recaptcha_challenge_field");
 					String uresponse = request.getParameter("recaptcha_response_field");
@@ -163,7 +163,7 @@ public class UserRegistration extends HttpServlet {
 							userDao.saveOrUpdate(user);
 							log.info("Client from " + request.getRemoteAddr() +" successfully registered with email \""+request.getParameter("email")+"\".");
 							Email emailuser=new Email();
-				    		emailuser.setFrom("Companion@example.com");
+				    		emailuser.setFrom("admin@companion.com");
 				    		emailuser.setMessage("Thank you for using Companion.To complete your registration,please click here to verify your account.<a href=\""+request.getScheme()+ "://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/account-verification.jsp?sessionKey="+forgotPasswordSessionKey+"\">Click Here</a> ");
 				    		emailuser.setSubject("Account Verification");
 				    		emailuser.setTo(user.getEmail());
