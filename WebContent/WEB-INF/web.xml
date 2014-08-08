@@ -140,7 +140,7 @@
 		</init-param>
 		<init-param>
 			<param-name>referer-pattern</param-name>
-			<param-value>%{context-path}.*</param-value>
+			<param-value>.*IT3191-2014S1-Grp2-Azure.*</param-value>
 		</init-param>
 	</servlet>
 
