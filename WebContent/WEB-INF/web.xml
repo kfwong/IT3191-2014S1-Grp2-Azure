@@ -5,13 +5,13 @@
     <welcome-file>login.jsp</welcome-file>
   </welcome-file-list>
   <security-constraint>
-  	<web-resource-collection>
-    	<web-resource-name>secured</web-resource-name>
-        <url-pattern>/*</url-pattern>
-	</web-resource-collection>
-    	<user-data-constraint>
-        	<transport-guarantee>CONFIDENTIAL</transport-guarantee>
-  		</user-data-constraint>
+    <web-resource-collection>
+      <web-resource-name>secured</web-resource-name>
+      <url-pattern>/*</url-pattern>
+    </web-resource-collection>
+    <user-data-constraint>
+      <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+    </user-data-constraint>
   </security-constraint>
   <jsp-config>
     <jsp-property-group>
@@ -149,19 +149,23 @@
 		<url-pattern>/JavaScriptServlet</url-pattern>
 	</servlet-mapping>
   <context-param>
-  <param-name>verification_successful</param-name>
-  <param-value>Your Account Is Verified Successfully!</param-value>
+    <param-name>verification_successful</param-name>
+    <param-value>Your Account Is Verified Successfully!</param-value>
   </context-param>
   <context-param>
-  <param-name>verification_failure</param-name>
-  <param-value>Failure to verify account!</param-value>
+    <param-name>verification_failure</param-name>
+    <param-value>Failure to verify account!</param-value>
   </context-param>
   <context-param>
-  <param-name>email_check</param-name>
-  <param-value>Wrong email specified!</param-value>
+    <param-name>email_check</param-name>
+    <param-value>Wrong email specified!</param-value>
   </context-param>
   <context-param>
-  <param-name>security_question</param-name>
-  <param-value>Incorrect security question or answer supplied!</param-value>
+    <param-name>security_question</param-name>
+    <param-value>Incorrect security question or answer supplied!</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>email_success</param-name>
+  	<param-value>Please check your email for the password reset link</param-value>
   </context-param>
 </web-app>

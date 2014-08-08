@@ -1,41 +1,153 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=US-ASCII" pageEncoding="US-ASCII"%>
+<!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-        <title>Companion</title>
-        <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-        <!-- bootstrap 3.0.2 -->
-        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <!-- font Awesome -->
-        <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-        <!-- Theme style -->
-        <link href="css/AdminLTE.css" rel="stylesheet" type="text/css" />
+    <head>
+    	<!-- header fragment -->
+    	<jsp:include page="../WEB-INF/header.jspf" />
+    </head>
+    <body class="skin-blue">
+        <!-- navigation top fragment -->
+        <jsp:include page="../WEB-INF/navigation-top.jspf" />
+        
+        <div class="wrapper row-offcanvas row-offcanvas-left">
+        	<!-- navigation left fragment -->
+        	<jsp:include page="../WEB-INF/navigation-left.jspf" />	
+        	
+            <!-- Right side column. Contains the navbar and content of the page -->
+            <aside class="right-side">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+				<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@TITLE & BREADCRUMB@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+                    <h1>
+                        User Profile
+                       
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                        <li class="active">Dashboard</li>
+                    </ol>
+                </section>
 
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-          <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-        <![endif]-->
-<title>Companion</title>
-</head>
-<body class="bg-black">
+                <!-- Main content -->
+                <section class="content">
+                <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@START MODIFICATION FROM HERE@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+                   <div class="row">
+                   <div class="col-md-4">
+                            <!-- Info box -->
+                            <div class="box box-solid box-info">
+                                <div class="box-header">
+                                    <h3 class="box-title">First Name</h3>
+                                    <div class="box-tools pull-right">
+                                        <button class="btn btn-info btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                        
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    
+                                    <p>
+                          		${userprofile.firstName }
+                                    </p>
+                                </div><!-- /.box-body -->
+                            </div><!-- /.box -->
+                        </div>
+                         <div class="col-md-4">
+                            <!-- Primary box -->
+                            <div class="box box-solid box-primary">
+                                <div class="box-header">
+                                    <h3 class="box-title">Profile Picture</h3>
+                                    <div class="box-tools pull-right">
+                                        <button class="btn btn-primary btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                      
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                   
+                                    <p>
+                               	<img src="
+            	<c:choose>
+    				<c:when test="${empty userprofile.facebookId}">
+        				${pageContext.servletContext.contextPath}/img/avatar3.png
+    				</c:when>
+				    <c:otherwise>
+				         https://graph.facebook.com/${userprofile.facebookId}/picture
+				    </c:otherwise>
+				</c:choose>
+            " class="img-circle" alt="User Image" />
+                                    </p>
+                                </div><!-- /.box-body -->
+                            </div><!-- /.box -->
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-md-4">
+                            <!-- Primary box -->
+                            <div class="box box-solid box-primary">
+                                <div class="box-header">
+                                    <h3 class="box-title">Last Name</h3>
+                                    <div class="box-tools pull-right">
+                                        <button class="btn btn-primary btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                      
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                   
+                                    <p>
+                               	${userprofile.lastName }
+                                    </p>
+                                </div><!-- /.box-body -->
+                            </div><!-- /.box -->
+                        </div>
+                   </div>
+                   <div class="row">
+                       <div class="col-md-4">
+                            <!-- Info box -->
+                            <div class="box box-solid box-info">
+                                <div class="box-header">
+                                    <h3 class="box-title">Email</h3>
+                                    <div class="box-tools pull-right">
+                                        <button class="btn btn-info btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                        
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    
+                                    <p>
+                                    ${userprofile.email }    
+                                    </p>
+                                </div><!-- /.box-body -->
+                            </div><!-- /.box -->
+                        </div>
+                   </div>
+                   <div class="row">
+                       <div class="col-md-4">
+                            <!-- Primary box -->
+                            <div class="box box-solid box-primary">
+                                <div class="box-header">
+                                    <h3 class="box-title">Handphone Number</h3>
+                                    <div class="box-tools pull-right">
+                                        <button class="btn btn-primary btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                        
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                   
+                                    <p>
+                                        ${userprofile.handphoneNo }
+                                    </p>
+                                </div><!-- /.box-body -->
+                            </div><!-- /.box -->
+                        </div>
+                   </div>
+                   
+                   
+				<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@END MODIFICATION FROM HERE@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+                </section><!-- /.content -->
+            </aside><!-- /.right-side -->
+        </div><!-- ./wrapper -->
 
-<div class="form-group">
-                        <input type="text" id="firstname" name="firstname" class="form-control" placeholder="First name" />
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Last name" >
-                    </div>
-                    <div class="form-group">
-                        <input type="email" id="email" name="email" class="form-control" placeholder="Email" />
-                    </div>
-                     <div class="form-group">
-	                    <input type="text" id="handphone" name="handphone" class="form-control" placeholder="Handphone Number"/>
-	                 </div>
-	                
-</body>
+        <!-- add new calendar event modal -->
+        
+		<!-- javscript fragment -->
+    	<jsp:include page="../WEB-INF/javascript.jspf" />
+    </body>
 </html>

@@ -43,7 +43,7 @@
                     <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                <a href="${pageContext.servletContext.contextPath}/user-profile" class="btn btn-default btn-flat">Profile</a>
                             </div>
                             <div class="pull-right">
                                 <a href="${pageContext.servletContext.contextPath}/logout" class="btn btn-default btn-flat">Sign out</a>
