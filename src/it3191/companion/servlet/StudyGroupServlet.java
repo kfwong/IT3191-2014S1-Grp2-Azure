@@ -96,6 +96,7 @@ public class StudyGroupServlet extends HttpServlet {
 				studyGroup.put("start", sg.getStart());
 				studyGroup.put("end", sg.getEnd());
 				studyGroup.put("allDay", sg.isAllDay());
+				studyGroup.put("isOwner", sg.isOwner(user));
 				studyGroup.put("isParticipant", sg.isParticipantExist(user));
 					
 				Map<String, Object> ownerMap = new HashMap<String, Object>();

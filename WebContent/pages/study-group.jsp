@@ -263,6 +263,23 @@
         						$(".first-name-data").text(json.owner.firstName);
         						$(".last-name-data").text(json.owner.lastName);
         						$(".email-data").text(json.owner.email);
+        						
+        						if(json.isOwner == true){
+        							$(".title").prop("disabled", false);
+        							$(".description").prop("disabled", false);
+        							$(".allDay").prop("disabled", false);
+        							$(".start-date").prop("disabled", false);
+            						$(".start").prop("disabled", false);
+            						$(".end").prop("disabled", false);
+        						}
+        						else{
+        							$(".title").prop("disabled", true);
+        							$(".description").prop("disabled", true);
+        							$(".allDay").prop("disabled", true);
+        							$(".start-date").prop("disabled", true);
+            						$(".start").prop("disabled", true);
+            						$(".end").prop("disabled", true);
+        						}
         					        						
         						$(".participants").dataTable({
         							destroy: true,
