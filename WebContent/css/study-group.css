@@ -9,3 +9,7 @@
 .owner .email{
 	width:40%;
 }
+
+.description{
+	resize:vertical;	
+}

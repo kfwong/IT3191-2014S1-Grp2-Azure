@@ -92,6 +92,7 @@ public class StudyGroupServlet extends HttpServlet {
 				Map<String, Object> studyGroup = new HashMap<String, Object>();
 				studyGroup.put("id", sg.getId());
 				studyGroup.put("title", sg.getTitle());
+				studyGroup.put("description", sg.getDescription());
 				studyGroup.put("start", sg.getStart());
 				studyGroup.put("end", sg.getEnd());
 				studyGroup.put("allDay", sg.isAllDay());
@@ -144,6 +145,7 @@ public class StudyGroupServlet extends HttpServlet {
 		
 			if(action.equals("create")){
 				String title = request.getParameter("title");
+				String description = request.getParameter("description");
 				String start = request.getParameter("start");
 				String end = request.getParameter("end");
 				String allDay = request.getParameter("allDay");
@@ -156,6 +158,7 @@ public class StudyGroupServlet extends HttpServlet {
 				
 				StudyGroup sg = new StudyGroup();
 				sg.setTitle(title);
+				sg.setDescription(description);
 				sg.setStart(start);
 				sg.setEnd(end);
 				sg.setAllDay(allDay);
@@ -172,6 +175,7 @@ public class StudyGroupServlet extends HttpServlet {
 				int id = Integer.parseInt(request.getParameter("id"));
 				
 				String title = request.getParameter("title");
+				String description = request.getParameter("description");
 				String start = request.getParameter("start");
 				String end = request.getParameter("end");
 				String allDay = request.getParameter("allDay");
@@ -181,6 +185,7 @@ public class StudyGroupServlet extends HttpServlet {
 				StudyGroup sg = dao.get(id);
 				sg.setId(id);
 				sg.setTitle(title);
+				sg.setDescription(description);
 				sg.setStart(start);
 				sg.setEnd(end);
 				sg.setAllDay(allDay);

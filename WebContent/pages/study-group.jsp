@@ -61,7 +61,11 @@
 					<div class="form-group">
 					  <label for="title">Title</label>
 					  <input type="text" class="form-control title" id="title" name = "title" required autofocus>
-					</div>	
+					</div>
+					<div class="form-group">
+					  <label for="description">Description</label>
+					  <textarea rows="3" class="form-control description" id="description" name = "description" required autofocus></textarea>
+					</div>		
 					<div class="checkbox">
 					    <label>
 					      <input class="allDay" type="checkbox" name="allDay" value="true" checked> All day event
@@ -144,13 +148,10 @@
 					  <label for="title">Title</label>
 					  <input type="text" class="form-control title" id="title" name = "title" required autofocus>
 					</div>
-					<!-- 
 					<div class="form-group">
-					  <label for="contact">Contact</label>
-					  	<select class="form-control contact" id="contact" name="contact">
-						</select>
+					  <label for="description">Description</label>
+					  <textarea rows="3" class="form-control description" id="description" name = "description" required autofocus></textarea>
 					</div>
-					 -->
 					<div class="checkbox">
 					    <label>
 					      <input class="allDay" type="checkbox" name="allDay" value="true" checked> All day event
@@ -235,6 +236,7 @@
                     
                     dayClick: function(date, jsEvent, view) {
                     	$(".title").val("");
+                    	$(".description").val("");
                     	$(".allDay").prop("checked", true);
 						$(".date").removeClass("hide");
 						$(".date-time").addClass("hide");
@@ -254,6 +256,7 @@
         						$(".view-modal").modal();
         						$(".id").val(json.id);
         						$(".title").val(json.title);
+        						$(".description").val(json.description);
         						$(".start-date").val(moment(json.start).format("YYYY-MM-DD"));
         						$(".start").val(json.start);
         						$(".end").val(json.end);
