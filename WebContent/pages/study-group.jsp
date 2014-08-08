@@ -55,7 +55,7 @@
 				<form role="form" method="post" action="study-group">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			        <h4 class="modal-title" id="myModalLabel">Event details</h4>
+			        <h4 class="modal-title" id="myModalLabel">Study group details</h4>
 			      </div>
 			      <div class="modal-body">
 					<div class="form-group">
@@ -123,10 +123,10 @@
 			      <div class="modal-footer">
 			     	<button type="button" class="btn btn-default pull-left delete-button">Delete</button>
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn join-button">Join</button>					  
+					<button type="submit" class="btn join-button">Join</button>					  
 			        <button type="submit" class="btn btn-primary confirm-edit-button">Save</button>
 			      </div>
-			      <input type="hidden" name="action" value="edit"/>
+			      <input type="hidden" class="edit-action" name="action" value=""/>
 			      <input type="hidden" class="id" name="id" value=""/>
 			      <input type="hidden" class="participant" name="participant" value=""/>			      
 				</form>
@@ -141,7 +141,7 @@
 				<form role="form" method="post" action="study-group">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			        <h4 class="modal-title" id="myModalLabel">Create event</h4>
+			        <h4 class="modal-title" id="myModalLabel">Create study group</h4>
 			      </div>
 			      <div class="modal-body">
 					<div class="form-group">
@@ -194,10 +194,10 @@
 		    	<form role="form" method="post" action="study-group">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			        <h4 class="modal-title" id="myModalLabel">Delete events</h4>
+			        <h4 class="modal-title" id="myModalLabel">Delete study group</h4>
 			      </div>
 			      <div class="modal-body">
-			         <p>Are you sure you want to delete the event?</p>
+			         <p>Are you sure you want to delete the study group?</p>
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -234,17 +234,33 @@
 						}
                     ],
                     
-                    dayClick: function(date, jsEvent, view) {
-                    	$(".title").val("");
-                    	$(".description").val("");
-                    	$(".allDay").prop("checked", true);
-						$(".date").removeClass("hide");
-						$(".date-time").addClass("hide");
+                    dayRender: function(date, cell){
+                    	var today =  $("#calendar").fullCalendar("getDate");
+                    	if (date < today){
+                    		$(cell).addClass('calendar-disabled');
+                        }
+                    	else{
                     	
-        		        $(".create-modal").modal();
-        		        $(".start-date").val(date.format("YYYY-MM-DD"));
-        		        $(".start").val(date.format("YYYY-MM-DD HH:mm:ss"));
-        		        $(".end").val(date.add('days', 1).format("YYYY-MM-DD HH:mm:ss"));
+                    	}
+                    },
+                    
+                    dayClick: function(date, jsEvent, view) {
+                    	var today =  $("#calendar").fullCalendar("getDate");
+                    	if (date < today){
+                            
+                        }
+                    	else{
+                    		$(".title").val("");
+                        	$(".description").val("");
+                        	$(".allDay").prop("checked", true);
+    						$(".date").removeClass("hide");
+    						$(".date-time").addClass("hide");
+                        	
+            		        $(".create-modal").modal();
+            		        $(".start-date").val(date.format("YYYY-MM-DD"));
+            		        $(".start").val(date.format("YYYY-MM-DD HH:mm:ss"));
+            		        $(".end").val(date.add('days', 1).format("YYYY-MM-DD HH:mm:ss"));
+                    	}
         		    },
         		    
         		    eventClick: function(calEvent, jsEvent, view) {
@@ -370,6 +386,7 @@
 				});
 				
 				$(".join-button").on("click", function(event){
+					
 					if($(".participant").val() == "true") {
 						$(".participant").val("false");
 					}
@@ -405,11 +422,13 @@
 		        	
 		            format:'Y-m-d',
 		            timepicker: false,
+		            scrollInput: false
 		        }); 
 		        
 		        $('.start, .end').datetimepicker({
 		        	
-		            format:'Y-m-d H:i:s'
+		            format:'Y-m-d H:i:s',
+		            scrollInput: false
 		        });  
 				
 				$(".allDay").on("click", function(){
