@@ -52,6 +52,9 @@ public class AuthenticationFilter implements Filter {
 			if(ses.getAttribute("user") == null){
 				res.sendRedirect(req.getContextPath() + "/login?info=new_session");
 			}else{
+				System.out.println(req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + req.getContextPath() + "/");
+				System.out.println(req.getHeader( "Referer" ));
+				System.out.println(req.getHeader( "Referer" ).equals(req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + req.getContextPath() + "/"));
 				chain.doFilter(request, response);
 			}
 		}

@@ -91,7 +91,16 @@
 			                        </div><!-- /.box-body -->
 			                        <div class="box-footer">
 			                        	<div class="pull-left image" style="padding:5px 10px 5px 10px;">
-							            	<img src="https://graph.facebook.com/${resource.createdBy.facebookId}/picture" class="img-circle" alt="User Image" style="width:35px;height:35px;">
+							            	<img src="
+							            		<c:choose>
+								    				<c:when test="${empty resource.createdBy.facebookId}">
+								        				${pageContext.servletContext.contextPath}/img/avatar3.png
+								    				</c:when>
+												    <c:otherwise>
+												         https://graph.facebook.com/${resource.createdBy.facebookId}/picture
+												    </c:otherwise>
+												</c:choose>
+							            	" class="img-circle" alt="User Image" style="width:35px;height:35px;">
 							            	&nbsp;
 							            	<small>${resource.createdBy.firstName} shared this on ${resource.createdOn}</small>
 							        	</div>

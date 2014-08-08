@@ -36,35 +36,39 @@
                 		<div class="col-md-12">                	
                 			<ul class="timeline">
                 				<c:forEach items="${activities}" var="activity">
-							       <!-- timeline time label -->
-			                        <li class="time-label">
-			                            <span class="bg-red">
-			                                ${activity.createdOn }
-			                            </span>
-			                        </li>
-			                        <!-- /.timeline-label -->
 			                        <!-- timeline item -->
 			                        <li>
-			                            <i class="fa fa-envelope bg-blue"></i>
+			                            <i class="fa fa-user bg-blue"></i>
 			                            <div class="timeline-item">
-			                                <span class="time"><i class="fa fa-clock-o"></i> ${activity.createdOn}</span>
+			                                <span class="time"><i class="fa fa-clock-o"></i> 
+			                                	<!-- timeline time label -->
+						                        <span class="time-label">
+						                            ${activity.createdOn }
+						                        </span>
+						                        <!-- /.timeline-label -->
+			                        		</span>
 			                                <h3 class="timeline-header">${activity.title}</h3>
 			                                <div class="timeline-body">
 			                                	<div class="row">
 			                                		<div class="col-md-1">
 			                                			<div class="image">
-												            <img src="https://graph.facebook.com/${sessionScope.user.facebookId}/picture" class="img-circle" alt="User Image" style="margin-left:auto;margin-right:auto;display:block;"/>
+												            <img src="
+																 <c:choose>
+												    				<c:when test="${empty activity.createdBy.facebookId}">
+												        				${pageContext.servletContext.contextPath}/img/avatar3.png
+												    				</c:when>
+																    <c:otherwise>
+																         https://graph.facebook.com/${activity.createdBy.facebookId}/picture
+																    </c:otherwise>
+																</c:choose>
+															" class="img-circle" alt="User Image" style="margin-left:auto;margin-right:auto;display:block; width:50px; height:50px;"/>
 												        </div>
-												        <strong><small style="margin-left:auto;margin-right:auto;display:block;text-align:center;">${activity.createdBy.firstName }</small></strong>
+												        <strong><small style="margin-left:auto;margin-right:auto;display:block;text-align:center;color:#777777">${activity.createdBy.firstName }</small></strong>
 			                                		</div>
 			                                		<div class="col-md-11">
-			                                			${activity.description}
+			                                			Gag ipsum dolar sit amet now kiss bart father. Nerd gag impossibru students captain i see what you did there okay peter griffin movie cellphone. Too mainstream aww yeah fat right derpina all the things rainbow fuck that bitch movies dead 9000. Laptop jackie chan cuteness overload motherfucker creepy me gusta haters gonna hate monocle dog nother to do here panda. 
 			                                		</div>
 			                                	</div>
-			                                </div>
-			                                <div class='timeline-footer'>
-			                                    <a class="btn btn-default btn-xs pull-right" href="#">Read more</a>
-			                                    <div class="clearfix">&nbsp;</div>
 			                                </div>
 			                            </div>
 			                        </li>
@@ -84,6 +88,14 @@
     	<jsp:include page="../WEB-INF/javascript.jspf" />
     	<script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="mt3jcgn5fd1vnvo"></script>
     	<script type="text/javascript">
+    	
+    	$(document).ready(function(){
+    		$('.time-label').each(function(){
+    			$(this).html(moment($(this).html(), "YYYY-MM-DD hh:mm:ss.SSS").fromNow());
+    		});
+    	});
+    	
+    	
     	var options = {
 
    		    // Required. Called when a user selects an item in the Chooser.
@@ -114,7 +126,8 @@
    		    extensions: ['.pdf', '.doc', '.docx'],
    		};
     	var button = Dropbox.createChooseButton(options);
-    	document.getElementById("dropbox-chooser-btn-container").appendChild(button);
+    	document.getElementById("dropbox-chooser-btn-container").appendChild(button);    	
+    	
     	</script>
     </body>
 </html>

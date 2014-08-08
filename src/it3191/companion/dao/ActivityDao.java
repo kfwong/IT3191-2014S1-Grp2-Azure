@@ -6,9 +6,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.transform.AliasToBeanResultTransformer;
+import org.hibernate.transform.Transformers;
 
 import it3191.companion.dto.Activity;
 import it3191.companion.util.HibernateUtils;
@@ -41,7 +45,7 @@ public class ActivityDao implements Dao<Activity> {
 	public List<Activity> getAll() {
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		List<Activity> activities = new ArrayList<Activity>(new HashSet<Activity>(session.createCriteria(Activity.class).list()));
+		List<Activity> activities = new ArrayList<Activity>(new HashSet<Activity>(session.createCriteria(Activity.class).addOrder(Order.asc("createdOn")).list()));
 		
 		session.close();
 		
