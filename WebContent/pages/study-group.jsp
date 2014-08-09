@@ -235,7 +235,7 @@
                     ],
                     
                     dayRender: function(date, cell){
-                    	var today =  $("#calendar").fullCalendar("getDate");
+                    	var today =  moment().startOf('day');
                     	if (date < today){
                     		$(cell).addClass('calendar-disabled');
                         }
@@ -245,8 +245,8 @@
                     },
                     
                     dayClick: function(date, jsEvent, view) {
-                    	var today =  $("#calendar").fullCalendar("getDate");
-                    	if (date < today){
+                    	var today =  moment().startOf('day');
+                    	if (date <= today){
                             
                         }
                     	else{
@@ -255,6 +255,13 @@
                         	$(".allDay").prop("checked", true);
     						$(".date").removeClass("hide");
     						$(".date-time").addClass("hide");
+    						
+    						$(".title").prop("disabled", false);
+							$(".description").prop("disabled", false);
+							$(".allDay").prop("disabled", false);
+							$(".start-date").prop("disabled", false);
+    						$(".start").prop("disabled", false);
+    						$(".end").prop("disabled", false);
                         	
             		        $(".create-modal").modal();
             		        $(".start-date").val(date.format("YYYY-MM-DD"));
@@ -287,6 +294,11 @@
         							$(".start-date").prop("disabled", false);
             						$(".start").prop("disabled", false);
             						$(".end").prop("disabled", false);
+            						
+            						$(".edit-action").val("edit");
+            						$(".join-button").addClass("hide");
+            						$(".delete-button").removeClass("hide");
+            						$(".confirm-edit-button").removeClass("hide");
         						}
         						else{
         							$(".title").prop("disabled", true);
@@ -295,6 +307,11 @@
         							$(".start-date").prop("disabled", true);
             						$(".start").prop("disabled", true);
             						$(".end").prop("disabled", true);
+            						
+            						$(".edit-action").val("editParticipant");
+            						$(".join-button").removeClass("hide");
+            						$(".delete-button").addClass("hide");
+            						$(".confirm-edit-button").addClass("hide");
         						}
         					        						
         						$(".participants").dataTable({
@@ -393,8 +410,6 @@
 					else{
 						$(".participant").val("true");
 					}
-					//to be changed to submit instead of triggering change
-					$(".participant").trigger("change");
 				});
 				
 				$(".delete-button").on("click", function(){
