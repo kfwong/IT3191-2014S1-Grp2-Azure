@@ -97,10 +97,6 @@
     <param-value>Update Failure! Please try again</param-value>
   </context-param>
   <context-param>
-    <param-name>email_check</param-name>
-    <param-value>Please check your email for the verification link</param-value>
-  </context-param>
-  <context-param>
     <param-name>Owasp.CsrfGuard.Config</param-name>
     <param-value>WEB-INF/csrfguard.properties</param-value>
   </context-param>
@@ -157,5 +153,9 @@
   <context-param>
     <param-name>security_question</param-name>
     <param-value>Incorrect security question or answer supplied!</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>email_success</param-name>
+  	<param-value>Please check your email for the password reset link</param-value>
   </context-param>
 </web-app>

@@ -176,7 +176,7 @@ public class UserRegistration extends HttpServlet {
 						}
 					} else {
 						log.warn("Client from " + request.getRemoteAddr() +" failed the captcha test.");
-						response.sendRedirect(this.getServletContext().getContextPath()+"/register.jsp");
+						response.sendRedirect(this.getServletContext().getContextPath()+"/register.jsp?info=registration_failed");
 					}
 				}catch(Exception ex){
 					ex.printStackTrace();
