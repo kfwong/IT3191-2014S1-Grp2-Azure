@@ -19,6 +19,9 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 @Entity
 @Table(name = "STUDY_GROUP")
 @PrimaryKeyJoinColumn(name = "ID")
@@ -39,7 +42,8 @@ public class StudyGroup extends Activity{
 	@Column(name="DESCRIPTION")
 	private String description;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinTable(
 			name = "STUDY_GROUP_PARTICIPANT", 
 			joinColumns = {	@JoinColumn(name = "STUDY_GROUP_ID")}, 

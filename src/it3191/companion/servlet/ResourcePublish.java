@@ -40,10 +40,10 @@ public class ResourcePublish extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Resource resource = new Resource();
-		resource.setDescription(escapeIllegalChar(request.getParameter("description")));
-		resource.setDropboxLink(URLEncoder.encode(request.getParameter("dropboxLink"),"UTF-8"));
-		resource.setTitle(escapeIllegalChar(request.getParameter("title")));
-		resource.setTags(Arrays.asList(escapeIllegalChar(request.getParameter("tags")).split(",")));
+		resource.setDescription(StringEscapeUtils.escapeEcmaScript(request.getParameter("description")));
+		resource.setDropboxLink(request.getParameter("dropboxLink"));
+		resource.setTitle(StringEscapeUtils.escapeEcmaScript(request.getParameter("title")));
+		resource.setTags(Arrays.asList(StringEscapeUtils.escapeEcmaScript(request.getParameter("tags")).split(",")));
 		resource.setCreatedBy((User) request.getSession().getAttribute("user"));
 		resource.setCreatedOn(new Date());
 
@@ -51,10 +51,6 @@ public class ResourcePublish extends HttpServlet {
 		resourceDao.saveOrUpdate(resource);
 
 		response.sendRedirect(this.getServletContext().getContextPath() + "/resource/view");
-	}
-	
-	private String escapeIllegalChar(String input){
-		return StringEscapeUtils.escapeHtml4(StringEscapeUtils.escapeEcmaScript(input));
 	}
 
 }
