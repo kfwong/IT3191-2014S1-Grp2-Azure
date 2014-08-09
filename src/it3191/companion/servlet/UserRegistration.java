@@ -142,6 +142,7 @@ public class UserRegistration extends HttpServlet {
 						user.setEmail(request.getParameter("email"));
 						user.setGender(request.getParameter("gender"));
 						user.setHandphoneNo(request.getParameter("handphone"));
+						user.setRole(Role.REGULAR);
 						
 						// Digest computation
 				        byte[] bDigest = Hash.getHash(request.getParameter("password"),salt);
