@@ -38,31 +38,28 @@
                             <div class="box box-primary">                                
                                 <div class="box-body">
                                     <!-- THE INTERACTIVE TABLE -->
-                                    <form method="get" action="user-management-edit">                                    
-	                                    <div class="table-above form-button-group">
-											<div class="form-group">
-												<button type="submit" class="pull-right btn btn-default submit-button">Add / Edit</button>
-												<button type="button" class="pull-right btn btn-default delete-button">Delete</button>
-											</div>
-															
-											<span class="pull-left alert alert-info row-selected-count">No records selected</span>
-											
-											<div class="clearfix"></div>
+                                    <div class="table-above form-button-group">
+										<div class="form-group">
+											<button type="submit" class="pull-right btn btn-default submit-button">Add / Edit</button>
+											<button type="button" class="pull-right btn btn-default delete-button">Delete</button>
 										</div>
-	                                    
-	                                    <table id="users" class="participants table table-hover table-bordered" width="100%">
-											<thead>
-												<tr>
-													<th>ID</th>
-													<th>Role</th>
-													<th>First Name</th>
-													<th>Last Name</th>
-													<th>Email</th>
-													<th>Email Verified</th>
-												</tr>
-											</thead>
-									    </table>
-								    </form>
+														
+										<span class="pull-left alert alert-info row-selected-count">No records selected</span>
+										
+										<div class="clearfix"></div>
+									</div>
+                                    
+                                    <table id="users" class="participants table table-hover table-bordered" width="100%">
+										<thead>
+											<tr>
+												<th>Role</th>
+												<th>First Name</th>
+												<th>Last Name</th>
+												<th>Email</th>
+												<th>Email Verified</th>
+											</tr>
+										</thead>
+								    </table>
                                 </div><!-- /.box-body -->
                             </div><!-- /. box -->
                         </div><!-- /.col -->
@@ -97,7 +94,7 @@
     	<!-- Page specific script -->
         <script type="text/javascript">
         	$(document).ready(function(){
-        		var table = $("#users").DataTable({
+        		$("#users").dataTable({
 					destroy: true,
 					"language": {
 					      "emptyTable": "There are no users currently"
@@ -108,31 +105,28 @@
 			        },
 			        "columnDefs": [
 	                    {
-	                    	"targets": [5],
+	                        // The `data` parameter refers to the data for the cell (defined by the
+	                        // `data` option, which defaults to the column being worked with, in
+	                        // this case `data: 0`.
 	                        "render": function ( data, type, row ) {
 	                        	if(data == true) {
-	                                return '<input type="checkbox" disabled checked value="' + data + '">';
+	                                return '<input type=\"checkbox\" disabled checked value="' + data + '">';
 	                            } 
 	                        	else{
-	                                return '<input type="checkbox" disabled value="' + data + '">';
+	                                return '<input type=\"checkbox\" disabled value="' + data + '">';
 	                            }
 	                        },
-	                        
-	                    },
-	                    {
-	                    	"targets": [0],
-	                    	"visible": false                   	                        
-	                    },
+	                        "targets": 4
+	                    }
 					],
 					"columns": [
-						{"data": "id"},
 			            {"data": "role"},
 			            {"data": "firstName"},
 			            {"data": "lastName"},
 			            {"data": "email","width":"30%"},
 			            {"data": "isVerified","width":"10%"},
 					],			  
-			        "initComplete": function(settings, json) {
+			        "initComplete": function(settings, json) {		        		
 		        		addInteractiveRows();
 			    	}
 				});
@@ -156,11 +150,6 @@
             				$(rowSelected).addClass("warning selected"); 
             				rowSelectedCount++;
             				$(rowSelected).find("input").addClass("selectedId");
-            				
-            				var id = table.row(this).data().id;
-            				$(rowSelected).append(
-            					'<input class="id selectedId" type="hidden" name="id" value="' + id + '">'
-            				);
             			}			
             		
             			if(rowSelectedCount == 0){
@@ -198,7 +187,7 @@
             			$("form").append('<input type="hidden" name="delete" value="true">');
             			$("form").submit();
             		});
-        		}; 	
+        		};      		    		
         	});
         </script>
     </body>

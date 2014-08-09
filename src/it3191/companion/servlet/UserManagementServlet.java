@@ -80,7 +80,12 @@ public class UserManagementServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		String action = request.getParameter("action");
+		
+		if(action!= null){
+			
+		}
+		
+		response.sendRedirect("user-management");
 	}
-
 }
