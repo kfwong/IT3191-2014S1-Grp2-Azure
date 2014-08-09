@@ -58,9 +58,7 @@ public class UserManagementServlet extends HttpServlet {
 					userMap.put("firstName", user.getFirstName());
 					userMap.put("lastName", user.getLastName());
 					userMap.put("email", user.getEmail());
-					userMap.put("handphoneNo", user.getHandphoneNo());
-					userMap.put("securityQuestion", user.getSecurityQuestion());
-					userMap.put("answer", user.getAnswer());
+					userMap.put("isVerified", user.isVerified());
 					
 					jsonArray.add(userMap);
 				}
@@ -82,7 +80,12 @@ public class UserManagementServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		String action = request.getParameter("action");
+		
+		if(action!= null){
+			
+		}
+		
+		response.sendRedirect("user-management");
 	}
-
 }

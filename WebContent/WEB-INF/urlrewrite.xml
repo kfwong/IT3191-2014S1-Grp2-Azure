@@ -109,8 +109,17 @@
     </rule>
     
     <rule>
+        <from>^/user-management-edit$</from>
+        <to>UserManagementEditServlet</to>
+    </rule>
+    
+    <rule>
         <from>^/security-question$</from>
         <to>security-question.jsp</to>
     </rule>
 
+    <rule>
+    	<from>^/user-profile$</from>
+    	<to>/UserProfile</to>
+    </rule>
 </urlrewrite>

@@ -9,3 +9,15 @@
 .owner .email{
 	width:40%;
 }
+
+.description{
+	resize:vertical;	
+}
+
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control{
+	background-color:inherit;
+}
+
+.calendar-disabled{
+	background-color:#eee;
+}

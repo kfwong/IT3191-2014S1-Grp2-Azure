@@ -84,7 +84,7 @@ public class ForgetPassword extends HttpServlet {
 						emailuser.send();
 						System.out.println(this.getServletContext().getContextPath()+"/ForgetPassword?sessionKey="+forgotPasswordSessionKey);
 						
-						response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=email_check");
+						response.sendRedirect(this.getServletContext().getContextPath()+"/login?info=email_success");
 						
 					} catch (NoSuchAlgorithmException e) {
 						// TODO Auto-generated catch block

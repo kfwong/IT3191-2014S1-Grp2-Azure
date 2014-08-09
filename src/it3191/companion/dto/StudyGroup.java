@@ -39,6 +39,9 @@ public class StudyGroup extends Activity{
 	@Column(name="ALL_DAY")
 	private boolean allDay;
 	
+	@Column(name="DESCRIPTION")
+	private String description;
+	
 	@ManyToMany
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinTable(
@@ -91,6 +94,14 @@ public class StudyGroup extends Activity{
 
 	public boolean isAllDay() {
 		return allDay;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public void setAllDay(String allDayStr) {
