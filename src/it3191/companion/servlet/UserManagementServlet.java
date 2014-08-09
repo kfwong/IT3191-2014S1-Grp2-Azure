@@ -58,9 +58,7 @@ public class UserManagementServlet extends HttpServlet {
 					userMap.put("firstName", user.getFirstName());
 					userMap.put("lastName", user.getLastName());
 					userMap.put("email", user.getEmail());
-					userMap.put("handphoneNo", user.getHandphoneNo());
-					userMap.put("securityQuestion", user.getSecurityQuestion());
-					userMap.put("answer", user.getAnswer());
+					userMap.put("isVerified", user.isVerified());
 					
 					jsonArray.add(userMap);
 				}

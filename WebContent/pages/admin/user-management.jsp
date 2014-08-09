@@ -56,9 +56,7 @@
 												<th>First Name</th>
 												<th>Last Name</th>
 												<th>Email</th>
-												<th>Handphone Number</th>
-												<th>Security Question</th>
-												<th>Security Answer</th>
+												<th>Email Verified</th>
 											</tr>
 										</thead>
 								    </table>
@@ -105,14 +103,28 @@
 						"url": "user-management?action=getUsers",
 			            "dataSrc": ""
 			        },
+			        "columnDefs": [
+	                    {
+	                        // The `data` parameter refers to the data for the cell (defined by the
+	                        // `data` option, which defaults to the column being worked with, in
+	                        // this case `data: 0`.
+	                        "render": function ( data, type, row ) {
+	                        	if(data == true) {
+	                                return '<input type=\"checkbox\" disabled checked value="' + data + '">';
+	                            } 
+	                        	else{
+	                                return '<input type=\"checkbox\" disabled value="' + data + '">';
+	                            }
+	                        },
+	                        "targets": 4
+	                    }
+					],
 					"columns": [
 			            {"data": "role"},
 			            {"data": "firstName"},
 			            {"data": "lastName"},
-			            {"data": "email"},
-			            {"data": "handphoneNo"},
-			            {"data": "securityQuestion"},
-			            {"data": "answer"},
+			            {"data": "email","width":"30%"},
+			            {"data": "isVerified","width":"10%"},
 					],			  
 			        "initComplete": function(settings, json) {		        		
 		        		addInteractiveRows();
@@ -124,7 +136,6 @@
         			
         			var rowSelectedCount = 0;
             		$(".table-row").on("click", function(event){
-            			alert("test");
             			$(".row-selected-count").removeClass("alert-danger");
             			
             			var elementSelected = event.target;
