@@ -49,6 +49,8 @@ public class StudyGroupServlet extends HttpServlet {
 				StudyGroupDao dao = new StudyGroupDao();
 				studyGroupArray = (ArrayList<StudyGroup>) dao.getAll();
 				
+				User user = (User) request.getSession().getAttribute("user");
+				
 				List<Map<String, Object>> studyGroupMapList = new ArrayList<Map<String, Object>>();
 				
 				for(StudyGroup studyGroup:studyGroupArray){
@@ -58,6 +60,14 @@ public class StudyGroupServlet extends HttpServlet {
 					studyGroupMap.put("start", studyGroup.getStart());
 					studyGroupMap.put("end", studyGroup.getEnd());
 					studyGroupMap.put("allDay", studyGroup.isAllDay());
+					studyGroupMap.put("editable", studyGroup.isOwner(user));
+					
+					if(studyGroup.isOwner(user)){
+						studyGroupMap.put("color", "#00a65a");
+					}
+					else{
+						studyGroupMap.put("color", "#3c8dbc");
+					}
 					
 					studyGroupMapList.add(studyGroupMap);
 				}
@@ -82,9 +92,11 @@ public class StudyGroupServlet extends HttpServlet {
 				Map<String, Object> studyGroup = new HashMap<String, Object>();
 				studyGroup.put("id", sg.getId());
 				studyGroup.put("title", sg.getTitle());
+				studyGroup.put("description", sg.getDescription());
 				studyGroup.put("start", sg.getStart());
 				studyGroup.put("end", sg.getEnd());
 				studyGroup.put("allDay", sg.isAllDay());
+				studyGroup.put("isOwner", sg.isOwner(user));
 				studyGroup.put("isParticipant", sg.isParticipantExist(user));
 					
 				Map<String, Object> ownerMap = new HashMap<String, Object>();
@@ -134,6 +146,7 @@ public class StudyGroupServlet extends HttpServlet {
 		
 			if(action.equals("create")){
 				String title = request.getParameter("title");
+				String description = request.getParameter("description");
 				String start = request.getParameter("start");
 				String end = request.getParameter("end");
 				String allDay = request.getParameter("allDay");
@@ -146,6 +159,7 @@ public class StudyGroupServlet extends HttpServlet {
 				
 				StudyGroup sg = new StudyGroup();
 				sg.setTitle(title);
+				sg.setDescription(description);
 				sg.setStart(start);
 				sg.setEnd(end);
 				sg.setAllDay(allDay);
@@ -162,6 +176,7 @@ public class StudyGroupServlet extends HttpServlet {
 				int id = Integer.parseInt(request.getParameter("id"));
 				
 				String title = request.getParameter("title");
+				String description = request.getParameter("description");
 				String start = request.getParameter("start");
 				String end = request.getParameter("end");
 				String allDay = request.getParameter("allDay");
@@ -171,6 +186,7 @@ public class StudyGroupServlet extends HttpServlet {
 				StudyGroup sg = dao.get(id);
 				sg.setId(id);
 				sg.setTitle(title);
+				sg.setDescription(description);
 				sg.setStart(start);
 				sg.setEnd(end);
 				sg.setAllDay(allDay);
@@ -229,9 +245,17 @@ public class StudyGroupServlet extends HttpServlet {
 				sg.setTitle(title);
 				sg.setStart(start);
 				sg.setEnd(end);
-				sg.setAllDay(allDay);
-					
- 				dao.saveOrUpdate(sg);
+				sg.setAllDay(allDay);	
+				
+				User user = (User) request.getSession().getAttribute("user");
+ 				
+ 				if(sg.isOwner(user)){
+ 					dao.saveOrUpdate(sg);
+	 				response.sendRedirect("study-group");
+				}
+				else{
+					response.sendRedirect("403");
+				}
 			}
 			
 			if(action.equals("editParticipant")){

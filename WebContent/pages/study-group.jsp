@@ -55,13 +55,17 @@
 				<form role="form" method="post" action="study-group">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			        <h4 class="modal-title" id="myModalLabel">Event details</h4>
+			        <h4 class="modal-title" id="myModalLabel">Study group details</h4>
 			      </div>
 			      <div class="modal-body">
 					<div class="form-group">
 					  <label for="title">Title</label>
 					  <input type="text" class="form-control title" id="title" name = "title" required autofocus>
-					</div>	
+					</div>
+					<div class="form-group">
+					  <label for="description">Description</label>
+					  <textarea rows="3" class="form-control description" id="description" name = "description" required autofocus></textarea>
+					</div>		
 					<div class="checkbox">
 					    <label>
 					      <input class="allDay" type="checkbox" name="allDay" value="true" checked> All day event
@@ -119,10 +123,10 @@
 			      <div class="modal-footer">
 			     	<button type="button" class="btn btn-default pull-left delete-button">Delete</button>
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn join-button">Join</button>					  
+					<button type="submit" class="btn join-button">Join</button>					  
 			        <button type="submit" class="btn btn-primary confirm-edit-button">Save</button>
 			      </div>
-			      <input type="hidden" name="action" value="edit"/>
+			      <input type="hidden" class="edit-action" name="action" value=""/>
 			      <input type="hidden" class="id" name="id" value=""/>
 			      <input type="hidden" class="participant" name="participant" value=""/>			      
 				</form>
@@ -137,20 +141,17 @@
 				<form role="form" method="post" action="study-group">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			        <h4 class="modal-title" id="myModalLabel">Create event</h4>
+			        <h4 class="modal-title" id="myModalLabel">Create study group</h4>
 			      </div>
 			      <div class="modal-body">
 					<div class="form-group">
 					  <label for="title">Title</label>
 					  <input type="text" class="form-control title" id="title" name = "title" required autofocus>
 					</div>
-					<!-- 
 					<div class="form-group">
-					  <label for="contact">Contact</label>
-					  	<select class="form-control contact" id="contact" name="contact">
-						</select>
+					  <label for="description">Description</label>
+					  <textarea rows="3" class="form-control description" id="description" name = "description" required autofocus></textarea>
 					</div>
-					 -->
 					<div class="checkbox">
 					    <label>
 					      <input class="allDay" type="checkbox" name="allDay" value="true" checked> All day event
@@ -193,10 +194,10 @@
 		    	<form role="form" method="post" action="study-group">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			        <h4 class="modal-title" id="myModalLabel">Delete events</h4>
+			        <h4 class="modal-title" id="myModalLabel">Delete study group</h4>
 			      </div>
 			      <div class="modal-body">
-			         <p>Are you sure you want to delete the event?</p>
+			         <p>Are you sure you want to delete the study group?</p>
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -233,16 +234,40 @@
 						}
                     ],
                     
-                    dayClick: function(date, jsEvent, view) {
-                    	$(".title").val("");
-                    	$(".allDay").prop("checked", true);
-						$(".date").removeClass("hide");
-						$(".date-time").addClass("hide");
+                    dayRender: function(date, cell){
+                    	var today =  moment().startOf('day');
+                    	if (date < today){
+                    		$(cell).addClass('calendar-disabled');
+                        }
+                    	else{
                     	
-        		        $(".create-modal").modal();
-        		        $(".start-date").val(date.format("YYYY-MM-DD"));
-        		        $(".start").val(date.format("YYYY-MM-DD HH:mm:ss"));
-        		        $(".end").val(date.add('days', 1).format("YYYY-MM-DD HH:mm:ss"));
+                    	}
+                    },
+                    
+                    dayClick: function(date, jsEvent, view) {
+                    	var today =  moment().startOf('day');
+                    	if (date <= today){
+                            
+                        }
+                    	else{
+                    		$(".title").val("");
+                        	$(".description").val("");
+                        	$(".allDay").prop("checked", true);
+    						$(".date").removeClass("hide");
+    						$(".date-time").addClass("hide");
+    						
+    						$(".title").prop("disabled", false);
+							$(".description").prop("disabled", false);
+							$(".allDay").prop("disabled", false);
+							$(".start-date").prop("disabled", false);
+    						$(".start").prop("disabled", false);
+    						$(".end").prop("disabled", false);
+                        	
+            		        $(".create-modal").modal();
+            		        $(".start-date").val(date.format("YYYY-MM-DD"));
+            		        $(".start").val(date.format("YYYY-MM-DD HH:mm:ss"));
+            		        $(".end").val(date.add('days', 1).format("YYYY-MM-DD HH:mm:ss"));
+                    	}
         		    },
         		    
         		    eventClick: function(calEvent, jsEvent, view) {
@@ -254,12 +279,40 @@
         						$(".view-modal").modal();
         						$(".id").val(json.id);
         						$(".title").val(json.title);
+        						$(".description").val(json.description);
         						$(".start-date").val(moment(json.start).format("YYYY-MM-DD"));
         						$(".start").val(json.start);
         						$(".end").val(json.end);
         						$(".first-name-data").text(json.owner.firstName);
         						$(".last-name-data").text(json.owner.lastName);
         						$(".email-data").text(json.owner.email);
+        						
+        						if(json.isOwner == true){
+        							$(".title").prop("disabled", false);
+        							$(".description").prop("disabled", false);
+        							$(".allDay").prop("disabled", false);
+        							$(".start-date").prop("disabled", false);
+            						$(".start").prop("disabled", false);
+            						$(".end").prop("disabled", false);
+            						
+            						$(".edit-action").val("edit");
+            						$(".join-button").addClass("hide");
+            						$(".delete-button").removeClass("hide");
+            						$(".confirm-edit-button").removeClass("hide");
+        						}
+        						else{
+        							$(".title").prop("disabled", true);
+        							$(".description").prop("disabled", true);
+        							$(".allDay").prop("disabled", true);
+        							$(".start-date").prop("disabled", true);
+            						$(".start").prop("disabled", true);
+            						$(".end").prop("disabled", true);
+            						
+            						$(".edit-action").val("editParticipant");
+            						$(".join-button").removeClass("hide");
+            						$(".delete-button").addClass("hide");
+            						$(".confirm-edit-button").addClass("hide");
+        						}
         					        						
         						$(".participants").dataTable({
         							destroy: true,
@@ -350,14 +403,13 @@
 				});
 				
 				$(".join-button").on("click", function(event){
+					
 					if($(".participant").val() == "true") {
 						$(".participant").val("false");
 					}
 					else{
 						$(".participant").val("true");
 					}
-					//to be changed to submit instead of triggering change
-					$(".participant").trigger("change");
 				});
 				
 				$(".delete-button").on("click", function(){
@@ -385,11 +437,13 @@
 		        	
 		            format:'Y-m-d',
 		            timepicker: false,
+		            scrollInput: false
 		        }); 
 		        
 		        $('.start, .end').datetimepicker({
 		        	
-		            format:'Y-m-d H:i:s'
+		            format:'Y-m-d H:i:s',
+		            scrollInput: false
 		        });  
 				
 				$(".allDay").on("click", function(){
