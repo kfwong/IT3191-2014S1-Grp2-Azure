@@ -48,7 +48,7 @@ public class AuthorizationFilter implements Filter {
 			chain.doFilter(request, response);
 		}
 		else{
-			res.sendRedirect(req.getContextPath() + "/404");
+			res.sendRedirect(req.getContextPath() + "/403");
 		}
 	}
 

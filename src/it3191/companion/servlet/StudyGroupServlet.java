@@ -128,7 +128,7 @@ public class StudyGroupServlet extends HttpServlet {
 				out.write(json);
 			}
 			else{
-				request.getRequestDispatcher("404").forward(request, response);
+				response.sendRedirect("404");
 			}
 		}
 		else{

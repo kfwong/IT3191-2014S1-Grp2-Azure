@@ -41,7 +41,7 @@
                                     <form method="get" action="user-management-edit">                                    
 	                                    <div class="table-above form-button-group">
 											<div class="form-group">
-												<button type="submit" class="pull-right btn btn-default submit-button">Add / Edit</button>
+												<button type="submit" class="pull-right btn btn-default submit-button">Edit</button>
 												<button type="button" class="pull-right btn btn-default delete-button">Delete</button>
 											</div>
 															
@@ -61,7 +61,25 @@
 													<th>Email Verified</th>
 												</tr>
 											</thead>
-									    </table>
+									    </table>				    			            
+								        <!-- Modal-delete -->
+										<div class="modal delete-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+										  <div class="modal-dialog">
+										    <div class="modal-content">
+										      <div class="modal-header">
+										        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+										        <h4 class="modal-title" id="myModalLabel">Delete users</h4>
+										      </div>
+										      <div class="modal-body">
+										         <p>Are you sure you want to delete the records?</p>
+										      </div>
+										      <div class="modal-footer">
+										        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+										        <button type="button" class="btn btn-primary confirm-delete-button">Confirm</button>
+										      </div>
+										    </div><!-- /.modal-content -->
+										  </div><!-- /.modal-dialog -->
+										</div><!-- /.modal -->
 								    </form>
                                 </div><!-- /.box-body -->
                             </div><!-- /. box -->
@@ -70,28 +88,7 @@
 				<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@END MODIFICATION FROM HERE@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
                 </section><!-- /.content -->
             </aside><!-- /.right-side -->
-        </div><!-- ./wrapper -->      
-        
-        <!-- Modal-delete -->
-		<div class="modal delete-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		        <h4 class="modal-title" id="myModalLabel">Delete contacts</h4>
-		      </div>
-		      <div class="modal-body">
-		         <p>Are you sure you want to delete the records?</p>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-		        <button type="button" class="btn btn-primary confirm-delete-button">Confirm</button>
-		      </div>
-		    </div><!-- /.modal-content -->
-		  </div><!-- /.modal-dialog -->
-		</div><!-- /.modal -->
-        
-         
+        </div><!-- ./wrapper -->
 		<!-- javscript fragment -->
     	<jsp:include page="../../WEB-INF/javascript.jspf" />
     	<!-- Page specific script -->
