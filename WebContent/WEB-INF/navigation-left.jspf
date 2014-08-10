@@ -43,7 +43,7 @@
             </a>
             <ul class="treeview-menu">
             	<li><a href="${pageContext.servletContext.contextPath}/dashboard"><i class="fa fa-angle-double-right"></i> Dashboard</a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> Personal Details</a></li>
+                <li><a href="${pageContext.servletContext.contextPath}/user-profile"><i class="fa fa-angle-double-right"></i> Personal Details</a></li>
             </ul>
         </li>
         <li class="treeview active">
