@@ -67,7 +67,7 @@
 												        <strong><small style="margin-left:auto;margin-right:auto;display:block;text-align:center;color:#777777">${activity.createdBy.firstName }</small></strong>
 			                                		</div>
 			                                		<div class="col-md-11">
-			                                			Gag ipsum dolar sit amet now kiss bart father. Nerd gag impossibru students captain i see what you did there okay peter griffin movie cellphone. Too mainstream aww yeah fat right derpina all the things rainbow fuck that bitch movies dead 9000. Laptop jackie chan cuteness overload motherfucker creepy me gusta haters gonna hate monocle dog nother to do here panda. 
+			                                			${activity.description} 
 			                                		</div>
 			                                	</div>
 			                                </div>
